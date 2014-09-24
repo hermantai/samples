@@ -19,6 +19,7 @@ if __name__ == '__main__':
 
     Session = sessionmaker(bind=engine)
 
+    # add some objects
     session1 = Session()
     user1 = models.User(username="user1")
     session1.add(user1)
@@ -34,9 +35,18 @@ if __name__ == '__main__':
 
     session1.close()
 
+    # query objects and related objects
     session2 = Session()
     print_out(session2.query(models.User).all())
     print_out(session2.query(models.Profile).all())
     print_out(session2.query(models.User).first().profile)
     print_out(session2.query(models.Profile).one().user)
     session2.close()
+
+    # update an object
+    session3 = Session()
+    user1.username = "newname"
+    session3.add(user1)
+    session3.commit()
+    print_out(session3.query(models.User).all())
+    session3.close()
