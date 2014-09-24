@@ -26,3 +26,6 @@ script_template.py
 web_client.py
   A simple command line web client. I know curl is the best, but doing it in
   python has much more fun!
+
+sqlalchemy_project
+  A starter project for sqlalchemy.
