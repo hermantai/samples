@@ -29,3 +29,10 @@ web_client.py
 
 sqlalchemy_project
   A starter project for sqlalchemy.
+
+java
+-----
+app-configuration
+  A way to solve loading of application properteis at runtime by Johannes
+  Brodwall. Source:
+  http://www.javacodegeeks.com/2014/10/dead-simple-configuration.html
