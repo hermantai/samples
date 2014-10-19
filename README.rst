@@ -23,12 +23,16 @@ script_template.py
   A template for a python script. It has loggers and parsers boilerplate
   ready.
 
-web_client.py
-  A simple command line web client. I know curl is the best, but doing it in
-  python has much more fun!
+simple_no_logging_script_template.py
+  A template for a python script without using the logging module. It has a
+  parser boilerplate.
 
 sqlalchemy_project
   A starter project for sqlalchemy.
+
+web_client.py
+  A simple command line web client. I know curl is the best, but doing it in
+  python has much more fun!
 
 java
 -----

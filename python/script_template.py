@@ -174,7 +174,7 @@ Put some description of the script here
     """
     parser = argparse.ArgumentParser(
         description=description,
-        formatter_class=argparse.RawDescriptionHelpFormatter,
+        # formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
         "--debug",
