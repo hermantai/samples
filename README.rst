@@ -19,6 +19,10 @@ python
 cherrypy_web_server.py
   A simple web server using CherryPy. It's good for prototyping REST API.
 
+func_with_test.py
+  A template for creating functions or classes with unit tests. It's mainly
+  used for rapid protyping several functions or classes.
+
 script_template.py
   A template for a python script. It has loggers and parsers boilerplate
   ready.
