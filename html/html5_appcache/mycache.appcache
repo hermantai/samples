@@ -1,0 +1,18 @@
+#
+# For apache:
+# AddType text/cache-manifest .appcache
+#
+# For google app engine:
+# - url: /mystaticdir/(.*\.appcache)
+#   static_files: mystaticdir/\1
+#   mime_type: text/cache-manifest
+#   upload: mystaticdir/(.*\.appcache)
+#
+CACHE MANIFEST
+# version
+
+CACHE:
+page2.html
+
+NETWORK:
+*

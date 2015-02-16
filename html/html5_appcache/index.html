@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html manifest="mycache.appcache">
+<head>
+<meta charset="utf-8" />
+<title>Title1</title>
+
+<script>
+function logToStatus(msg) {
+  var ele = document.getElementById("status-box");
+  ele.innerHTML += "<br />\n" + msg;
+}
+
+// Check if a new cache is available on page load.
+window.addEventListener('load', function(e) {
+  var events = ["updateready", "cached", "checking", "downloading",
+  "error","noupdate", "obsolete","progress"];
+
+  for (var i=0; i < events.length; i++) {
+    var j = i;
+    window.applicationCache.addEventListener(events[j], function(e) {
+      logToStatus("event: " + events[j]);
+      logToStatus("status is : " + window.applicationCache.status);
+    }, false);
+  }
+
+}, false);
+</script>
+</head>
+<body>
+<h1>hello</h1>
+<a href="page2.html">Go to page2</a>
+<div id="status-box"></div>
+</body>
+</html>
+
