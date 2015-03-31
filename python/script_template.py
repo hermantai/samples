@@ -35,11 +35,9 @@ from __future__ import division
 from __future__ import unicode_literals
 
 import argparse
-
 import logging
-
-import sys
 import subprocess
+import sys
 
 from sorno import logging as sorno_logging
 
