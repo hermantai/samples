@@ -67,9 +67,6 @@ class App(object):
             use_shell = True
         return subprocess.check_call(cmd, shell=use_shell)
 
-#
-# end of logger-related functions
-#
 
 def parse_args(cmd_args):
     description = """
