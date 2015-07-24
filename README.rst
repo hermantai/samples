@@ -41,6 +41,14 @@ web_client.py
 java
 -----
 app-configuration
-  A way to solve loading of application properteis at runtime by Johannes
+  A way to solve loading of application properties at runtime by Johannes
   Brodwall. Source:
   http://www.javacodegeeks.com/2014/10/dead-simple-configuration.html
+  
+javascript
+----------
+nodejs
+~~~~~~
+simple-http-server
+******************
+A sample of simple http server using httpdispatcher
