@@ -125,9 +125,13 @@ def main():
     args = parse_args(app, sys.argv[1:])
 
     sorno_logging.setup_logger(_LOG, debug=args.debug)
-    _PLAIN_LOGGER = sorno_logging.create_plain_logger("PLAIN")
+    _PLAIN_LOGGER = sorno_logging.create_plain_logger(
+        "PLAIN",
+        debug=args.debug,
+    )
     _PLAIN_ERROR_LOGGER = sorno_logging.create_plain_logger(
         "PLAIN_ERROR",
+        debug=args.debug,
         stdout=False,
     )
     args.func(args)
