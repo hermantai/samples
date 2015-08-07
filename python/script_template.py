@@ -44,13 +44,15 @@ from sorno import logging as sorno_logging
 
 _LOG = logging.getLogger(__name__)
 _PLAIN_LOGGER = None  # will be created in main()
+_PLAIN_ERROR_LOGGER = None  # will be created in main()
 
 
 class App(object):
     def __init__(
         self,
+        args,
     ):
-        pass
+        self.args = args
 
     def run(self):
         _LOG.info("hello world")
@@ -84,14 +86,18 @@ Put some description of the script here
 
 
 def main():
-    global _PLAIN_LOGGER
+    global _PLAIN_LOGGER, _PLAIN_ERROR_LOGGER
 
     args = parse_args(sys.argv[1:])
 
     sorno_logging.setup_logger(_LOG, debug=args.debug)
     _PLAIN_LOGGER = sorno_logging.create_plain_logger("PLAIN")
+    _PLAIN_ERROR_LOGGER = sorno_logging.create_plain_logger(
+        "PLAIN_ERROR",
+        stdout=False)
 
     app = App(
+        args,
     )
     app.run()
 
