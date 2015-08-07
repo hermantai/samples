@@ -25,8 +25,12 @@ func_with_test.py
   used for rapid protyping several functions or classes.
 
 script_template.py
-  A template for a python script. It has loggers and parsers boilerplate
+  A template for a python script. It has loggers and a parser boilerplate
   ready.
+
+script_with_subparsers_template.py
+  A template for a python script. It has loggers, a parser and subparsers
+  boilerplate ready.
 
 simple_no_logging_script_template.py
   A template for a python script without using the logging module. It has a
