@@ -36,21 +36,16 @@ class App(object):
         pass
 
     def run(self):
-        _LOG.info("hello world")
-        _LOG.debug("hello world")
-        _PLAIN_LOGGER.info("plain hello world")
+        print("hello world")
 
     def _run_cmd(self, cmd):
-        _LOG.info(cmd)
+        print(cmd)
         if isinstance(cmd, list):
             use_shell = False
         else:
             use_shell = True
         return subprocess.check_call(cmd, shell=use_shell)
 
-#
-# end of logger-related functions
-#
 
 def parse_args(cmd_args):
     description = """
