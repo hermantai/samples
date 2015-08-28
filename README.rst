@@ -24,6 +24,10 @@ func_with_test.py
   A template for creating functions or classes with unit tests. It's mainly
   used for rapid protyping several functions or classes.
 
+playground_script.py
+  A template to let you quickly insert code and try them out, with ipython at
+  the end to explore stuff.
+
 script_template.py
   A template for a python script. It has loggers and a parser boilerplate
   ready.

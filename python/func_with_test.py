@@ -9,6 +9,10 @@ Run this template with:
 or
     python func_with_test.py -v
 """
+from __future__ import print_function
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import unicode_literals
 
 import unittest
 
@@ -30,6 +34,7 @@ class ClassATestCase(unittest.TestCase):
 class FuncWithTestTestCase(unittest.TestCase):
     def test_func_1And2_3(self):
         self.assertEqual(3, func(1, 2))
+
 
 if __name__ == '__main__':
     unittest.main()
