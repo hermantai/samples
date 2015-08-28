@@ -55,3 +55,6 @@ target/
 
 # jaavscript node js
 node_modules/
+
+# swap files
+*.swp

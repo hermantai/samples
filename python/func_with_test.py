@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 func_with_test.py
 
