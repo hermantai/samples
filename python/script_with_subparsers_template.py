@@ -55,30 +55,47 @@ _plain_error_logger = None  # will be created in main()
 
 
 class App(object):
+    """A console application with subcommands to do work"""
     def __init__(
         self,
     ):
         pass
 
     def action1_action(self, args):
+        """Handle the subcommand action1"""
         self.action1()
         return 0
 
     def action1(self):
+        """Do the actual work of the subcommand action1 without doing work for
+        the console, so it's reusable for other applications."""
         _log.info("action1")
         _log.debug("action1")
         _plain_logger.info("plain action1")
 
     def action2_action(self, args):
+        """Handle the subcommand action2"""
         self.action2()
         return 1
 
     def action2(self):
+        """Do the actual work of the subcommand action2 without doing work for
+        the console, so it's reusable for other applications."""
         _log.info("action2")
         _log.debug("action2")
         _plain_logger.info("plain action2")
 
     def _run_cmd(self, cmd):
+        """Run a shell command
+
+        Args:
+            cmd (string or a list of strings): The shell command to run. If
+                it's a string, uses the system shell to run the command. If
+                it's a list of strings, the first string is the program to run
+                and the rest are its arguments. The arguments are quoted
+                properly by the subprocess module, so the arguments do not
+                have to be quoted when passing to this method.
+        """
         _log.info(cmd)
         if isinstance(cmd, list):
             use_shell = False

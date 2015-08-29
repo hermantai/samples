@@ -46,19 +46,36 @@ _plain_error_logger = None  # will be created in main()
 
 
 class App(object):
+    """A console application to do work"""
     def __init__(
         self,
         args,
     ):
+        """
+        Args:
+            args (argparse.Namespace): The flags for the script.
+        """
         self.args = args
 
     def run(self):
+        """The entry point of the script
+        """
         _log.info("hello world")
         _log.debug("hello world")
         _plain_logger.info("plain hello world")
         return 0
 
     def _run_cmd(self, cmd):
+        """Run a shell command
+
+        Args:
+            cmd (string or a list of strings): The shell command to run. If
+                it's a string, uses the system shell to run the command. If
+                it's a list of strings, the first string is the program to run
+                and the rest are its arguments. The arguments are quoted
+                properly by the subprocess module, so the arguments do not
+                have to be quoted when passing to this method.
+        """
         _log.info(cmd)
         if isinstance(cmd, list):
             use_shell = False
@@ -68,8 +85,7 @@ class App(object):
 
 
 def parse_args(cmd_args):
-    description = """
-Put some description of the script here
+    description = """Put some description of the script here
     """
     parser = argparse.ArgumentParser(
         description=description,
