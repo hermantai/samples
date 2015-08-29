@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-"""
-func_with_test.py
+"""func_with_test.py
 
 A template for creating functions or classes with unit tests.
 It's mainly used for rapid protyping several functions or classes.

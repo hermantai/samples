@@ -33,8 +33,8 @@ import subprocess
 
 import requests
 
-_LOG = logging.getLogger(__name__)
-_PLAIN_LOGGER = None  # will be created in main()
+_log = logging.getLogger(__name__)
+_plain_logger = None  # will be created in main()
 
 
 class App(object):
@@ -48,9 +48,9 @@ class App(object):
 
     def run(self):
         r = getattr(requests, self.method)(self.url)
-        _LOG.info("Headers:")
+        _log.info("Headers:")
         pprint.pprint(r.headers)
-        _LOG.info("Body:")
+        _log.info("Body:")
         print(r.text)
 
 #
@@ -180,12 +180,12 @@ A simple command line web client.
 
 
 def main():
-    global _PLAIN_LOGGER
+    global _plain_logger
 
     args = parse_args(sys.argv[1:])
 
-    setup_logger(_LOG, debug=args.debug)
-    _PLAIN_LOGGER = create_plain_logger("PLAIN")
+    setup_logger(_log, debug=args.debug)
+    _plain_logger = create_plain_logger("PLAIN")
 
     app = App(
         args.url,

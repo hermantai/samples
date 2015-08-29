@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-"""
-simple_no_logging_script_template.py
+"""simple_no_logging_script_template.py
 
-A script that uses "print" only instead of the logging module.
+A script that uses "print" only instead of the logging module. After parsing
+of the command line arguments through the function parse_args, the whole
+application control goes to the class App.
 
    Copyright 2014 Herman Tai
 
