@@ -5,13 +5,13 @@ A template for creating python scripts with subparsers. After parsing of the
 command line arguments through the function parse_args, the whole application
 control goes to the class App. Each subparser is handled by a
 "<subcommand>_action" method of the App class. Usually, that method calls
-another "<subcommand>" method to do the actual work. An example is a script
-called "git" with subcommands like "branch", "commit", etc. There would be
-branch_action, commit_action ... methods to handle each subcommand. They then
-use the methods "branch" or "commit" to do the actual work. The idea is that
-the methods without the word "_action" should be reusable outside of this
-console application (the script). That means those methods should have minimum
-"user-friendly" printing, prompting, etc.
+another "<subcommand>" method to do the actual work (i.e. the business logic).
+An example is a script called "git" with subcommands like "branch", "commit",
+etc. There would be branch_action, commit_action ... methods to handle each
+subcommand. They then use the methods "branch" or "commit" to do the actual
+work. The idea is that the methods without the word "_action" should be
+reusable outside of this console application (the script). That means those
+methods should have minimum "user-friendly" printing, prompting, etc.
 
 The template has a logger _log being ready. Another _plain_logger for text
 without formatting. The reason of using a plain logger instead of "print" is
@@ -67,8 +67,9 @@ class App(object):
         return 0
 
     def action1(self):
-        """Do the actual work of the subcommand action1 without doing work for
-        the console, so it's reusable for other applications."""
+        """Handle the business logic of the subcommand action1 without doing
+        work for the console, so it's reusable for other applications.
+        """
         _log.info("action1")
         _log.debug("action1")
         _plain_logger.info("plain action1")
@@ -79,8 +80,9 @@ class App(object):
         return 1
 
     def action2(self):
-        """Do the actual work of the subcommand action2 without doing work for
-        the console, so it's reusable for other applications."""
+        """Handle the business logic of the subcommand action2 without doing
+        work for the console, so it's reusable for other applications.
+        """
         _log.info("action2")
         _log.debug("action2")
         _plain_logger.info("plain action2")
