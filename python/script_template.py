@@ -11,10 +11,6 @@ _PLAIN_LOGGER uses stdout by default.
 Command line options of the script should be added to the parser of the
 function parse_args.
 
-Dependencies:
-    sorno-py-lib - https://github.com/hermantai/sorno-libs/tree/master/sorno-py-lib
-
-
     Copyright 2014 Herman Tai
 
     Licensed under the Apache License, Version 2.0 (the "License");
