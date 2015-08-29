@@ -53,12 +53,20 @@ class App(object):
     ):
         pass
 
-    def action1(self, args):
+    def action1_action(self, args):
+        self.action1()
+        return 0
+
+    def action1(self):
         _LOG.info("action1")
         _LOG.debug("action1")
         _PLAIN_LOGGER.info("plain action1")
 
-    def action2(self, args):
+    def action2_action(self, args):
+        self.action2()
+        return 1
+
+    def action2(self):
         _LOG.info("action2")
         _LOG.debug("action2")
         _PLAIN_LOGGER.info("plain action2")
@@ -100,19 +108,19 @@ Put some description of the script here
         nargs="*",
         help="Take action1 on files",
     )
-    parser_action1.set_defaults(func=app_obj.action1)
+    parser_action1.set_defaults(func=app_obj.action1_action)
 
     parser_action2 = subparsers.add_parser(
         "action2",
         help="Help for action2",
         description="Description for action2",
     )
-    parser_action2.set_defaults(func=app_obj.action2)
     parser_action2.add_argument(
         "files",
         nargs="*",
         help="Take action2 on files",
     )
+    parser_action2.set_defaults(func=app_obj.action2_action)
 
     args = parser.parse_args(cmd_args)
     return args
@@ -134,7 +142,9 @@ def main():
         debug=args.debug,
         stdout=False,
     )
-    args.func(args)
+    code = args.func(args)
+    if code is not None:
+        sys.exit(code)
 
 
 if __name__ == '__main__':
