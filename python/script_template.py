@@ -58,6 +58,7 @@ class App(object):
         _LOG.info("hello world")
         _LOG.debug("hello world")
         _PLAIN_LOGGER.info("plain hello world")
+        return 0
 
     def _run_cmd(self, cmd):
         _LOG.info(cmd)
@@ -104,7 +105,7 @@ def main():
     app = App(
         args,
     )
-    app.run()
+    sys.exit(app.run())
 
 
 if __name__ == '__main__':

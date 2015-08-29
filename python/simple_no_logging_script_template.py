@@ -37,6 +37,7 @@ class App(object):
 
     def run(self):
         print("hello world")
+        return 0
 
     def _run_cmd(self, cmd):
         print(cmd)
@@ -65,7 +66,7 @@ def main():
 
     app = App(
     )
-    app.run()
+    sys.exit(app.run())
 
 
 if __name__ == '__main__':
