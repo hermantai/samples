@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-"""
-A simple web server using CherryPy. It's good for prototyping REST API.
+"""A simple web server using CherryPy. It's good for prototyping REST API.
 
 Synopsis:
     cherrypy_web_server.py
@@ -26,9 +25,12 @@ from __future__ import unicode_literals
 
 import cherrypy
 
+
 class HelloWorld(object):
     @cherrypy.expose
     def index(self):
         return "Hello World!"
 
-cherrypy.quickstart(HelloWorld())
+
+if __name__ == '__main__':
+    cherrypy.quickstart(HelloWorld())

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-"""script_template.py
-A template for creating python scripts. After parsing of the command line
+"""A template for creating python scripts. After parsing of the command line
 arguments through the function parse_args, the whole application control goes
 to the class App's run method.
 
@@ -12,6 +11,7 @@ _plain_error_logger is similar to _plain_logger but uses stderr.
 
 Command line options of the script should be added to the parser of the
 function parse_args.
+
 
     Copyright 2014 Herman Tai
 
@@ -85,11 +85,11 @@ class App(object):
 
 
 def parse_args(cmd_args):
-    description = """Put some description of the script here
-    """
+    description = __doc__.split("Copyright 2014")[0].strip()
+
     parser = argparse.ArgumentParser(
         description=description,
-        # formatter_class=argparse.RawDescriptionHelpFormatter,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
         "--debug",

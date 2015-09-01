@@ -1,9 +1,8 @@
 #!/usr/bin/env python
-"""simple_no_logging_script_template.py
-
-A script that uses "print" only instead of the logging module. After parsing
+"""A script that uses "print" only instead of the logging module. After parsing
 of the command line arguments through the function parse_args, the whole
 application control goes to the class App.
+
 
    Copyright 2014 Herman Tai
 
@@ -50,12 +49,11 @@ class App(object):
 
 
 def parse_args(cmd_args):
-    description = """
-Put some description of the script here
-    """
+    description = __doc__.split("Copyright 2014")[0].strip()
+
     parser = argparse.ArgumentParser(
         description=description,
-        # formatter_class=argparse.RawDescriptionHelpFormatter,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
     args = parser.parse_args(cmd_args)

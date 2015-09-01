@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-"""
-A simple command line web client. I know curl is the best, but doing it in
+"""A simple command line web client. I know curl is the best, but doing it in
 python has much more fun!
 
 Synopsis:

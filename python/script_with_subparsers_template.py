@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-"""script_with_subparsers_template.py
-
-A template for creating python scripts with subparsers. After parsing of the
+"""A template for creating python scripts with subparsers. After parsing of the
 command line arguments through the function parse_args, the whole application
 control goes to the class App. Each subparser is handled by a
 "<subcommand>_action" method of the App class. Usually, that method calls
@@ -21,6 +19,7 @@ _plain_error_logger is similar to _plain_logger but uses stderr.
 
 Command line options of the script should be added to the parser of the
 function parse_args.
+
 
     Copyright 2014 Herman Tai
 
@@ -107,12 +106,11 @@ class App(object):
 
 
 def parse_args(app_obj, cmd_args):
-    description = """
-Put some description of the script here
-    """
+    description = __doc__.split("Copyright 2014")[0].strip()
+
     parser = argparse.ArgumentParser(
         description=description,
-        # formatter_class=argparse.RawDescriptionHelpFormatter,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
         "--debug",

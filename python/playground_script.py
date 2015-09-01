@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-"""playground_script.py
-
-A template to let you quickly insert code and try them out, with ipython at
+"""A template to let you quickly insert code and try them out, with ipython at
 the end to explore stuff.
 """
 from __future__ import print_function
@@ -15,6 +13,7 @@ import IPython
 def main():
     # your stuff here ...
     IPython.embed()
+
 
 if __name__ == '__main__':
     main()
