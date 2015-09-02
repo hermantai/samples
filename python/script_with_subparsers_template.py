@@ -45,7 +45,7 @@ import logging
 import subprocess
 import sys
 
-from sorno import logging as sorno_logging
+from sorno import loggingutil
 
 
 _log = logging.getLogger(__name__)
@@ -156,12 +156,12 @@ def main():
     app = App()
     args = parse_args(app, sys.argv[1:])
 
-    sorno_logging.setup_logger(_log, debug=args.debug)
-    _plain_logger = sorno_logging.create_plain_logger(
+    loggingutil.setup_logger(_log, debug=args.debug)
+    _plain_logger = loggingutil.create_plain_logger(
         "PLAIN",
         debug=args.debug,
     )
-    _plain_error_logger = sorno_logging.create_plain_logger(
+    _plain_error_logger = loggingutil.create_plain_logger(
         "PLAIN_ERROR",
         debug=args.debug,
         stdout=False,
