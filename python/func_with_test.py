@@ -32,6 +32,13 @@ class ClassATestCase(unittest.TestCase):
 class FuncWithTestTestCase(unittest.TestCase):
     def test_func_1And2_3(self):
         self.assertEqual(3, func(1, 2))
+        self.assertEqual(
+            3,
+            func(
+                1,
+                2,
+            ),
+        )
 
 
 if __name__ == '__main__':
