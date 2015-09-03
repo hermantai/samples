@@ -4,6 +4,11 @@ Samples
 Templates and code snippets for various projects, so creating a new project
 does not have to start from scratch
 
+go
+--
+*hello* and *stringutil* for "How to Write Go Code" exercise in
+https://golang.org/doc/code.html
+
 html
 ----
 
