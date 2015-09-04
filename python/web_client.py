@@ -32,7 +32,7 @@ import subprocess
 
 import requests
 
-_log = logging.getLogger(__name__)
+_log = logging.getLogger()
 _plain_logger = None  # will be created in main()
 
 

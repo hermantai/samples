@@ -40,7 +40,7 @@ import sys
 from sorno import loggingutil
 
 
-_log = logging.getLogger(__name__)
+_log = logging.getLogger()
 _plain_logger = None  # will be created in main()
 _plain_error_logger = None  # will be created in main()
 
