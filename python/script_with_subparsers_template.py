@@ -21,7 +21,7 @@ Command line options of the script should be added to the parser of the
 function parse_args.
 
 
-    Copyright 2014 Herman Tai
+    Copyright 2015 Herman Tai
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -106,7 +106,7 @@ class App(object):
 
 
 def parse_args(app_obj, cmd_args):
-    description = __doc__.split("Copyright 2014")[0].strip()
+    description = __doc__.split("Copyright 2015")[0].strip()
 
     parser = argparse.ArgumentParser(
         description=description,
