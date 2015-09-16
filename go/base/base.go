@@ -12,16 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// hello is a demo of printing a string with a function defined in another
-// package stringutil. It's from the tutorial "How to Write Go Code" in
-// https://golang.org/doc/code.html
+// base is a basic demo of a Go program. This can be served as a template for
+// other Go files.
 package main
 
 import (
 	"fmt"
-	"github.com/hermantai/samples/go/stringutil"
 )
 
 func main() {
-	fmt.Printf(stringutil.Reverse("!oG ,olleH"))
+	fmt.Println("Hello world")
 }

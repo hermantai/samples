@@ -6,12 +6,25 @@ does not have to start from scratch
 
 go
 --
+base
+  A basic demo of a Go program. This can be served as a template for other Go
+  files.
+
 hello
-  *hello* and *stringutil* for "How to Write Go Code" exercise in
+  hello is a demo of printing a string with a function defined in another
+  package stringutil. It's from the tutorial "How to Write Go Code" in
   https://golang.org/doc/code.html
 
+stringutil
+  Package stringutil demonstrates how to define a package besides main.  It's
+  from the tutorial "How to Write Go Code" in https://golang.org/doc/code.html
+
+concurrencyrace
+  concurrencyrace is a demo of a concurrency in Go using math/rand,
+  sync.Once, time.Tick, time.After, goroutines and channels.
+
 webserver
-  webserver demos how to start a simple HTTP server
+  webserver demos how to start a simple HTTP server.
 
 html
 ----
