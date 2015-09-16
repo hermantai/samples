@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// concurrencyrace is a demo of a concurrency in Go using math/rand,
-// sync.Once, time.Tick, time.After, goroutines and channels.
+// concurrencyrace is a demo of concurrency in Go using math/rand, sync.Once,
+// time.Tick, time.After, goroutines and channels.
 package main
 
 import (
@@ -22,8 +22,6 @@ import (
 	"sync"
 	"time"
 )
-
-var randomGen = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 var createGoodFoodOnce sync.Once
 
@@ -47,7 +45,7 @@ func makeEater(name string) eater {
 	return func(out chan<- string, eatSignal <-chan bool, done chan<- struct{}) {
 		// Wait a random time before getting the food, so each eater has a
 		// chance to get the good food for each running of this race.
-		time.Sleep(time.Duration(randomGen.Intn(10)*100) * time.Millisecond)
+		time.Sleep(time.Duration(rand.Intn(10)*100) * time.Millisecond)
 		food := getFood()
 		fmt.Printf("%s gets %s.\n", name, food)
 
@@ -65,6 +63,8 @@ func makeEater(name string) eater {
 }
 
 func main() {
+	rand.Seed(time.Now().UnixNano())
+
 	history := make(chan string)
 	historyDone := make(chan struct{})
 	go func() {
@@ -105,7 +105,7 @@ func main() {
 	for keepEating {
 		select {
 		case <-tick:
-			eatSignals[randomGen.Intn(len(eaters))] <- true
+			eatSignals[rand.Intn(len(eaters))] <- true
 		case <-done:
 			fmt.Println("Tell eaters they should be done eating.")
 			for _, c := range eatSignals {
