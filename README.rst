@@ -6,8 +6,12 @@ does not have to start from scratch
 
 go
 --
-*hello* and *stringutil* for "How to Write Go Code" exercise in
-https://golang.org/doc/code.html
+hello
+  *hello* and *stringutil* for "How to Write Go Code" exercise in
+  https://golang.org/doc/code.html
+
+webserver
+  webserver demos how to start a simple HTTP server
 
 html
 ----
