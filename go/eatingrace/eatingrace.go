@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// concurrencyrace is a demo of concurrency in Go using math/rand, sync.Once,
+// eatingrace is a demo of concurrency in Go using math/rand, sync.Once,
 // time.Tick, time.After, goroutines and channels.
 package main
 
