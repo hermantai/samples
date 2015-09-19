@@ -255,9 +255,14 @@ func (WebServerHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 // this demo. It intentionally does a bunch of writing to and reading from
 // files to illustrate how to use the io and ioutil libraries.
 func getHTMLPageTemplate() (string, error) {
-	// First, create a folder to bury the HTML template in a file...
+	// Three ways to write a file: 1) os.Create, 2) ioutil and 3)
+	// bufio.NewWriter.
+
+	// Create a folder to bury the HTML template in a file...
 	os.Mkdir(TMP_FOLDER, 0755)
 	templateFilepath := filepath.Join(TMP_FOLDER, "template.html")
+
+	// 1) os.Create
 	templateFile, err := os.Create(templateFilepath)
 	if err != nil {
 		fmt.Println("error creating file:", err)
@@ -269,9 +274,35 @@ func getHTMLPageTemplate() (string, error) {
 		return "", err
 	}
 
+	// instead of closing it, I can do templateFile.Sync() as well
 	templateFile.Close()
 
-	// Three ways to read it back, os.Open, ioutil or Scanner
+	// 2) ioutil
+	templateFilepath2 := filepath.Join(TMP_FOLDER, "template2.html")
+	err = ioutil.WriteFile(templateFilepath2, []byte(HTML_TEMPLATE), 0644)
+	if err != nil {
+		return "", err
+	}
+
+	// 3) bufio.NewWriter
+	templateFilepath3 := filepath.Join(TMP_FOLDER, "template3.html")
+	templateFile3, err := os.Create(templateFilepath3)
+	if err != nil {
+		return "", err
+	}
+
+	w := bufio.NewWriter(templateFile3)
+	_, err = w.WriteString(HTML_TEMPLATE)
+	if err != nil {
+		return "", err
+	}
+
+	w.Flush()
+	templateFile3.Close()
+
+	// Three ways to read it back: 1) os.Open, 2) ioutil and 3) Scanner
+
+	// 1) os.Open
 	openedByOSOpen, err := os.Open(templateFilepath)
 	if err != nil {
 		return "", err
@@ -305,7 +336,7 @@ func getHTMLPageTemplate() (string, error) {
 		)
 	}
 
-	// read by ioutil.ReadFile
+	// 2) ioutil.ReadFile
 
 	bs, err = ioutil.ReadFile(templateFilepath)
 	if err != nil {
@@ -318,7 +349,7 @@ func getHTMLPageTemplate() (string, error) {
 		)
 	}
 
-	// use Scanner to read it
+	// 3) use Scanner to read it
 
 	f, err := os.Open(templateFilepath)
 	if err != nil {
@@ -326,7 +357,7 @@ func getHTMLPageTemplate() (string, error) {
 	}
 	defer f.Close()
 
-	// by default it scans by lines
+	// by default the Scanner scans by lines
 	scanner := bufio.NewScanner(f)
 	content3 := ""
 	for scanner.Scan() {
