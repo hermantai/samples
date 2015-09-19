@@ -33,8 +33,14 @@ stringutil
   Package stringutil demonstrates how to define a package besides main.  It's
   from the tutorial "How to Write Go Code" in https://golang.org/doc/code.html
 
-concurrencyrace
-  concurrencyrace is a demo of concurrency in Go using math/rand, sync.Once,
+chainofios
+  chainofios (Chain of IOs) demos how to start a web server, an rpc server,
+  and a general purpose tcp server. It also demo some file read and write
+  (that's why it's a chain of IOs...) including the use of template. A lot of
+  code snippets are from the book https://www.golang-book.com/books/intro
+
+eatingrace
+  eatingrace is a demo of concurrency in Go using math/rand, sync.Once,
   time.Tick, time.After, goroutines and channels.
 
 webserver
