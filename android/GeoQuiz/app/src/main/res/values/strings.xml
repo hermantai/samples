@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">GeoQuiz</string>
+    <string name="true_button">True</string>
+    <string name="false_button">False</string>
+    <string name="correct_toast">Correct!</string>
+    <string name="incorrect_toast">Incorrect!</string>
+    <string name="next_button">Next</string>
+    <string name="question_ocean">The Pacific Ocean is largerthan the Atlantic Ocean.</string>
+    <string name="question_fav_city">Your favorite city is hk</string>
+    <string name="question_fb_ceo">Facebook CEO is larry page</string>
+    <string name="prev_image_button">Previous question</string>
+    <string name="warning_text">Are you sure you want to do this?</string>
+    <string name="show_answer_button">Show Answer</string>
+    <string name="cheat_button">Cheat!</string>
+    <string name="judgment_toast">Cheating is wrong.</string>
+</resources>
