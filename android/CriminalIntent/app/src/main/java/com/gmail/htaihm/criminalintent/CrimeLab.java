@@ -4,11 +4,15 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
+import android.os.Environment;
+import android.widget.Toast;
 
 import com.gmail.htaihm.criminalintent.database.CrimeBaseHelper;
 import com.gmail.htaihm.criminalintent.database.CrimeCursorWrapper;
 import com.gmail.htaihm.criminalintent.database.CrimeDbSchema.CrimeTable;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -107,5 +111,25 @@ public class CrimeLab {
                 CrimeTable.Cols.UUID + " = ?",
                 new String[]{crime.getId().toString()}
         );
+    }
+
+    public File getPhotoFile(Crime crime) {
+        File externalFilesDir = mContext
+                .getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        if (externalFilesDir == null) {
+            return null;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            File[] files = mContext.getExternalMediaDirs();
+            String s = "";
+            for (File f : files) {
+                s += ", " + f.toString();
+            }
+            Toast.makeText(mContext, s, Toast.LENGTH_LONG).show();
+        }
+        // Toast.makeText(mContext, new File(externalFilesDir, crime.getPhotoFilename()).toString(), Toast.LENGTH_LONG).show();
+
+        return new File(externalFilesDir, crime.getPhotoFilename());
     }
 }
