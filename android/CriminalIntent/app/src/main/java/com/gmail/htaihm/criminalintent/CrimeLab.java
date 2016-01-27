@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
-import android.widget.Toast;
 
 import com.gmail.htaihm.criminalintent.database.CrimeBaseHelper;
 import com.gmail.htaihm.criminalintent.database.CrimeCursorWrapper;
@@ -113,12 +112,10 @@ public class CrimeLab {
     }
 
     public File getPhotoFile(Crime crime) {
-        File externalFilesDir = Environment
-                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File externalFilesDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         if (externalFilesDir == null) {
             return null;
         }
-        Toast.makeText(mContext, externalFilesDir.toString(), Toast.LENGTH_LONG).show();
         return new File(externalFilesDir, crime.getPhotoFilename());
     }
 }

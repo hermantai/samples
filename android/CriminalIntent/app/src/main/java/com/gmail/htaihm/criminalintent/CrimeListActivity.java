@@ -12,11 +12,7 @@ public class CrimeListActivity extends SingleFragmentActivity
 
     @Override
     protected int getLayoutResId() {
-        // Because none of the tablet emulator works
-        // properly with sw600, always returns activity_twopane for now
-        // for testing master details screen.
-        // return R.layout.activity_masterdetail;
-        return R.layout.activity_twopane;
+        return R.layout.activity_masterdetail;
     }
 
     @Override
