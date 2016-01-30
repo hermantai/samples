@@ -1,8 +1,12 @@
 package com.gmail.htaihm.photogallery;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,7 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import org.apache.commons.io.FileUtils;
 
@@ -27,6 +31,7 @@ public class PhotoGalleryFragment extends Fragment {
 
     private RecyclerView mPhotoRecyclerView;
     private List<GalleryItem> mItems = new ArrayList<>();
+    private ThumbnailDownloader<PhotoHolder> mThumbnailDownloader;
 
     /**
      * I don't have a good way to protect my api key while open sourcing this file, so I resort
@@ -48,6 +53,21 @@ public class PhotoGalleryFragment extends Fragment {
         setRetainInstance(true);
         readOrWriteApiKey();
         new FetchItemsTask().execute();
+
+        Handler responseHandler = new Handler();
+        mThumbnailDownloader = new ThumbnailDownloader<>(responseHandler);
+        mThumbnailDownloader.setThumbnailDownloadListener(
+                new ThumbnailDownloader.ThumbnailDownloadListener<PhotoHolder>() {
+                    @Override
+                    public void onThumbnailDownloaded(PhotoHolder photoHolder, Bitmap bitmap) {
+                        Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+                        photoHolder.bindDrawable(drawable);
+                    }
+                }
+        );
+        mThumbnailDownloader.start();
+        mThumbnailDownloader.getLooper();
+        Log.i(TAG, "Background thread started to download photos");
     }
 
     @Nullable
@@ -71,16 +91,60 @@ public class PhotoGalleryFragment extends Fragment {
 
                         ((GridLayoutManager) mPhotoRecyclerView.getLayoutManager())
                                 .setSpanCount(columns);
+                        mPhotoRecyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
                 });
+
         setupAdapter();
 
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mThumbnailDownloader.clearQueue();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mThumbnailDownloader.quit();
+        Log.i(TAG, "Background thread destroyed");
+    }
+
     private void setupAdapter() {
         if (isAdded()) {
             mPhotoRecyclerView.setAdapter(new PhotoAdapter(mItems));
+            mPhotoRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    switch (newState) {
+                        case RecyclerView.SCROLL_STATE_DRAGGING:
+                            mThumbnailDownloader.clearPreloadQueue();
+                            break;
+                        case RecyclerView.SCROLL_STATE_IDLE:
+                            GridLayoutManager gridLayoutManager =
+                                    (GridLayoutManager) mPhotoRecyclerView.getLayoutManager();
+                            PhotoAdapter photoAdapter = (PhotoAdapter) mPhotoRecyclerView.getAdapter();
+                            int startingPos = gridLayoutManager.findLastVisibleItemPosition() + 1;
+                            int upperLimit = Math.min(startingPos + 10, photoAdapter.getItemCount());
+                            for (int i = startingPos; i < upperLimit; i++) {
+                                mThumbnailDownloader.preloadThumbnail(
+                                        photoAdapter.getGalleryItem(i).getUrl());
+                            }
+
+                            startingPos = gridLayoutManager.findFirstVisibleItemPosition() - 1;
+                            int lowerLimit = Math.max(startingPos - 10, 0);
+                            for (int i = startingPos; i > lowerLimit; i--) {
+                                mThumbnailDownloader.preloadThumbnail(
+                                        photoAdapter.getGalleryItem(i).getUrl());
+                            }
+
+                            break;
+                    }
+                }
+            });
         }
     }
 
@@ -117,15 +181,16 @@ public class PhotoGalleryFragment extends Fragment {
     }
 
     private class PhotoHolder extends RecyclerView.ViewHolder {
-        private TextView mTitleTextView;
+        private ImageView mItemImageView;
 
         public PhotoHolder(View itemView) {
             super(itemView);
-            mTitleTextView = (TextView) itemView;
+            mItemImageView = (ImageView) itemView.findViewById(
+                    R.id.fragment_photo_gallery_image_view);
         }
 
-        public void bindGalleryItem(GalleryItem item){
-            mTitleTextView.setText(item.toString());
+        public void bindDrawable(Drawable drawable) {
+            mItemImageView.setImageDrawable(drawable);
         }
     }
 
@@ -139,20 +204,26 @@ public class PhotoGalleryFragment extends Fragment {
         @Override
         public PhotoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(getActivity()).inflate(
-                    android.R.layout.simple_list_item_1, parent, false);
+                    R.layout.gallery_item, parent, false);
 
             return new PhotoHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(PhotoHolder holder, int position) {
+        public void onBindViewHolder(PhotoHolder photoHolder, int position) {
             GalleryItem item = mGalleryItems.get(position);
-            holder.bindGalleryItem(item);
+            Drawable placeholder = getResources().getDrawable(R.drawable.bill_up_close);
+            photoHolder.bindDrawable(placeholder);
+            mThumbnailDownloader.queueThumbnail(photoHolder, item.getUrl());
         }
 
         @Override
         public int getItemCount() {
             return mGalleryItems.size();
+        }
+
+        public GalleryItem getGalleryItem(int position) {
+            return mGalleryItems.get(position);
         }
     }
 }
