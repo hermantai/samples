@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -30,7 +29,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhotoGalleryFragment extends Fragment {
+public class PhotoGalleryFragment extends VisibleFragment {
     private static final String TAG = "PhotoGalleryFragment";
 
     private RecyclerView mPhotoRecyclerView;
@@ -57,7 +56,7 @@ public class PhotoGalleryFragment extends Fragment {
         setRetainInstance(true);
         setHasOptionsMenu(true);
 
-        readOrWriteApiKey();
+        readOrWriteApiKey(getActivity());
         updateItems();
 
         Handler responseHandler = new Handler();
@@ -220,8 +219,7 @@ public class PhotoGalleryFragment extends Fragment {
         }
     }
 
-    private void readOrWriteApiKey() {
-        Context context = getActivity();
+    public static String readOrWriteApiKey(Context context) {
         File f = new File(context.getFilesDir(), "apikey.txt");
         try {
             if (FLICKR_API_KEY != null) {
@@ -236,6 +234,7 @@ public class PhotoGalleryFragment extends Fragment {
         } catch (IOException ioe) {
             Log.e(TAG, "IO exception when reading or writing api key", ioe);
         }
+        return FLICKR_API_KEY;
     }
 
     private class FetchItemsTask extends AsyncTask<Void, Void, List<GalleryItem>> {
