@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.gmail.htaihm.draganddraw.BoxDrawingView
+    android:id="@+id/fragment_drag_and_draw_drawing_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+</com.gmail.htaihm.draganddraw.BoxDrawingView>
