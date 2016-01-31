@@ -67,10 +67,6 @@ public class ThumbnailDownloader<T> extends HandlerThread {
         mRealThumbnailDownloader.clearPrefetchQueue();
     }
 
-    public void clearPreloadQueue() {
-        mRealThumbnailDownloader.clearPrefetchQueue();
-    }
-
     @Override
     protected void onLooperPrepared() {
         mRequestHandler = new Handler() {
@@ -133,6 +129,12 @@ public class ThumbnailDownloader<T> extends HandlerThread {
         final Lock downloadingLock = new ReentrantLock();
         final Condition notDownloading = downloadingLock.newCondition();
 
+        // Keeps track of what urls the messages in Looper of this thread is processing,
+        // so that we don't have to queue up unnecessary messages if the url is already queued up.
+        // Because we know a url is being queued up, we can wait for it to be done in
+        // waitForDownloadFinished. If there is no mDownloadingUrls, waitForDownloadFinished
+        // may wait for something that will never come (download error and the image is not
+        // in cache).
         private Set<String> mDownloadingUrls = Collections.newSetFromMap(
                 new ConcurrentHashMap<String, Boolean>());
         private Handler mDownloadRequestHandler;
@@ -211,6 +213,9 @@ public class ThumbnailDownloader<T> extends HandlerThread {
                 }
             };
         }
+
+        // Clearing the queues have the problem of putting mDownloadingUrls out of sync with the
+        // messages in the Looper, so it is very dangerous to clear the queue.
 
         public void clearDownloadQueue() {
             mDownloadRequestHandler.removeMessages(MESSAGE_REAL_DOWNLOAD);
