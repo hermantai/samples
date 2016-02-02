@@ -114,7 +114,7 @@ public class FlickrFetchr {
                 .appendQueryParameter("api_key", apiKey)
                 .appendQueryParameter("format", "json")
                 .appendQueryParameter("nojsoncallback", "1")
-                .appendQueryParameter("extras", "url_s")
+                .appendQueryParameter("extras", "url_s,geo")
                 .build();
         return endpoint;
     }
@@ -130,6 +130,8 @@ public class FlickrFetchr {
             item.setId(photoJsonObject.getString("id"));
             item.setCaption(photoJsonObject.getString("title"));
             item.setOwner(photoJsonObject.getString("owner"));
+            item.setLat(photoJsonObject.getDouble("latitude"));
+            item.setLon(photoJsonObject.getDouble("longitude"));
 
             if (!photoJsonObject.has("url_s")){
                 continue;
