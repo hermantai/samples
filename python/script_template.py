@@ -47,10 +47,7 @@ _plain_error_logger = None  # will be created in main()
 
 class App(object):
     """A console application to do work"""
-    def __init__(
-        self,
-        args,
-    ):
+    def __init__(self, args):
         """
         Args:
             args (argparse.Namespace): The flags for the script.
@@ -116,9 +113,7 @@ def main():
         stdout=False,
     )
 
-    app = App(
-        args,
-    )
+    app = App(args)
     sys.exit(app.run())
 
 

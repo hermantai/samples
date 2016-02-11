@@ -55,9 +55,7 @@ _plain_error_logger = None  # will be created in main()
 
 class App(object):
     """A console application with subcommands to do work"""
-    def __init__(
-        self,
-    ):
+    def __init__(self):
         pass
 
     def action1_action(self, args):

@@ -30,10 +30,8 @@ import subprocess
 
 
 class App(object):
-    def __init__(
-        self,
-    ):
-        pass
+    def __init__(self, args):
+        self.args = args
 
     def run(self):
         print("hello world")
@@ -63,8 +61,7 @@ def parse_args(cmd_args):
 def main():
     args = parse_args(sys.argv[1:])
 
-    app = App(
-    )
+    app = App(args)
     sys.exit(app.run())
 
 
