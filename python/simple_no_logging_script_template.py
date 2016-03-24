@@ -38,6 +38,16 @@ class App(object):
         return 0
 
     def _run_cmd(self, cmd):
+        """Run a shell command
+
+        Args:
+            cmd (string or a list of strings): The shell command to run. If
+                it's a string, uses the system shell to run the command. If
+                it's a list of strings, the first string is the program to run
+                and the rest are its arguments. The arguments are quoted
+                properly by the subprocess module, so the arguments do not
+                have to be quoted when passing to this method.
+        """
         print(cmd)
         if isinstance(cmd, list):
             use_shell = False
