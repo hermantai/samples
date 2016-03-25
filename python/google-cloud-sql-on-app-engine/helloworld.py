@@ -22,6 +22,21 @@ engine_with_pool = create_engine(
 Base.metadata.bind = engine_with_pool
 
 
+def setup_db():
+    db = MySQLdb.connect(
+        unix_socket="/cloudsql/%s" % CLOUD_SQL_INSTANCE_NAME,
+        user="root",
+        db="db1",
+    )
+    cursor = db.cursor()
+    cursor.execute("create database if not exists db1 character set 'utf8'")
+    cursor.execute("create table if not exists table1(name varchar(255))")
+    cursor.execute("truncate table table1")
+    cursor.execute("insert into table1 values('data1')")
+    db.commit()
+    return db
+
+
 class Data(Base):
     __tablename__ = "table1"
     name = Column(String(250), primary_key=True)
@@ -41,21 +56,6 @@ class MainPage(webapp2.RequestHandler):
         self.response.write('<p><a href="/cloud-sql-pooling-orm">Cloud SQL with SQLAlchemy ORM (leak over 12 connections, with pooling, so you get a timeout instead )</a></p>')
         self.response.write('<p><a href="/cloud-sql-pooling-orm?n=5">Cloud SQL with SQLAlchemy ORM (leak under 12 connections, with pooling, work as expected)</a></p>')
         self.response.write("</body></html>")
-
-
-def setup_db():
-    db = MySQLdb.connect(
-        unix_socket="/cloudsql/%s" % CLOUD_SQL_INSTANCE_NAME,
-        user="root",
-        db="db1",
-    )
-    cursor = db.cursor()
-    cursor.execute("create database if not exists db1 character set 'utf8'")
-    cursor.execute("create table if not exists table1(name varchar(255))")
-    cursor.execute("truncate table table1")
-    cursor.execute("insert into table1 values('data1')")
-    db.commit()
-    return db
 
 
 class CloudSQLPage(webapp2.RequestHandler):
