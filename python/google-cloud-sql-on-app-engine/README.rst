@@ -10,9 +10,10 @@ To deploy this demo:
 1. Requirements:
 
    a. Have a `Google App Engine project`_
-   b. Have a `Google Cloud SQL first generation instance`_
+   b. Have a `Google Cloud SQL first generation instance`_. Create a database
+      called "db1" in that instance.
    c. Have `Google App Engine SDK for Python`_ installed (which has the
-      appcfg.py) command line tool.
+   appcfg.py) command line tool.
    d. Have `pip`_ installed.
 
 2. In this directory, create a subdirectory "lib"::
@@ -35,6 +36,11 @@ To deploy this demo:
 
 6. After that, you should be able to see the demo in
    http://YOUR_PROJECT_ID.appspot.com.
+
+7. Click on "Cloud SQL (setup the table and data)" to setup the table and data.
+
+8. You can now click on other links in the demo to see the difference between
+   using pooling vs not using pooling.
 
 .. _`Google Cloud SQL`: https://cloud.google.com/sql
 .. _`Google App Engine`: https://cloud.google.com/appengine/
