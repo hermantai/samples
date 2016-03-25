@@ -18,6 +18,7 @@ engine_with_pool = create_engine(
     pool_size=10,
     max_overflow=0,
     pool_timeout=5,
+    pool_recycle=10,
 )
 Base.metadata.bind = engine_with_pool
 
@@ -38,7 +39,7 @@ def setup_db():
     cursor.execute("truncate table table1")
     cursor.execute("insert into table1 values('data1')")
     db.commit()
-    return db
+    db.close()
 
 
 class Data(Base):
@@ -64,7 +65,8 @@ class MainPage(webapp2.RequestHandler):
 
 class CloudSQLPage(webapp2.RequestHandler):
     def get(self):
-        db = setup_db()
+        setup_db()
+        db = connect_to_db()
         cursor = db.cursor()
         cursor.execute("show tables")
 
