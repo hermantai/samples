@@ -8,7 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-CLOUD_SQL_INSTANCE_NAME = "<FULL CLOUD SQL INSTANCE NAME>"
+CLOUD_SQL_INSTANCE_NAME = "FULL_CLOUD_SQL_INSTANCE_NAME"
 Base = declarative_base()
 connect_string = "mysql+mysqldb://root@/db1?unix_socket=/cloudsql/%s" % (
     CLOUD_SQL_INSTANCE_NAME
