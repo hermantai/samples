@@ -48,6 +48,7 @@ class CloudSQLPage(webapp2.RequestHandler):
         db = MySQLdb.connect(
             unix_socket="/cloudsql/%s" % CLOUD_SQL_INSTANCE_NAME,
             user="root",
+            db="db1",
         )
         cursor = db.cursor()
         cursor.execute("create database if not exists db1 character set 'utf8'")
