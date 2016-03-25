@@ -20,6 +20,7 @@ engine_with_pool = create_engine(
     pool_timeout=5,
 )
 Base.metadata.bind = engine_with_pool
+DBSession = sessionmaker(bind=engine_with_pool)
 
 
 def connect_to_db():
@@ -27,6 +28,7 @@ def connect_to_db():
         unix_socket="/cloudsql/%s" % CLOUD_SQL_INSTANCE_NAME,
         user="root",
         db="db1",
+        connect_timeout=8,
     )
     return db
 
@@ -59,7 +61,7 @@ class MainPage(webapp2.RequestHandler):
         self.response.write('<p><a href="/cloud-sql-pooling">Cloud SQL with SQLAlchemy (leak over 12 connections, with pooling, so you get a timeout instead )</a></p>')
         self.response.write('<p><a href="/cloud-sql-pooling?n=5">Cloud SQL with SQLAlchemy (leak under 12 connections, with pooling, work as expected)</a></p>')
         self.response.write('<p><a href="/cloud-sql-pooling-orm">Cloud SQL with SQLAlchemy ORM (leak over 12 connections, with pooling, so you get a timeout instead )</a></p>')
-        self.response.write('<p><a href="/cloud-sql-pooling-orm?n=5">Cloud SQL with SQLAlchemy ORM (leak under 12 connections, with pooling, work as expected)</a></p>')
+        self.response.write('<p><a href="/cloud-sql-pooling-orm?n=5">Cloud SQL with SQLAlchemy ORM (leak under 12 connections, with pooling, but does not work if you run this a few times, see the code for detail)</a></p>')
         self.response.write("</body></html>")
 
 
@@ -89,21 +91,23 @@ class CloudSQLLeakConnectionsPage(webapp2.RequestHandler):
         else:
             n = 20
 
-        # need to store the cursor somewhere, otherwise the garbage collection
-        # cleans the cursor up and we cannot "leak" connections
-        garbages = []
-        for i in range(n):
-            db = MySQLdb.connect(
-                unix_socket="/cloudsql/%s" % CLOUD_SQL_INSTANCE_NAME,
-                user="root",
-                db="db1",
-            )
-            cursor = db.cursor()
-            cursor.execute("select * from table1")
-            garbages.append(cursor)
+        self.response.headers['Content-Type'] = "text/html"
+
+        try:
+            setup_db()
+            # need to store the cursor somewhere, otherwise the garbage collection
+            # cleans the cursor up and we cannot "leak" connections
+            garbages = []
+            for i in range(n):
+                db = connect_to_db()
+                cursor = db.cursor()
+                cursor.execute("select * from table1")
+                garbages.append(cursor)
+        except Exception as err:
+            self.response.write("<p>%s</p>" % err)
+            return
 
         values = [cgi.escape(row[0]) for row in cursor.fetchall()]
-        self.response.headers['Content-Type'] = "text/html"
         self.response.write('<p>n = %s</p>' % n)
 
         self.response.write('<table>\n')
@@ -123,6 +127,8 @@ class CloudSQLWithPoolingPage(webapp2.RequestHandler):
 
         self.response.headers['Content-Type'] = "text/html"
         try:
+            setup_db()
+
             # need to store the session somewhere, otherwise the garbage
             # collection cleans the session up and we cannot "leak" connections
             garbages = []
@@ -156,12 +162,15 @@ class CloudSQLWithPoolingORMPage(webapp2.RequestHandler):
         else:
             n = 20
 
-        DBSession = sessionmaker(bind=engine_with_pool)
-
         self.response.headers['Content-Type'] = "text/html"
         try:
-            # need to store the session somewhere, otherwise the garbage
-            # collection cleans the session up and we cannot "leak" connections
+            # Need to store the session somewhere, otherwise the garbage
+            # collection cleans the session up and we cannot "leak"
+            # connections. Actually in here we are not only leaking
+            # connections, but we are leaking SQLAlchemy's sessions!  The
+            # sessions do not seem to be garbage collected even this request
+            # finishes, so once they are leaked, we cannot connect to the db
+            # with this App Engine instance any more...
             garbages = []
             values = []
             for i in range(n):
