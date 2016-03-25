@@ -18,28 +18,8 @@ engine_with_pool = create_engine(
     pool_size=10,
     max_overflow=0,
     pool_timeout=5,
-    pool_recycle=10,
 )
 Base.metadata.bind = engine_with_pool
-
-
-def connect_to_db():
-    return MySQLdb.connect(
-        unix_socket="/cloudsql/%s" % CLOUD_SQL_INSTANCE_NAME,
-        user="root",
-        db="db1",
-    )
-
-
-def setup_db():
-    db = connect_to_db()
-    cursor = db.cursor()
-    cursor.execute("create database if not exists db1 character set 'utf8'")
-    cursor.execute("create table if not exists table1(name varchar(255))")
-    cursor.execute("truncate table table1")
-    cursor.execute("insert into table1 values('data1')")
-    db.commit()
-    db.close()
 
 
 class Data(Base):
@@ -53,7 +33,7 @@ class MainPage(webapp2.RequestHandler):
         self.response.write("<html><head><title>Hello</title></head>")
         self.response.write("<body>")
         self.response.write('<p>Hello, World!</p>')
-        self.response.write('<p><a href="/cloud-sql">Cloud SQL (list the tables)</a></p>')
+        self.response.write('<p><a href="/cloud-sql">Cloud SQL (setup the table and data)</a></p>')
         self.response.write('<p><a href="/cloud-sql-leak-connections?n=3">Cloud SQL (leaking connections but under 12 connections leaked, so work as expected)</a></p>')
         self.response.write('<p><a href="/cloud-sql-leak-connections">Cloud SQL (leak over 12 connections, so "Cloud SQL socket open failed with error: No such file or directory")</a></p>')
         self.response.write('<p><a href="/cloud-sql-pooling">Cloud SQL with SQLAlchemy (leak over 12 connections, with pooling, so you get a timeout instead )</a></p>')
@@ -65,9 +45,16 @@ class MainPage(webapp2.RequestHandler):
 
 class CloudSQLPage(webapp2.RequestHandler):
     def get(self):
-        setup_db()
-        db = connect_to_db()
+        db = MySQLdb.connect(
+            unix_socket="/cloudsql/%s" % CLOUD_SQL_INSTANCE_NAME,
+            user="root",
+        )
         cursor = db.cursor()
+        cursor.execute("create database if not exists db1 character set 'utf8'")
+        cursor.execute("create table if not exists table1(name varchar(255))")
+        cursor.execute("truncate table table1")
+        cursor.execute("insert into table1 values('data1')")
+        db.commit()
         cursor.execute("show tables")
 
         tables = [cgi.escape(row[0]) for row in cursor.fetchall()]
@@ -82,8 +69,6 @@ class CloudSQLPage(webapp2.RequestHandler):
 
 class CloudSQLLeakConnectionsPage(webapp2.RequestHandler):
     def get(self):
-        setup_db()
-
         n = self.request.get('n')
         if n:
             n = int(n)
@@ -94,7 +79,11 @@ class CloudSQLLeakConnectionsPage(webapp2.RequestHandler):
         # cleans the cursor up and we cannot "leak" connections
         garbages = []
         for i in range(n):
-            db = connect_to_db()
+            db = MySQLdb.connect(
+                unix_socket="/cloudsql/%s" % CLOUD_SQL_INSTANCE_NAME,
+                user="root",
+                db="db1",
+            )
             cursor = db.cursor()
             cursor.execute("select * from table1")
             garbages.append(cursor)
@@ -112,8 +101,6 @@ class CloudSQLLeakConnectionsPage(webapp2.RequestHandler):
 
 class CloudSQLWithPoolingPage(webapp2.RequestHandler):
     def get(self):
-        setup_db()
-
         n = self.request.get('n')
         if n:
             n = int(n)
@@ -149,8 +136,6 @@ class CloudSQLWithPoolingPage(webapp2.RequestHandler):
 
 class CloudSQLWithPoolingORMPage(webapp2.RequestHandler):
     def get(self):
-        setup_db()
-
         n = self.request.get('n')
         if n:
             n = int(n)
