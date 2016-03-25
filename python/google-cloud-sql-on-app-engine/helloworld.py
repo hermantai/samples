@@ -22,12 +22,16 @@ engine_with_pool = create_engine(
 Base.metadata.bind = engine_with_pool
 
 
-def setup_db():
-    db = MySQLdb.connect(
+def connect_to_db():
+    return MySQLdb.connect(
         unix_socket="/cloudsql/%s" % CLOUD_SQL_INSTANCE_NAME,
         user="root",
         db="db1",
     )
+
+
+def setup_db():
+    db = connect_to_db()
     cursor = db.cursor()
     cursor.execute("create database if not exists db1 character set 'utf8'")
     cursor.execute("create table if not exists table1(name varchar(255))")
@@ -76,7 +80,7 @@ class CloudSQLPage(webapp2.RequestHandler):
 
 class CloudSQLLeakConnectionsPage(webapp2.RequestHandler):
     def get(self):
-        db = setup_db()
+        setup_db()
 
         n = self.request.get('n')
         if n:
@@ -88,6 +92,7 @@ class CloudSQLLeakConnectionsPage(webapp2.RequestHandler):
         # cleans the cursor up and we cannot "leak" connections
         garbages = []
         for i in range(n):
+            db = connect_to_db()
             cursor = db.cursor()
             cursor.execute("select * from table1")
             garbages.append(cursor)
