@@ -22,6 +22,26 @@ engine_with_pool = create_engine(
 Base.metadata.bind = engine_with_pool
 
 
+def connect_to_db():
+    db = MySQLdb.connect(
+        unix_socket="/cloudsql/%s" % CLOUD_SQL_INSTANCE_NAME,
+        user="root",
+        db="db1",
+    )
+    return db
+
+
+def setup_db():
+    db = connect_to_db()
+    cursor = db.cursor()
+    cursor.execute("create database if not exists db1 character set 'utf8'")
+    cursor.execute("create table if not exists table1(name varchar(255))")
+    cursor.execute("truncate table table1")
+    cursor.execute("insert into table1 values('data1')")
+    db.commit()
+    db.close()
+
+
 class Data(Base):
     __tablename__ = "table1"
     name = Column(String(250), primary_key=True)
@@ -45,17 +65,10 @@ class MainPage(webapp2.RequestHandler):
 
 class CloudSQLPage(webapp2.RequestHandler):
     def get(self):
-        db = MySQLdb.connect(
-            unix_socket="/cloudsql/%s" % CLOUD_SQL_INSTANCE_NAME,
-            user="root",
-            db="db1",
-        )
+        setup_db()
+
+        db = connect_to_db()
         cursor = db.cursor()
-        cursor.execute("create database if not exists db1 character set 'utf8'")
-        cursor.execute("create table if not exists table1(name varchar(255))")
-        cursor.execute("truncate table table1")
-        cursor.execute("insert into table1 values('data1')")
-        db.commit()
         cursor.execute("show tables")
 
         tables = [cgi.escape(row[0]) for row in cursor.fetchall()]
