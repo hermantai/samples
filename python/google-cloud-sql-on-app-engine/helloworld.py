@@ -43,7 +43,7 @@ class MainPage(webapp2.RequestHandler):
         self.response.write("</body></html>")
 
 
-def setup_db()
+def setup_db():
     db = MySQLdb.connect(
         unix_socket="/cloudsql/%s" % CLOUD_SQL_INSTANCE_NAME,
         user="root",
