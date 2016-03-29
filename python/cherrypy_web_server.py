@@ -31,6 +31,9 @@ class HelloWorld(object):
     def index(self):
         return "Hello World!"
 
+    @cherrypy.expose
+    def echo(self, se=None):
+        return se
 
 if __name__ == '__main__':
     cherrypy.quickstart(HelloWorld())
