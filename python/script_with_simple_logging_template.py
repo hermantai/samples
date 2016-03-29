@@ -8,6 +8,9 @@ The template has a logger _log being ready.
 Command line options of the script should be added to the parser of the
 function parse_args.
 
+This script depends on the library sorno-py-scripts. You can find out the
+installation detail in https://github.com/hermantai/sorno-py-scripts.
+
 
     Copyright 2016 Heung Ming Tai
 
