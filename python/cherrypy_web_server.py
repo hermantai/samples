@@ -45,9 +45,20 @@ def parse_args():
         default=8080,
         help="Port number of the server",
     )
+    parser.add_argument(
+        "-h",
+        "--host",
+        default="localhost",
+        help="The host that the server binds to",
+    )
     return parser.parse_args()
 
 if __name__ == '__main__':
     args = parse_args()
-    cherrypy.config.update({'server.socket_port': args.port})
+    cherrypy.config.update(
+        {
+            'server.socket_port': args.port,
+            'server.socket_host': args.host,
+        }
+    )
     cherrypy.quickstart(HelloWorld())
