@@ -46,7 +46,6 @@ def parse_args():
         help="Port number of the server",
     )
     parser.add_argument(
-        "-h",
         "--host",
         default="localhost",
         help="The host that the server binds to",
