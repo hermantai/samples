@@ -23,6 +23,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import unicode_literals
 
+import argparse
 import cherrypy
 
 
@@ -35,5 +36,18 @@ class HelloWorld(object):
     def echo(self, se=None):
         return se
 
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-p",
+        "--port",
+        type=int,
+        default=8080,
+        help="Port number of the server",
+    )
+    return parser.parse_args()
+
 if __name__ == '__main__':
+    args = parse_args()
+    cherrypy.config.update({'server.socket_port': args.port})
     cherrypy.quickstart(HelloWorld())
