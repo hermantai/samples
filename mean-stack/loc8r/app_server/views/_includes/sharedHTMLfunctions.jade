@@ -1,0 +1,8 @@
+mixin outputRating(rating)
+  - for (var i = 0; i < 5; i++) {
+  -   if (i < rating) {
+        span.glyphicon.glyphicon-star
+  -   } else {
+        span.glyphicon.glyphicon-star-empty
+  -   }
+  - }
