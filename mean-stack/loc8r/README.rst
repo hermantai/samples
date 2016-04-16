@@ -110,6 +110,10 @@ repo, you have to run the following in the root directory::
 
     $ git subtree push --prefix mean-stack/loc8r heroku master
 
+Protip: you can tail the heroku application log by::
+
+    $ heroku logs -t
+
 About the fake data used in the application
 -------------------------------------------
 The fake data are straightly from the book "Getting
