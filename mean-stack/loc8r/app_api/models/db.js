@@ -18,7 +18,16 @@ if (process.env.NODE_ENV === 'production') {
   dbURI = process.env.MONGODB_URI;
 }
 
-mongoose.connect(dbURI);
+var options = {
+  server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
+  replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } }
+};
+mongoose.connect(dbURI, options);
+
+mongoose.connection.on(
+  'error',
+  console.error.bind(console, 'connection error:')
+);
 
 mongoose.connection.on('connected', function() {
   console.log("Mongoose connected to " + dbURI);

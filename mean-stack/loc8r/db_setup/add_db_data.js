@@ -32,7 +32,7 @@ db.locations.save({
   "reviews": [
     {
       "author": "Simon Holmes",
-      "id": ObjectId(),
+      "_id": ObjectId(),
       "rating": 5.0,
       "timestamp": new Date("Jul 16, 2013"),
       "reviewText": "What a great place. I can't say enough good things about it"
@@ -73,7 +73,7 @@ db.locations.save({
   "reviews": [
     {
       "author": "Herman Tai",
-      "id": ObjectId(),
+      "_id": ObjectId(),
       "rating": 5.0,
       "timestamp": new Date("Jan 1, 2015"),
       "reviewText": "Great one!"
@@ -113,7 +113,7 @@ db.locations.save({
   "reviews": [
     {
       "author": "Peter Pan",
-      "id": ObjectId(),
+      "_id": ObjectId(),
       "rating": 1.0,
       "timestamp": new Date("Mar 1, 2015"),
       "reviewText": "Meh~~~"
