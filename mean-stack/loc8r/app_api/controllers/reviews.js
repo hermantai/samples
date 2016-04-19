@@ -15,18 +15,17 @@ module.exports.reviewsReadOne = function (req, res) {
       .select("name reviews")
       .exec(function(err, location) {
         var response, review;
-        if (!location) {
+        if (err) {
+          sendJsonResponse(res, 400, err);
+          return;
+        } else if (!location) {
           sendJsonResponse(
             res,
             404,
             {'message': "location not found for " + req.params.locationid}
           );
           return;
-        } else if (err) {
-          sendJsonResponse(res, 404, err);
-          return;
         }
-        console.log("reviews: " + location.reviews);
         if (location.reviews && location.reviews.length > 0) {
           review = location.reviews.id(req.params.reviewid);
           if (!review) {
@@ -47,7 +46,7 @@ module.exports.reviewsReadOne = function (req, res) {
           }
         } else {
           sendJsonResponse(res, 404, {
-            'message': "No reviews found"
+            'message': "No reviews found for location: " + location._id
           });
         }
       });
