@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 require('./locations');
 
-var dbURI = "mongodb://localhost/Loc8r";
+var dbURI = "mongodb://user1:user1@localhost/Loc8r";
 if (process.env.NODE_ENV === 'production') {
   // Heroku should have environment variable
   // MONGODB_URI defined if you go through the
