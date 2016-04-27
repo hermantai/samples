@@ -1,18 +1,16 @@
 var mongoose = require('mongoose');
-var Loc = mongoose.model('Location');
+var util = require('util');  // util.inspect
 // https://www.npmjs.com/package/http-status-codes
 var httpStatusCodes = require('http-status-codes');
 var _ = require('underscore');
 
-var sendJsonResponse = function(res, status, content) {
-  res.status(status);
-  res.json(content);
-};
+var Loc = mongoose.model('Location');
+var responseutil = require('./responseutil');
 
 module.exports.reviewsCreate = function (req, res) {
   var locationid = req.params.locationid;
   if (!locationid) {
-    sendJsonResponse(
+    responseutil.sendJsonResponse(
       res,
       httpStatusCodes.BAD_REQUEST,
       {"message": "locationid required"}
@@ -25,7 +23,7 @@ module.exports.reviewsCreate = function (req, res) {
     .exec(
       function(err, location) {
         if (err) {
-          sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
+          responseutil.sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
           return;
         }
         doAddReview(req, res, location);
@@ -35,10 +33,9 @@ module.exports.reviewsCreate = function (req, res) {
 
 var doAddReview = function(req, res, location) {
   if (!location) {
-    sendJsonResponse(
+    responseutil.sendLocationNotFound(
       res,
-      httpStatusCodes.NOT_FOUND,
-      {"message": "location not found: " + req.params.locationid}
+      req.params.locationid
     );
     return;
   }
@@ -54,13 +51,13 @@ var doAddReview = function(req, res, location) {
   location.save(function(err, location) {
     var thisReview;
     if (err) {
-      sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
+      responseutil.sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
       return;
     }
 
     updateAverageRating(location._id);
     thisReview = location.reviews[location.reviews.length - 1];
-    sendJsonResponse(res, httpStatusCodes.CREATED, thisReview);
+    responseutil.sendJsonResponse(res, httpStatusCodes.CREATED, thisReview);
   });
 }
 
@@ -111,10 +108,10 @@ module.exports.reviewsReadOne = function (req, res) {
       .exec(function(err, location) {
         var response, review;
         if (err) {
-          sendJsonResponse(res, 400, err);
+          responseutil.sendJsonResponse(res, 400, err);
           return;
         } else if (!location) {
-          sendJsonResponse(
+          responseutil.sendJsonResponse(
             res,
             404,
             {'message': "location not found for " + req.params.locationid}
@@ -124,7 +121,7 @@ module.exports.reviewsReadOne = function (req, res) {
         if (location.reviews && location.reviews.length > 0) {
           review = location.reviews.id(req.params.reviewid);
           if (!review) {
-            sendJsonResponse(
+            responseutil.sendJsonResponse(
               res,
               404,
               {'message': "review not found for " + req.params.reviewid}
@@ -137,16 +134,16 @@ module.exports.reviewsReadOne = function (req, res) {
               },
               review : review
             };
-            sendJsonResponse(res, 200, response);
+            responseutil.sendJsonResponse(res, 200, response);
           }
         } else {
-          sendJsonResponse(res, 404, {
+          responseutil.sendJsonResponse(res, 404, {
             'message': "No reviews found for location: " + location._id
           });
         }
       });
   } else {
-    sendJsonResponse(
+    responseutil.sendJsonResponse(
       res,
       404,
       {
@@ -155,9 +152,74 @@ module.exports.reviewsReadOne = function (req, res) {
     );
   }
 };
+
 module.exports.reviewsUpdateOne = function (req, res) {
-  sendJsonResponse(res, 200, {"status": "success"});
+  var locationid = req.params.locationid;
+  var reviewid = req.params.reviewid;
+  if (!locationid) {
+    responseutil.sendJsonResponse(
+        res,
+        httpStatusCodes.BAD_REQUEST,
+        "locationid is required"
+    );
+    return;
+  }
+  if (!reviewid) {
+    responseutil.sendJsonResponse(
+        res,
+        httpStatusCodes.BAD_REQUEST,
+        "reviewid is required"
+    );
+    return;
+  }
+
+  Loc.findById(locationid)
+    .select("reviews")
+    .exec(function (err, location) {
+      var thisReview;
+      if (err) {
+        responseutil.sendJsonResponse(
+          res,
+          httpStatusCodes.BAD_REQUEST,
+          err
+        );
+        return;
+      }
+
+      if (!location) {
+        responseutil.sendLocationNotFound(res, locationid);
+        return;
+      }
+
+      if (!location.reviews) {
+        responseutil.sendReviewNotFound(res, locationid, reviewid);
+        return;
+      }
+
+      thisReview = location.reviews.id(reviewid);
+      if (!thisReview) {
+        responseutil.sendReviewNotFound(
+            res,
+            locationid,
+            reviewid
+        );
+        return;
+      }
+
+      thisReview.author = req.body.author;
+      thisReview.rating = req.body.rating;
+      thisReview.reviewText = req.body.reviewText;
+      location.save(function(err, location) {
+        if (err) {
+          responseutil.sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
+          return;
+        }
+        updateAverageRating(location._id);
+      });
+      responseutil.sendJsonResponse(res, httpStatusCodes.OK, thisReview);
+  });
 };
+
 module.exports.reviewsDeleteOne = function (req, res) {
-  sendJsonResponse(res, 200, {"status": "success"});
+  responseutil.sendJsonResponse(res, 200, {"status": "success"});
 };

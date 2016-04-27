@@ -3,6 +3,7 @@ var util = require('util');  // util.inspect
 // https://www.npmjs.com/package/http-status-codes
 var httpStatusCodes = require('http-status-codes');
 
+var responseutil = require('./responseutil');
 var Loc = mongoose.model('Location');
 
 var theEarth = (function(){
@@ -20,16 +21,11 @@ var theEarth = (function(){
   };
 })();
 
-var sendJsonResponse = function(res, status, content) {
-  res.status(status);
-  res.json(content);
-};
-
 module.exports.locationsListByDistance = function (req, res) {
   var lng = parseFloat(req.query.lng);
   var lat = parseFloat(req.query.lat);
   if (isNaN(lng) || isNaN(lat)) {
-    sendJsonResponse(
+    responseutil.sendJsonResponse(
       res,
       httpStatusCodes.BAD_REQUEST,
       {
@@ -54,7 +50,7 @@ module.exports.locationsListByDistance = function (req, res) {
     function (err, results, stats) {
       var locations = [];
       if (err) {
-        sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
+        responseutil.sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
         return;
       }
       results.forEach(function(doc) {
@@ -71,7 +67,7 @@ module.exports.locationsListByDistance = function (req, res) {
           }
         );
       });
-      sendJsonResponse(res, httpStatusCodes.OK, locations);
+      responseutil.sendJsonResponse(res, httpStatusCodes.OK, locations);
     }
   );
 };
@@ -102,9 +98,9 @@ module.exports.locationsCreate = function (req, res) {
     },
     function(err, location) {
       if (err) {
-        sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
+        responseutil.sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
       } else {
-        sendJsonResponse(res, httpStatusCodes.CREATED, location);
+        responseutil.sendJsonResponse(res, httpStatusCodes.CREATED, location);
       }
     }
   );
@@ -114,36 +110,22 @@ module.exports.locationsReadOne = function (req, res) {
     Loc.findById(req.params.locationid)
       .exec(function(err, location) {
         if (err) {
-          sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
+          responseutil.sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
           return;
         } else if (!location) {
-          sendJsonResponse(
-            res,
-            httpStatusCodes.NOT_FOUND,
-            {'message': "location not found for " + req.params.locationid}
-          );
+          responseutil.sendLocationNotFound(res, req.params.locationid);
           return;
         }
-        sendJsonResponse(res, httpStatusCodes.OK, location);
+        responseutil.sendJsonResponse(res, httpStatusCodes.OK, location);
       });
   } else {
-    sendJsonResponse(
-      res,
-      httpStatusCodes.BAD_REQUEST,
-      {
-        'message': "No locationid in request"
-      }
-    );
+    responseutil.sendNoLocationId(res);
   }
 };
 module.exports.locationsUpdateOne = function (req, res) {
   var locationid = req.params.locationid;
   if (!locationid) {
-    sendJsonResponse(
-      res,
-      httpStatusCodes.BAD_REQUEST,
-      {'message': "locationid is required"}
-    );
+    responseutil.sendNoLocationId(res);
     return;
   }
 
@@ -152,15 +134,11 @@ module.exports.locationsUpdateOne = function (req, res) {
     .exec(
       function(err, location) {
         if (err) {
-          sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
+          responseutil.sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
           return;
         }
         if (!location) {
-          sendJsonResponse(
-            res,
-            httpStatusCodes.NOT_FOUND,
-            {'message': "location not found for " + locationid}
-          );
+          responseutil.sendLocationNotFound(res, locationid);
           return;
         }
         location.name = req.body.name;
@@ -188,10 +166,10 @@ module.exports.locationsUpdateOne = function (req, res) {
         location.save(
           function(err, location) {
             if (err) {
-              sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
+              responseutil.sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
               return;
             }
-            sendJsonResponse(res, httpStatusCodes.OK, location);
+            responseutil.sendJsonResponse(res, httpStatusCodes.OK, location);
           }
         );
       }
@@ -199,6 +177,20 @@ module.exports.locationsUpdateOne = function (req, res) {
 };
 
 module.exports.locationsDeleteOne = function (req, res) {
-  sendJsonResponse(res, httpStatusCodes.OK, {"status": "success"});
+  var locationid = req.params.locationid;
+  if (!locationid) {
+    responseutil.sendNoLocationId(res);
+    return;
+  }
+
+  Loc.findByIdAndRemove(locationid)
+    .exec(function(err, location) {
+      if (err) {
+        responseutil.sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
+        return;
+      }
+
+      responseutil.sendJsonResponse(res, httpStatusCodes.NO_CONTENT, null);
+    });
 };
 
