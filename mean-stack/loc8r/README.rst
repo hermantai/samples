@@ -84,7 +84,7 @@ mongo database in Heroku by::
 
     $ mongo <your_db_uri>
 
-Add initial locations collection in it::
+Add initial locations collection in it (host and port and be omitted if you use the defaults)::
 
     $ mongorestore -h <host>:<port> -d <database> -u <user> -p <password> db_setup/Loc8r
 
@@ -97,6 +97,12 @@ In the mongo client, you can query the collections::
 Add fake data to your mongo db with (you may want to change the content first)::
 
     $ mongo Loc8r db_setup/add_db_data.js
+
+(Optional) create a backup of your database
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::
+
+    $ mongodump -h <host>:<port> -d <database> -o <path-to-a-directory>
 
 Push the application to Heroku
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

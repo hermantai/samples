@@ -183,6 +183,33 @@ module.exports.locationsDeleteOne = function (req, res) {
     return;
   }
 
+  Loc.findById(locationid)
+    .exec(function(err, location) {
+      if (err) {
+        responseutil.sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
+        return;
+      }
+
+      if (!location) {
+        responseutil.sendLocationNotFound(res, locationid);
+        return;
+      }
+
+      location.remove(function(err, location) {
+        responseutil.sendJsonResponse(res, httpStatusCodes.NO_CONTENT, null);
+      });
+    });
+};
+
+/* // a simpler way for delete with less flexibility
+
+module.exports.locationsDeleteOne = function (req, res) {
+  var locationid = req.params.locationid;
+  if (!locationid) {
+    responseutil.sendNoLocationId(res);
+    return;
+  }
+
   Loc.findByIdAndRemove(locationid)
     .exec(function(err, location) {
       if (err) {
@@ -193,4 +220,4 @@ module.exports.locationsDeleteOne = function (req, res) {
       responseutil.sendJsonResponse(res, httpStatusCodes.NO_CONTENT, null);
     });
 };
-
+*/

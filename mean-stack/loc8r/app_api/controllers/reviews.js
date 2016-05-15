@@ -10,11 +10,7 @@ var responseutil = require('./responseutil');
 module.exports.reviewsCreate = function (req, res) {
   var locationid = req.params.locationid;
   if (!locationid) {
-    responseutil.sendJsonResponse(
-      res,
-      httpStatusCodes.BAD_REQUEST,
-      {"message": "locationid required"}
-    );
+    responseutil.sendNoLocationId(res);
     return;
   }
 
@@ -221,5 +217,51 @@ module.exports.reviewsUpdateOne = function (req, res) {
 };
 
 module.exports.reviewsDeleteOne = function (req, res) {
-  responseutil.sendJsonResponse(res, 200, {"status": "success"});
+  var locationid = req.params.locationid;
+  var reviewid = req.params.reviewid;
+  var review;
+  if (!locationid) {
+    responseutil.sendNoLocationId(res);
+    return;
+  }
+  if (!reviewid) {
+    responseutil.sendNoReviewId(res);
+    return;
+  }
+  Loc.findById(locationid)
+    .select('reviews')
+    .exec(
+        function(err, location) {
+          if (!location) {
+            responseutil.sendLocationNotFound(locationid);
+            return;
+          }
+          if (err) {
+            responseutil.sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
+            return;
+          }
+          if (!location.reviews || location.reviews.length === 0) {
+            responseutil.sendJsonResponse(res, httpStatusCodes.NOT_FOUND, {
+              'message': "No review to delete"
+            });
+          }
+          review = location.reviews.id(reviewid)
+          if (!review) {
+            responseutil.sendReviewNotFound(res, locationid, reviewid);
+            return;
+          }
+          review.remove();
+          location.save(function (err) {
+            if (err) {
+              responseutil.sendJsonResponse(res, httpStatusCodes.BAD_REQUEST, err);
+              return;
+            }
+            updateAverageRating(location._id);
+            responseutil.sendJsonResponse(
+              res,
+              httpStatusCodes.NO_CONTENT,
+              null);
+            return;
+          });
+        })
 };

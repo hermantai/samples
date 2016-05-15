@@ -9,6 +9,14 @@ var sendNoLocationId = function(res) {
   );
 };
 
+var sendNoReviewId = function(res) {
+  sendJsonResponse(
+    res,
+    httpStatusCodes.BAD_REQUEST,
+    {'message': "reviewid is required"}
+  );
+};
+
 var sendLocationNotFound = function(res, locationid) {
   sendJsonResponse(
     res,
