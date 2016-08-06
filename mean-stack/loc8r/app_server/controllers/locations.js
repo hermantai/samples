@@ -1,5 +1,13 @@
-/* GET 'home' page */
-module.exports.homelist = function(req, res) {
+var request = require('request');
+var apiOptions = {
+  server: "http://localhost:3000"
+};
+
+if (process.env.NODE_ENV === 'production') {
+  apiOptions.server = 'to-be-determined';
+}
+
+var renderHomepage = function(req, res) {
   res.render(
     'locations-list',
     {
@@ -32,6 +40,11 @@ module.exports.homelist = function(req, res) {
       ]
     }
   );
+};
+
+/* GET 'home' page */
+module.exports.homelist = function(req, res) {
+  renderHomepage(req, res);
 };
 
 /* GET 'Location info' page */
