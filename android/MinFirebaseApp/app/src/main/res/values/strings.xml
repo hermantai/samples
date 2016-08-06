@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MinFirebaseApp</string>
+    <string name="intro">
+        Create employee: Create an employee in Firebase\n
+        Show employee: Show the employee fetehed from Firebase]n
+        Create: Create a Trip in Firebase\n
+        findTripsByCreator: find all the trip with creator X\n
+        findTripsParticipatedBy: find all the trip participated by creator X\n
+        Say hello: Display a toast\n
+        Login: Login to Firebase annonymously\n
+    </string>
+</resources>
