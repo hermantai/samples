@@ -16,11 +16,35 @@ public class Employee extends Model {
     }
 
     /**
-     * The following tries to make Firebase-database to recognize the id field but it does not work
+     * This is for making Firebase-database to recognize the parent class's field.
      */
     @Override
     public void setId(String id) {
         super.setId(id);
+    }
+
+    /**
+     * This is for making Firebase-database to recognize the parent class's field.
+     */
+    @Override
+    public String getId() {
+        return super.getId();
+    }
+
+    /**
+     * This is for making Firebase-database to recognize the parent class's field.
+     */
+    @Override
+    public void setUpdatedAt(long updatedAt) {
+        super.setUpdatedAt(updatedAt);
+    }
+
+    /**
+     * This is for making Firebase-database to recognize the parent class's field.
+     */
+    @Override
+    public long getUpdatedAt() {
+        return super.getUpdatedAt();
     }
 
     @Override
