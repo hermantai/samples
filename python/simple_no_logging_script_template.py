@@ -4,7 +4,7 @@ of the command line arguments through the function parse_args, the whole
 application control goes to the class App.
 
 
-    Copyright 2016 Heung Ming Tai
+    Copyright 2017 Heung Ming Tai
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ class App(object):
 
 
 def parse_args(cmd_args):
-    description = __doc__.split("Copyright 2016")[0].strip()
+    description = __doc__.split("Copyright 2017")[0].strip()
 
     parser = argparse.ArgumentParser(
         description=description,

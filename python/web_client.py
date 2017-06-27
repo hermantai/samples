@@ -5,7 +5,7 @@ python has much more fun!
 Synopsis:
     web_client.py [--method METHOD] url
 
-   Copyright 2016 Heung Ming Tai
+   Copyright 2017 Heung Ming Tai
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
