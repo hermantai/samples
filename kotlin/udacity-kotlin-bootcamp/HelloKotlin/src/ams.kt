@@ -35,8 +35,15 @@ fun shouldChangeWater(
     day: String,
     temperature: Int = 22,
     dirty: Int = 20) : Boolean {
-  return true
+  return when {
+    isTooHot(temperature) -> true
+    dirty > 30 -> true
+    day == "Sunday" -> true
+    else -> false
+  }
 }
+
+fun isTooHot(temperature: Int)= temperature > 30
 
 fun swim(time: Int, speed: String = "fast") {
   println("Swimming $speed")
