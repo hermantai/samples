@@ -66,3 +66,22 @@ fun fishFood (day : String) : String {
     else -> "fasting"
   }
 }
+
+var dirty = 20
+
+val waterFilter: (Int) -> Int = { dirty -> dirty / 2}
+fun feedFish(dirty: Int) = dirty + 10
+
+// Kotlin prefers function parameter to be the last one
+fun updateDirty(dirty: Int, operation: (Int) -> Int) : Int {
+  return operation(dirty)
+}
+
+fun dirtyProcessor() {
+  dirty = updateDirty(dirty, waterFilter)
+  dirty = updateDirty(dirty, ::feedFish)
+  // combine higher order function and lambdas: last paramater called syntax
+  dirty = updateDirty(dirty) {
+    dirty -> dirty + 50
+  }
+}
