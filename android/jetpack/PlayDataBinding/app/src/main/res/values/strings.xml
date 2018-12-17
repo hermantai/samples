@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Play Data Binding</string>
+    <plurals name="matches">
+        <item quantity="one">%d Match</item>
+        <item quantity="other">%d Matches</item>
+    </plurals>
+</resources>

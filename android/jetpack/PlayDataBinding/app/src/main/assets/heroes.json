@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "name": "Chen",
+    "matches": 66,
+    "abilities": "Penitence, Test of Faith, Holy Persuasion, Hand of God"
+  },
+  {
+    "id": "2",
+    "name": "Windranger",
+    "matches": 62,
+    "abilities": "Shackleshot, Powershot, Windrun, Focus Fire"
+  },
+  {
+    "id": "3",
+    "name": "Rubick",
+    "matches": 55,
+    "abilities": "Telekinesis, Fade Bolt, Null Field, Spell Steal"
+  },
+  {
+    "id": "4",
+    "name": "Visage",
+    "matches": 27,
+    "abilities": "Grave Chill, Soul Assumption, Gravekeeper's Cloak, Stone Form, Summon Familiars"
+  },
+  {
+    "id": "5",
+    "name": "Sand King",
+    "matches": 26,
+    "abilities": "Burrowstrike, Sand Storm, Caustic Finale, Epicenter"
+  },
+  {
+    "id": "6",
+    "name": "Earthshaker",
+    "matches": 23,
+    "abilities": "Fissure, Enchant Totem, Aftershock, Echo Slam"
+  },
+  {
+    "id": "7",
+    "name": "Earth Spirit",
+    "matches": 17,
+    "abilities": "Boulder Smash, Rolling Boulder, Geomagnetic Grip, Stone Remnant, Enchant Remnant, Magnetize"
+  },
+  {
+    "id": "8",
+    "name": "Lina",
+    "matches": 15,
+    "abilities": "Dragon Slave, Light Strike Array, Fiery Soul, Laguna Blade"
+  },
+  {
+    "id": "9",
+    "name": "Nyx Assassin",
+    "matches": 14,
+    "abilities": "Impale, Mana Burn, Spiked Carapace, Burrow, Vendetta, Unburrow"
+  },
+  {
+    "id": "10",
+    "name": "Shadow Demon",
+    "matches": 14,
+    "abilities": "Disruption, Soul Catcher, Shadow Poison, Shadow Poison Release, Demonic Purge"
+  }
+]
