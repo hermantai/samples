@@ -9,6 +9,9 @@ verify_ssl = true
 requests = "*"
 ipython = "*"
 pandas = "*"
+matplotlib = "*"
+python-tk = "*"
+numpy = "*"
 
 [requires]
 python_version = "2.7"
