@@ -12,6 +12,7 @@ pandas = "*"
 matplotlib = "*"
 python-tk = "*"
 numpy = "*"
+jupyter = "*"
 
 [requires]
 python_version = "2.7"
