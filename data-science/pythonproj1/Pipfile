@@ -10,9 +10,9 @@ requests = "*"
 ipython = "*"
 pandas = "*"
 matplotlib = "*"
-python-tk = "*"
 numpy = "*"
 jupyter = "*"
+singledispatch = "*"
 
 [requires]
 python_version = "2.7"
