@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/cardBackground"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:layout_margin="5dp">
+
+  <TextView
+    android:id="@+id/tvKeyAlias"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:textSize="30dp"/>
+
+  <Button
+    android:id="@+id/btnDeleteKey"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvKeyAlias"
+    android:layout_alignParentStart="true"
+    android:layout_centerHorizontal="true"
+    android:text="Delete"
+    style="@style/Base.Widget.AppCompat.Button.Borderless" />
+
+  <Button
+    android:id="@+id/btnEncryptData"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/tvKeyAlias"
+    android:layout_toStartOf="@+id/btnDecryptData"
+    android:text="Encrypt"
+    style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+
+  <Button
+    android:id="@+id/btnDecryptData"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/tvKeyAlias"
+    android:layout_alignParentEnd="true"
+    android:text="Decrypt"
+    style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+
+</RelativeLayout>
