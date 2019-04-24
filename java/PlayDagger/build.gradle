@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+    id "net.ltgt.apt" version "0.10"
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+group 'playground'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    compile 'com.google.dagger:dagger:2.22.1'
+    apt 'com.google.dagger:dagger-compiler:2.22.1'
+
+    compile group: 'javax.inject', name: 'javax.inject', version: '1'
+}
