@@ -19,10 +19,10 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView rvMainLlist = findViewById(R.id.rvMainList);
     rvMainLlist.setLayoutManager(new LinearLayoutManager(this));
-    rvMainLlist.setAdapter(new MainListIitemAdapter());
+    rvMainLlist.setAdapter(new MainListItemAdapter());
   }
 
-  class MainListIitemAdapter extends RecyclerView.Adapter<MainListItemViewHolder> {
+  class MainListItemAdapter extends RecyclerView.Adapter<MainListItemViewHolder> {
 
     @NonNull
     @Override
