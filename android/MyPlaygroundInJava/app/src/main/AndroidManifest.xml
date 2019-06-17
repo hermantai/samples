@@ -21,6 +21,8 @@
     </activity>
     <activity android:name=".viewpositioning.LinearLayoutViewPositioningActivity">
     </activity>
+    <activity android:name=".observescrolling.ObserveScrollingActivity">
+    </activity>
   </application>
 
 </manifest>
