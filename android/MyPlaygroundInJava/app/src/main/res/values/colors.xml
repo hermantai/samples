@@ -3,4 +3,7 @@
   <color name="colorPrimary">#008577</color>
   <color name="colorPrimaryDark">#00574B</color>
   <color name="colorAccent">#D81B60</color>
+  <color name="g_grey200">#ffe8eaed</color>
+  <color name="g_secondarytext">#99E8EAED</color>
+  <color name="g_buttontextselected">#FF202124</color>
 </resources>

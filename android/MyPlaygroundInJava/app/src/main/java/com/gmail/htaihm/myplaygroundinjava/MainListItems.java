@@ -1,8 +1,8 @@
 package com.gmail.htaihm.myplaygroundinjava;
 
-import android.content.Intent;
 import com.gmail.htaihm.myplaygroundinjava.colorchanger.ColorChangerActivity;
 import com.gmail.htaihm.myplaygroundinjava.observescrolling.ObserveScrollingActivity;
+import com.gmail.htaihm.myplaygroundinjava.lighboxchooser.LightboxChooserActivity;
 import com.gmail.htaihm.myplaygroundinjava.viewpositioning.LinearLayoutViewPositioningActivity;
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +17,9 @@ public class MainListItems {
               .createIntent(context)),
       new MainListItem("Observe scrolling",
           (context) -> ObserveScrollingActivity
+              .createIntent(context)),
+      new MainListItem("Lightbox Chooser",
+          (context) -> LightboxChooserActivity
               .createIntent(context))
   );
 }
