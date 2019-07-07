@@ -6,5 +6,62 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   tools:context=".fillscrollview.FillScrollViewActivity">
+<ScrollView
+  android:id="@+id/scrollView"
+  android:fillViewport="true"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+  <LinearLayout
+    android:id="@+id/llTextContainer"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:paddingLeft="6dip"
+      android:paddingRight="6dip"
+      android:paddingTop="6dip"
+      android:textAppearance="?android:attr/textAppearanceMedium"
+      android:text="Click &quot;Fill Text&quot; to fill up the view with text"/>
 
+    <View
+      android:layout_width="fill_parent"
+      android:layout_height="1dip"
+      android:background="#ff106510"
+      android:layout_marginLeft="6dip"
+      android:layout_marginRight="6dip"
+      android:layout_marginTop="6dip"
+      android:layout_marginBottom="12dip" />
+
+    <!-- this is a special filler with the special layout_weight -->
+    <TextView
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_weight="1.0"
+      android:paddingLeft="16dp"
+      android:paddingRight="16dp"
+      android:text="Hello world!" />
+
+    <LinearLayout
+      android:id="@+id/llButtonContainer"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:background="@android:drawable/bottom_bar"
+      android:gravity="center_vertical">
+      <Button
+        android:id="@+id/btnFillText"
+        android:layout_width="0dip"
+        android:layout_weight="1.0"
+        android:layout_height="wrap_content"
+        android:text="Fill text" />
+      <Button
+        android:id="@+id/btnRestart"
+        android:layout_width="0dip"
+        android:layout_weight="1.0"
+        android:layout_height="wrap_content"
+        android:text="Restart" />
+    </LinearLayout>
+  </LinearLayout>
+</ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
