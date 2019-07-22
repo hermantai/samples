@@ -28,6 +28,18 @@
       app:lottie_loop="true"
       app:lottie_rawRes="@raw/anim2"
       />
+    <com.caverock.androidsvg.SVGImageView
+      app:svg="@raw/background"
+      android:layout_width="140dp"
+      android:layout_height="140dp"
+      />
+    <com.caverock.androidsvg.SVGImageView
+      app:svg="@raw/background"
+      android:layout_width="140dp"
+      android:layout_height="140dp"
+      android:layout_marginLeft="140dp"
+      />
+    <!--
     <ImageView
       android:layout_width="140dp"
       android:layout_height="140dp"
@@ -38,7 +50,7 @@
       android:layout_height="140dp"
       android:src="@drawable/background"
       android:layout_marginLeft="140dp"
-      />
+      />-->
     <com.caverock.androidsvg.SVGImageView
       android:id="@+id/logo1"
       app:svg="@raw/logo_googleg_96dp"

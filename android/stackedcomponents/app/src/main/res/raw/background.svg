@@ -1,0 +1,11 @@
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 140 140"
+    id="vector">
+    <path
+        id="path"
+        d="M 22 70 C 22 22 70 22 70 22 C 118 22 118 70 118 70 C 118 118 70 118 70 118 C 22 118 22 70 22 70 Z"
+        fill="#777777"
+        stroke="#000000"
+        stroke-width="1"/>
+</svg>
