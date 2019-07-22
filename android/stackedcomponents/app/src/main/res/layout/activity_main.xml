@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/container"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical"
+  tools:context=".MainActivity"
+  >
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Start of the linear layout!"/>
+
+  <FrameLayout
+    android:id="@+id/animation_container"
+    android:layout_width="280dp"
+    android:layout_height="140dp"
+    >
+    <com.airbnb.lottie.LottieAnimationView
+      android:id="@+id/animation_view_static"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:lottie_autoPlay="true"
+      app:lottie_loop="true"
+      app:lottie_rawRes="@raw/anim2"
+      />
+    <ImageView
+      android:layout_width="140dp"
+      android:layout_height="140dp"
+      android:src="@drawable/background"
+      />
+    <ImageView
+      android:layout_width="140dp"
+      android:layout_height="140dp"
+      android:src="@drawable/background"
+      android:layout_marginLeft="140dp"
+      />
+    <com.caverock.androidsvg.SVGImageView
+      android:id="@+id/logo1"
+      app:svg="@raw/logo_googleg_96dp"
+      android:layout_width="52dp"
+      android:layout_height="52dp"
+      android:layout_marginTop="44dp"
+      android:layout_marginLeft="44dp"
+       />
+
+    <com.caverock.androidsvg.SVGImageView
+      android:id="@+id/logo2"
+      app:svg="@raw/logo_googleg_96dp"
+      android:layout_width="52dp"
+      android:layout_height="52dp"
+      android:layout_marginTop="44dp"
+      android:layout_marginLeft="184dp"
+
+      />
+  </FrameLayout>
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Snd of the linear layout!"/>
+</LinearLayout>
