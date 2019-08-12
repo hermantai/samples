@@ -8,4 +8,9 @@
     <item name="colorAccent">@color/colorAccent</item>
   </style>
 
+  <style name="ProgressBarWithIndicatorText">
+    <item name="android:textSize">@dimen/progress_bar_with_indicator_text_size</item>
+    <item name="android:textColor">@color/progress_bar_primary</item>
+  </style>
+
 </resources>

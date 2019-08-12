@@ -4,6 +4,7 @@ import com.gmail.htaihm.myplaygroundinjava.colorchanger.ColorChangerActivity;
 import com.gmail.htaihm.myplaygroundinjava.fillscrollview.FillScrollViewActivity;
 import com.gmail.htaihm.myplaygroundinjava.observescrolling.ObserveScrollingActivity;
 import com.gmail.htaihm.myplaygroundinjava.lighboxchooser.LightboxChooserActivity;
+import com.gmail.htaihm.myplaygroundinjava.progressbarwithindicator.ProgressBarWithIndicator;
 import com.gmail.htaihm.myplaygroundinjava.viewpositioning.LinearLayoutViewPositioningActivity;
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +23,9 @@ public class MainListItems {
               .createIntent(context)),
       new MainListItem("Observe scrolling",
           (context) -> ObserveScrollingActivity
+              .createIntent(context)),
+      new MainListItem("Progress Bar with Indicator",
+          (context) -> ProgressBarWithIndicator
               .createIntent(context))
   );
 }

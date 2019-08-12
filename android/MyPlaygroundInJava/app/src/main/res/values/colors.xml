@@ -3,7 +3,26 @@
   <color name="colorPrimary">#008577</color>
   <color name="colorPrimaryDark">#00574B</color>
   <color name="colorAccent">#D81B60</color>
-  <color name="g_grey200">#ffe8eaed</color>
   <color name="g_secondarytext">#99E8EAED</color>
   <color name="g_buttontextselected">#FF202124</color>
+
+  <color name="progress_bar_primary">#01875f</color>
+  <color name="progress_bar_secondary">#056449</color>
+  <color name="progress_bar_stroke">@color/white</color>
+  <color name="progress_bar_background">@color/g_grey200</color>
+
+  <!-- literal colors -->
+  <color name="white">#ffffff</color>
+  <color name="black">#000000</color>
+
+  <color name="g_grey50">#f8f9fa</color>
+  <color name="g_grey100">#f1f3f4</color>
+  <color name="g_grey200">#e8eaed</color>
+  <color name="g_grey300">#dadce0</color>
+  <color name="g_grey400">#bdc1c6</color>
+  <color name="g_grey500">#9aa0a6</color>
+  <color name="g_grey600">#80868b</color>
+  <color name="g_grey700">#5f6368</color>
+  <color name="g_grey800">#3c4043</color>
+  <color name="g_grey900">#202124</color>
 </resources>
