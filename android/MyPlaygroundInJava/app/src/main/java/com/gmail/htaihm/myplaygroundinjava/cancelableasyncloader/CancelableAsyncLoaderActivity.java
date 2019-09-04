@@ -44,6 +44,12 @@ public class CancelableAsyncLoaderActivity extends AppCompatActivity implements
     }
   }
 
+  @Override
+  protected void onStart() {
+    super.onStart();
+    Log.i(TAG, "onStart");
+  }
+
   // Implements MyAsyncLoaderCallbacks.LoaderListener
 
   @Override
