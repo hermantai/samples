@@ -32,6 +32,8 @@ func main() {
 	var h MyHandler
 
 	http.Handle("/", h)
+
+	fmt.Println("Server is starting at localhost:4000")
 	err := http.ListenAndServe("localhost:4000", nil)
 
 	if err != nil {
