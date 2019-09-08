@@ -24,7 +24,8 @@ If you find a problem with this sample's code, please open an [issue][].
 [issue]: //github.com/dart-lang/site-webdev/issues/new?title=[master]%20examples/ng/doc/quickstart
 
 ## How this project was built
-This project basically follows https://angulardart.dev/tutorial/toh-pt0
+This project basically follows https://angulardart.dev/tutorial/toh-pt0. The
+end goal is https://angulardart.dev/examples/toh-6.
 
 1) Follow https://angulardart.dev/guide/setup#create-a-starter-project
 
