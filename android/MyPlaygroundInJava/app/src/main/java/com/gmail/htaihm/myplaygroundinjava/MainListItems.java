@@ -2,6 +2,7 @@ package com.gmail.htaihm.myplaygroundinjava;
 
 import com.gmail.htaihm.myplaygroundinjava.cancelableasyncloader.CancelableAsyncLoaderActivity;
 import com.gmail.htaihm.myplaygroundinjava.colorchanger.ColorChangerActivity;
+import com.gmail.htaihm.myplaygroundinjava.drawoverlay.DrawOverlayActivity;
 import com.gmail.htaihm.myplaygroundinjava.fillscrollview.FillScrollViewActivity;
 import com.gmail.htaihm.myplaygroundinjava.observescrolling.ObserveScrollingActivity;
 import com.gmail.htaihm.myplaygroundinjava.lighboxchooser.LightboxChooserActivity;
@@ -17,6 +18,7 @@ public class MainListItems {
       new MainListItem("Cancelable Async Loader",
           (context) -> CancelableAsyncLoaderActivity.createIntent(context)),
       new MainListItem("Color Changer", (context) -> ColorChangerActivity.createIntent(context)),
+      new MainListItem("Draw Overlay", (context) -> DrawOverlayActivity.createIntent(context)),
       new MainListItem("Fill ScrollView",
           (context) -> FillScrollViewActivity.createIntent(context)),
       new MainListItem("Lightbox Chooser",
