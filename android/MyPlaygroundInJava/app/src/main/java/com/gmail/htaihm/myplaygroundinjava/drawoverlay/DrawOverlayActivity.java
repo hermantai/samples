@@ -30,7 +30,6 @@ public class DrawOverlayActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_draw_overlay);
     ActivityDrawOverlayBinding binding = DataBindingUtil
         .setContentView(this, R.layout.activity_draw_overlay);
     binding.setHandlers(new MyHandlers(this));

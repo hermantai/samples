@@ -4,13 +4,13 @@
   xmlns:tools="http://schemas.android.com/tools">
 
   <data>
-    <variable name="handlers" type="com.gmail.htaihm.myplaygroundinjava.drawoverlay.DrawOverlayActivity.MyHandlers"/>
+    <variable name="handlers" type="com.gmail.htaihm.myplaygroundthirdpartyapp.drawoverlayclient.DrawOverlayClientActivity.MyHandlers"/>
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".drawoverlay.DrawOverlayActivity">
+    tools:context=".drawoverlayclient.DrawOverlayClientActivity">
 
     <TextView
       android:id="@+id/tvStatusDisplay"
@@ -28,8 +28,8 @@
       android:id="@+id/btnDrawOverlay"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="Draw overlay"
-      android:onClick="@{() -> handlers.onDrawOverlay()}"
+      android:text="Draw overlay by server"
+      android:onClick="@{() -> handlers.onDrawOverlayByServer()}"
       app:layout_constraintTop_toBottomOf="@id/tvStatusDisplay"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
