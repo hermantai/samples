@@ -7,6 +7,7 @@ import android.os.RemoteException;
 import android.util.Log;
 import com.gmail.htaihm.myplayground.IMyPlaygroundDrawOverlayService;
 import com.gmail.htaihm.myplayground.IMyPlaygroundDrawOverlayService.Stub;
+import com.gmail.htaihm.myplaygroundinjava.drawoverlay.DrawOverlayActivity.MyHandlers;
 
 public class MyPlaygroundDrawOverlayService extends Service {
 
@@ -24,6 +25,8 @@ public class MyPlaygroundDrawOverlayService extends Service {
     @Override
     public void drawOverlay(IBinder windowsToken) throws RemoteException {
       Log.i(TAG, String.format("drawOverlay(%s)", windowsToken));
+
+      new MyHandlers(MyPlaygroundDrawOverlayService.this).onDrawOverlay(windowsToken);
     }
   };
 }

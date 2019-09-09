@@ -59,6 +59,11 @@ public class DrawOverlayClientActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBindingDied(ComponentName name) {
+      Log.d(TAG, "onBindingDied");
+    }
+
+    @Override
     public void onServiceDisconnected(ComponentName componentName) {
       Log.d(TAG, "Service Disconnected");
       myPlaygroundDrawOverlayService = null;

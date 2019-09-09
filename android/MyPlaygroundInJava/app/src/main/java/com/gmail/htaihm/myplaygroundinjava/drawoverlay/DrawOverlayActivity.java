@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.databinding.DataBindingUtil;
@@ -35,15 +39,23 @@ public class DrawOverlayActivity extends AppCompatActivity {
     binding.setHandlers(new MyHandlers(this));
   }
 
-  public class MyHandlers {
+  public static class MyHandlers {
 
     private final Context context;
-
+    private final Handler handler = new Handler(Looper.getMainLooper());
     public MyHandlers(Context context) {
       this.context = context;
     }
 
     public void onDrawOverlay() {
+      onDrawOverlay(null);
+    }
+
+    public void onDrawOverlay(@Nullable IBinder windowToken) {
+      handler.post(() -> onDrawOverlayHelper(windowToken));
+    }
+
+    public void onDrawOverlayHelper(@Nullable IBinder windowToken) {
       Log.i(TAG, "onDrawOverlay");
 
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -54,7 +66,7 @@ public class DrawOverlayActivity extends AppCompatActivity {
           context.startActivity(intent);
         }
 
-        WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) context.getSystemService(WINDOW_SERVICE);
 
         RelativeLayout parentLayout = new RelativeLayout(context);
 
@@ -71,12 +83,25 @@ public class DrawOverlayActivity extends AppCompatActivity {
             WindowManager.LayoutParams.WRAP_CONTENT);
         relativeLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 
-        WindowManager.LayoutParams windowManagerLayoutParams = new WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-            PixelFormat.TRANSLUCENT);
+        WindowManager.LayoutParams windowManagerLayoutParams;
+
+        if (windowToken == null) {
+          windowManagerLayoutParams = new WindowManager.LayoutParams(
+              WindowManager.LayoutParams.WRAP_CONTENT,
+              WindowManager.LayoutParams.WRAP_CONTENT,
+              WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+              WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+              PixelFormat.TRANSLUCENT);
+        } else {
+          Log.i(TAG, "onDrawOverlayHelper, windows layout params with token: " + windowToken);
+          windowManagerLayoutParams = new WindowManager.LayoutParams(
+              WindowManager.LayoutParams.WRAP_CONTENT,
+              WindowManager.LayoutParams.WRAP_CONTENT,
+              WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+              WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+              PixelFormat.TRANSLUCENT);
+          windowManagerLayoutParams.token = windowToken;
+        }
 
         windowManagerLayoutParams.gravity = Gravity.TOP | Gravity.LEFT;
         windowManagerLayoutParams.x = 0;
@@ -101,12 +126,11 @@ public class DrawOverlayActivity extends AppCompatActivity {
                 action_down_time = System.currentTimeMillis();
                 return true;
               case MotionEvent.ACTION_UP:
-                if ((Math.abs(initialTouchX - event.getRawX()) < 5) && (
-                    Math.abs(initialTouchY - event.getRawY()) < 5)) {
+                if (clicked(event) && System.currentTimeMillis() - action_down_time < 1000) {
                   Log.e(TAG, "It's a single click ! ");
                 }
-                //long click triggered if held for at least 2 sec (2000ms)
-                if (System.currentTimeMillis() - action_down_time > 2 * 1000) {
+                //long click triggered if held for at least 1 sec (1000ms)
+                if (clicked(event) && System.currentTimeMillis() - action_down_time > 1000) {
                   Log.e(TAG, "It's a long click ! ");
                   wm.removeView(parentLayout);
                 }
@@ -120,6 +144,11 @@ public class DrawOverlayActivity extends AppCompatActivity {
                 return true;
             }
             return false;
+          }
+
+          private boolean clicked(MotionEvent event) {
+            return (Math.abs(initialTouchX - event.getRawX()) < 5) && (
+                Math.abs(initialTouchY - event.getRawY()) < 5);
           }
         });
 
