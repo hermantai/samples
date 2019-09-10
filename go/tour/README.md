@@ -1,3 +1,12 @@
+## A Tour of Go sample files
+
+It's from https://tour.golang.org.
+
+You can run the tour with:
+
+    go get golang.org/x/tour
+    tour
+
 ## Run files in the tours folder
 
 Assuming github.com/hermantai... is in your go workspace, you can run hello
@@ -25,3 +34,12 @@ If you install it, the binary will be in the global bin directory
     ~/go_workspace/src/github.com/hermantai/samples/go/tours/hello$ go install
     ~/go_workspace/src/github.com/hermantai/samples/go/tours/hello$ ls ~/go_workspace/bin
     hello
+
+## View docs
+
+    godoc -http=:8000
+
+Then you can view the docs for the hello command here: http://localhost:8000/pkg/github.com/hermantai/samples/go/tour/hello/
+
+The docs are read from the source code ("the src directory").
+
