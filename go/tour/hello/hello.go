@@ -4,8 +4,16 @@ package main
 import (
 	"fmt"
 	"math"
+	"math/cmplx"
 	"math/rand"
 	"time"
+)
+
+var c, python, java bool
+
+var (
+	c2, python2, java2 bool
+	num                int
 )
 
 func main() {
@@ -15,8 +23,56 @@ func main() {
 	fmt.Println("My favorite number is", rand.Intn(10))
 	fmt.Println(math.Pi) // Pi is an exported varialbe, pi is not (package private).
 
-	printSectionSeparator()
+	printSection("time formatting")
 	timeFormatting()
+
+	printSection("simple functions")
+	fmt.Println("add(3, 4) =", add(3, 4))
+
+	s1, s2 := swap("apple", "boy")
+	fmt.Println("swap(\"apple\", \"boy\") =", s1, s2)
+
+	fmt.Println("nakedReturn(100) // 100 degree celsius to fahrenheit")
+	fmt.Println(nakedReturn(100))
+
+	printSection("variable declaractions")
+	var i int
+	fmt.Println(i, c, java, python, c2, java2, python2, num)
+
+	c3, python3, java3 := true, false, "no!"
+	fmt.Println(c3, java3, python3)
+
+	var c4, python4, java4 = true, false, "no!"
+	fmt.Println(c4, java4, python4)
+
+	printSection("different types")
+
+	// bool
+	//
+	// string
+	//
+	// int  int8  int16  int32  int64
+	// uint uint8 uint16 uint32 uint64 uintptr
+	//
+	// byte // alias for uint8
+	//
+	// rune // alias for int32
+	//      // represents a Unicode code point
+	//
+	// float32 float64
+	//
+	// complex64 complex128
+	// end of main
+	var (
+		ToBe     bool       = false
+		MaxInt32 uint64     = 1<<64 - 1
+		MaxInt64 uint64     = 1<<32 - 1
+		z        complex128 = cmplx.Sqrt(-5 + 12i)
+	)
+	fmt.Printf("Type: %T Value: %v\n", ToBe, ToBe)
+	fmt.Printf("Type: %T Value: %v\n", MaxInt32, MaxInt32)
+	fmt.Printf("Type: %T Value: %v\n", MaxInt64, MaxInt64)
+	fmt.Printf("Type: %T Value: %v\n", z, z)
 }
 
 // From: https://gobyexample.com/time-formatting-parsing
@@ -55,6 +111,34 @@ func printSectionSeparator() {
 	fmt.Println("\n-----\n")
 }
 
+func printSection(header string) {
+	fmt.Printf("\n-- %s --\n\n", header)
+}
+
 func printSubsectionSeparator() {
 	fmt.Println("\n")
+}
+
+func add(x, y int) int {
+	return x + y
+}
+
+func swap(a, b string) (string, string) {
+	return b, a
+}
+
+// Go's return values may be named. If so, they are treated as variables
+// defined at the top of the function.
+//
+// These names should be used to document the meaning of the return values.
+//
+// A return statement without arguments returns the named return values. This
+// is known as a "naked" return.
+//
+// Naked return statements should be used only in short functions, as with the
+// example shown here. They can harm readability in longer functions.
+func nakedReturn(c int) (cdegree, fdegree int) {
+	cdegree = c
+	fdegree = c*9/5 + 32
+	return
 }
