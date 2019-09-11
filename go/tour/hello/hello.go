@@ -62,7 +62,6 @@ func main() {
 	// float32 float64
 	//
 	// complex64 complex128
-	// end of main
 	var (
 		ToBe     bool       = false
 		MaxInt32 uint64     = 1<<64 - 1
@@ -73,7 +72,37 @@ func main() {
 	fmt.Printf("Type: %T Value: %v\n", MaxInt32, MaxInt32)
 	fmt.Printf("Type: %T Value: %v\n", MaxInt64, MaxInt64)
 	fmt.Printf("Type: %T Value: %v\n", z, z)
+
+	printSection("Type conversions")
+
+	int1 := 42
+	float1 := float64(int1)
+	uint1 := uint(float1)
+	float2 := math.Sqrt(float64(30))
+	uint2 := uint(float2)
+	fmt.Println(int1, float1, uint1, float2, uint2)
+
+	printSection("Type inference")
+	int3 := 42
+	float3 := 3.142
+	complex3 := 0.867 + 0.5i
+	fmt.Printf("Type %T = %v\n", int3, int3)
+	fmt.Printf("Type %T = %v\n", float3, float3)
+	fmt.Printf("Type %T = %v\n", complex3, complex3)
+
+	const Pi = 3.14
+	fmt.Printf("Type %T = %v\n", Pi, Pi)
+
+	printSection("Constant types based on context")
+	constantsDependsOnContext()
+
+	printSection("For loop")
+	for i := 0; i < 10; i++ {
+		fmt.Println(i)
+	}
 }
+
+// end of main
 
 // From: https://gobyexample.com/time-formatting-parsing
 func timeFormatting() {
@@ -141,4 +170,24 @@ func nakedReturn(c int) (cdegree, fdegree int) {
 	cdegree = c
 	fdegree = c*9/5 + 32
 	return
+}
+
+func constantsDependsOnContext() {
+	const (
+		// Create a huge number by shifting a 1 bit left 100 places.
+		// In other words, the binary number that is 1 followed by 100 zeroes.
+		Big = 1 << 100
+		// Shift it right again 99 places, so we end up with 1<<1, or 2.
+		Small = Big >> 99
+	)
+	fmt.Println(needInt(Small))
+	fmt.Println(needFloat(Small))
+	fmt.Println(needFloat(Big))
+	fmt.Printf("Type %T = %v\n", Small, Small)
+	// Error if uncomment the following:
+	// fmt.Printf("Type %T = %v\n", Big, Big)
+}
+func needInt(x int) int { return x*10 + 1 }
+func needFloat(x float64) float64 {
+	return x * 0.1
 }
