@@ -9,36 +9,73 @@
   android:id="@+id/root_view">
 
   <TextView
-    android:id="@+id/display_text"
+    android:id="@+id/tvDescription"
+    android:text="@string/color_changer_description"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    />
+  <TextView
+    android:id="@+id/tvDisplayFruit"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="Msg"
     android:textSize="24sp"
     android:textStyle="bold"
-    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/tvDescription"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
     />
   <Button
-    android:id="@+id/change_color_button"
+    android:id="@+id/btnChangeColor"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="Change color"
-    app:layout_constraintTop_toBottomOf="@id/display_text"
+    app:layout_constraintTop_toBottomOf="@id/tvDisplayFruit"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toRightOf="parent"
 
     />
   <Button
-    android:id="@+id/refresh_fruits_button"
+    android:id="@+id/btnRefreshFruits"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="Refresh fruits"
     android:layout_marginTop="16dp"
-    app:layout_constraintTop_toBottomOf="@id/change_color_button"
+    app:layout_constraintTop_toBottomOf="@id/btnChangeColor"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toRightOf="parent"
+    />
+  <TextView
+    android:id="@+id/tvSavedText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text=""
+    android:textSize="24sp"
+    android:textStyle="bold"
+    app:layout_constraintTop_toBottomOf="@id/btnRefreshFruits"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    />
+  <EditText
+    android:id="@+id/etTextToSave"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toBottomOf="@id/tvSavedText"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    />
+  <Button
+    android:id="@+id/btnSaveText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Save text"
+    app:layout_constraintTop_toBottomOf="@id/etTextToSave"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+
     />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,7 +43,7 @@ public class FruitViewModel extends ViewModel {
 
       fruitList.setValue(fruitsStringList);
       Log.i("FruitViewModel", "Fruits delivered");
-    }, 5000);
+    }, 2000);
 
   }
 

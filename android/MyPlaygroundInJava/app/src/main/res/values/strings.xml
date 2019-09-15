@@ -1,3 +1,7 @@
 <resources>
   <string name="app_name">MyPlaygroundInJava</string>
+  <string name="color_changer_description">A new fruit is displayed whenever the live data is
+    changed. Color, fruit and text are saved in ViewModels.
+    The default color is white. Text saved can survive System Initiated Process Death
+    because it uses SavedState.</string>
 </resources>

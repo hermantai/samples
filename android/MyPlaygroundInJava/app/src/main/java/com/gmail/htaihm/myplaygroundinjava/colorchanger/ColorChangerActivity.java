@@ -7,13 +7,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.SavedStateViewModelFactory;
 import androidx.lifecycle.ViewModelProviders;
 import com.gmail.htaihm.myplaygroundinjava.R;
 import java.util.Random;
 
+/**
+ * Play around viewmodel and livedata.
+ */
 public class ColorChangerActivity extends AppCompatActivity {
 
   private static final String TAG = ColorChangerActivity.class.getSimpleName();
@@ -34,15 +39,15 @@ public class ColorChangerActivity extends AppCompatActivity {
     setTitle("Color Changer");
 
     View rootView = findViewById(R.id.root_view);
-    Button changeColorbutton = findViewById(R.id.change_color_button);
-    TextView displayText = findViewById(R.id.display_text);
-    Button refreshFruitButton = findViewById(R.id.refresh_fruits_button);
+    Button btnChangeColor = findViewById(R.id.btnChangeColor);
+    TextView tvDisplayFruit = findViewById(R.id.tvDisplayFruit);
+    Button btnRefreshFruits = findViewById(R.id.btnRefreshFruits);
 
     ColorChangerViewModel colorChangerViewModel = ViewModelProviders.of(this)
         .get(ColorChangerViewModel.class);
     rootView.setBackgroundColor(colorChangerViewModel.getColorResource());
 
-    changeColorbutton.setOnClickListener((v -> {
+    btnChangeColor.setOnClickListener((v -> {
       int color = generateRandomColor();
       rootView.setBackgroundColor(color);
       colorChangerViewModel.setColorResource(color);
@@ -51,11 +56,26 @@ public class ColorChangerActivity extends AppCompatActivity {
     FruitViewModel fruitViewModel = ViewModelProviders.of(this).get(FruitViewModel.class);
     fruitViewModel.getFruitList().observe(this, fruitList -> {
       Log.i(TAG, String.format("Got list of fruits: %s", fruitList));
-      displayText.setText(fruitList.get(fruitIndex));
+      tvDisplayFruit.setText(fruitList.get(fruitIndex));
       fruitIndex = (fruitIndex + 1) % fruitList.size();
     });
 
-    refreshFruitButton.setOnClickListener(v -> fruitViewModel.loadFruits());
+    btnRefreshFruits.setOnClickListener(v -> fruitViewModel.loadFruits());
+
+    TextView tvSavedText = findViewById(R.id.tvSavedText);
+
+    SavedTextViewModel savedTextViewModel = ViewModelProviders
+        .of(this, new SavedStateViewModelFactory(getApplication(), this))
+        .get(SavedTextViewModel.class);
+    savedTextViewModel.getText().observe(this, savedText -> {
+      tvSavedText.setText(savedText);
+    });
+
+    EditText etTextToSave = findViewById(R.id.etTextToSave);
+    Button btnSaveText = findViewById(R.id.btnSaveText);
+    btnSaveText.setOnClickListener(v -> {
+      savedTextViewModel.setText(etTextToSave.getText().toString());
+    });
   }
 
   @ColorInt
