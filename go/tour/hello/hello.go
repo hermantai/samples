@@ -18,6 +18,10 @@ var (
 )
 
 func main() {
+	// defer's are executed in LIFO
+	defer fmt.Println("The End!")
+	defer printSectionSeparator()
+
 	rand.Seed(time.Now().UTC().UnixNano())
 
 	fmt.Println("Hello world")
@@ -114,6 +118,8 @@ func main() {
 
 	fmt.Println(pow(3, 2, 10), pow(3, 3, 20))
 
+	greetingWithTime()
+
 	printSection("exercise with loops")
 	fmt.Println(mySqrt(2))
 
@@ -127,6 +133,14 @@ func main() {
 	default:
 		fmt.Printf("%s.\n", os)
 	}
+
+	greetingWithTimeUsingSwitch()
+
+	printSection("Pointers")
+	pointersSample()
+
+	printSection("Structs")
+	structsSample()
 }
 
 // end of main
@@ -173,6 +187,10 @@ func printSection(header string) {
 
 func printSubsectionSeparator() {
 	fmt.Println("\n")
+}
+
+func printSubsection(subheader string) {
+	fmt.Printf("\n%s\n\n", subheader)
 }
 
 func add(x, y int) int {
@@ -244,4 +262,63 @@ func mySqrt(x float64) float64 {
 		z -= (z*z - x) / (2 * z)
 	}
 	return z
+}
+
+func greetingWithTime() {
+	if t := time.Now(); t.Hour() < 12 {
+		fmt.Println("Good morning!")
+	} else if t.Hour() < 17 {
+		fmt.Println("Good afternoon!")
+	} else {
+		fmt.Println("Good evening!")
+	}
+}
+
+func greetingWithTimeUsingSwitch() {
+	t := time.Now()
+	switch {
+	case t.Hour() < 12:
+		fmt.Println("Good morning!")
+	case t.Hour() < 17:
+		fmt.Println("Good afternoon!")
+	default:
+		fmt.Println("Good evening!")
+	}
+}
+
+func pointersSample() {
+	var p *int
+	i := 42
+
+	p = &i
+	fmt.Println(p)
+	fmt.Println(*p)
+
+	*p = 21
+	fmt.Println("After assigning *p:", *p)
+
+	fmt.Println("Unlike C, Go has no pointer arithmetic.")
+}
+
+func structsSample() {
+	v := Vertex{1, 2}
+	fmt.Println(v)
+	fmt.Printf("Type %T: %v\n", v, v)
+	fmt.Printf("X = %d \n", v.X)
+
+	p := &v
+	// p.X is a shortcut for (*p).X
+	fmt.Printf("p.X = %d\n", p.X)
+	p.X = 101
+	fmt.Printf("After changing p.X, v = %v\n", v)
+
+	printSubsection("struct literals")
+	v1 := Vertex{X: 102}
+	v2 := Vertex{}
+	p2 := &Vertex{5, 7}
+	fmt.Println(v1, v2, p2)
+}
+
+type Vertex struct {
+	X, Y int
 }
