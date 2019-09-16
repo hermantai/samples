@@ -1,3 +1,4 @@
+// Samples for data structures, like lists, tuples, heaps, etc.
 package main
 
 import (
