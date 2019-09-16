@@ -141,6 +141,12 @@ func main() {
 
 	printSection("Structs")
 	structsSample()
+
+	printSection("Arrays")
+	arraysSample()
+
+	printSection("Slices")
+	slicesSample()
 }
 
 // end of main
@@ -321,4 +327,101 @@ func structsSample() {
 
 type Vertex struct {
 	X, Y int
+}
+
+func arraysSample() {
+	var a [2]string
+	a[0] = "1st-element"
+	a[1] = "2nd-element"
+	fmt.Println(a[0], a[1])
+	fmt.Println("Whole array", a)
+
+	primes := [6]int{2, 3, 5, 7, 11, 13}
+	printTypeAndValue(primes)
+
+	// primes2 is actually a slice
+	primes2 := []int{2, 3, 5, 7, 11, 13}
+	printTypeAndValue(primes2)
+
+	fmt.Println("Arrays cannot be resized.")
+}
+
+func slicesSample() {
+	nums := [6]int{0, 1, 2, 3, 4, 5}
+
+	var s []int = nums[1:4]
+	fmt.Print("nums[1:4] = ")
+	printTypeAndValue(s)
+
+	s2 := nums[3:5]
+	fmt.Println("s, s2:", s, s2)
+	s2[0] = 101
+	fmt.Println("after s[0] = 101, s, s2:", s, s2)
+
+	s3 := s[:]
+	fmt.Println("s3 =", s3)
+	fmt.Println("s2 info:")
+	printSlice(s2)
+	fmt.Println("s3 info:")
+	printSlice(s3)
+
+	slicesOfStructs := []struct {
+		i int
+		b bool
+	}{
+		{2, true},
+		{3, false},
+		{5, true},
+		{7, true},
+		{11, false},
+		{13, true},
+	}
+	fmt.Println("slicesOfStructs:")
+	printTypeAndValue(slicesOfStructs)
+
+	// The length of a slice is the number of elements it contains.
+	// The capacity of a slice is the number of elements in the underlying
+	// array, counting from the first element in the slice.
+	fmt.Println("different printing of s4")
+	s4 := []int{2, 3, 5, 7, 11, 13}
+	printSlice(s4)
+
+	// Slice the slice to give it zero length.
+	s4 = s4[:0]
+	printSlice(s4)
+
+	// Extend its length.
+	s4 = s4[:4]
+	printSlice(s4)
+
+	// Drop its first two values.
+	s4 = s4[2:]
+	printSlice(s4)
+
+	fmt.Println("zero value of a slice is nil. E.g. s5")
+	var s5 []int
+	fmt.Println(s5, len(s5), cap(s5))
+	if s5 == nil {
+		fmt.Println("s5 is nil")
+	}
+
+	// This is how you create dynamically-sized array.
+	a := make([]int, 5)
+	printSliceWithName("a", a)
+
+	b := make([]int, 0, 5)
+	printSliceWithName("b", b)
+
+}
+
+func printTypeAndValue(v interface{}) {
+	fmt.Printf("Type %T: %v\n", v, v)
+}
+
+func printSlice(s []int) {
+	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+
+func printSliceWithName(s string, x []int) {
+	fmt.Printf("%s len=%d cap =%d %v\n", s, len(x), cap(x), x)
 }
