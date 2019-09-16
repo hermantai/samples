@@ -7,6 +7,7 @@ import (
 	"math/cmplx"
 	"math/rand"
 	"runtime"
+	"strings"
 	"time"
 )
 
@@ -412,7 +413,27 @@ func slicesSample() {
 	b := make([]int, 0, 5)
 	printSliceWithName("b", b)
 
+	// Create a tic-tac-toe board
+	board := [][]string{
+		[]string{"_", "_", "_"},
+		[]string{"_", "_", "_"},
+		[]string{"_", "_", "_"},
+	}
+
+	// The players take turns.
+	board[0][0] = "X"
+	board[2][2] = "O"
+	board[1][2] = "X"
+	board[1][0] = "O"
+	board[0][2] = "X"
+
+	printSubsection("Tic-tac-toe")
+	for i := 0; i < len(board); i++ {
+		fmt.Printf("%s\n", strings.Join(board[i], " "))
+	}
 }
+
+// end of samples
 
 func printTypeAndValue(v interface{}) {
 	fmt.Printf("Type %T: %v\n", v, v)
