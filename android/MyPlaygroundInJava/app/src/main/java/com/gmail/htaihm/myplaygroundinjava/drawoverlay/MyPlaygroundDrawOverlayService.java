@@ -26,7 +26,12 @@ public class MyPlaygroundDrawOverlayService extends Service {
     public void drawOverlay(IBinder windowsToken) throws RemoteException {
       Log.i(TAG, String.format("drawOverlay(%s)", windowsToken));
 
-      new MyHandlers(MyPlaygroundDrawOverlayService.this).onDrawOverlay(windowsToken);
+      new MyHandlers(MyPlaygroundDrawOverlayService.this).drawOverlay(windowsToken);
+    }
+
+    @Override
+    public void drawWithinApplication(IBinder windowsToken) throws RemoteException {
+      new MyHandlers(MyPlaygroundDrawOverlayService.this).onDrayWithinAplication(windowsToken);
     }
   };
 }

@@ -48,14 +48,18 @@ public class DrawOverlayActivity extends AppCompatActivity {
     }
 
     public void onDrawOverlay() {
-      onDrawOverlay(null);
+      drawOverlay(null);
     }
 
-    public void onDrawOverlay(@Nullable IBinder windowToken) {
-      handler.post(() -> onDrawOverlayHelper(windowToken));
+    public void drawOverlay(@Nullable IBinder windowToken) {
+      handler.post(() -> onDrawOverlayHelper(windowToken, /* overlay= */ true));
     }
 
-    public void onDrawOverlayHelper(@Nullable IBinder windowToken) {
+    public void onDrayWithinAplication(@Nullable IBinder windowToken) {
+      handler.post(() -> onDrawOverlayHelper(windowToken, /* overlay= */ false));
+    }
+
+    public void onDrawOverlayHelper(@Nullable IBinder windowToken, boolean overlay) {
       Log.i(TAG, "onDrawOverlay");
 
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -85,11 +89,13 @@ public class DrawOverlayActivity extends AppCompatActivity {
 
         WindowManager.LayoutParams windowManagerLayoutParams;
 
+        // Explanation of the difference between types can be found:
+        // https://www.jianshu.com/p/98eb2f70e3a5.
         if (windowToken == null) {
           windowManagerLayoutParams = new WindowManager.LayoutParams(
               WindowManager.LayoutParams.WRAP_CONTENT,
               WindowManager.LayoutParams.WRAP_CONTENT,
-              WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+              overlay ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY: WindowManager.LayoutParams.TYPE_APPLICATION_PANEL,
               WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
               PixelFormat.TRANSLUCENT);
         } else {
@@ -97,7 +103,7 @@ public class DrawOverlayActivity extends AppCompatActivity {
           windowManagerLayoutParams = new WindowManager.LayoutParams(
               WindowManager.LayoutParams.WRAP_CONTENT,
               WindowManager.LayoutParams.WRAP_CONTENT,
-              WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+              overlay ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY: WindowManager.LayoutParams.TYPE_APPLICATION_PANEL,
               WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
               PixelFormat.TRANSLUCENT);
           windowManagerLayoutParams.token = windowToken;

@@ -9,6 +9,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.databinding.DataBindingUtil;
@@ -56,16 +57,20 @@ public class DrawOverlayClientActivity extends AppCompatActivity {
       Log.d(TAG, "Service Connected");
       myPlaygroundDrawOverlayService = IMyPlaygroundDrawOverlayService.Stub
           .asInterface((IBinder) iBinder);
+      Toast.makeText(DrawOverlayClientActivity.this, "Server connected!", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onBindingDied(ComponentName name) {
       Log.d(TAG, "onBindingDied");
+      Toast.makeText(DrawOverlayClientActivity.this, "Server died!", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
       Log.d(TAG, "Service Disconnected");
+      Toast.makeText(DrawOverlayClientActivity.this, "Server disconnected!", Toast.LENGTH_LONG)
+          .show();
       myPlaygroundDrawOverlayService = null;
     }
   };
@@ -91,6 +96,19 @@ public class DrawOverlayClientActivity extends AppCompatActivity {
         View rootView = findViewById(android.R.id.content);
         try {
           myPlaygroundDrawOverlayService.drawOverlay(rootView.getWindowToken());
+        } catch (RemoteException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+
+    public void onDrawWithinApplicationByServer() {
+      Log.i(TAG, "onDrawWithinApplicationByServer");
+
+      if (myPlaygroundDrawOverlayService != null) {
+        View rootView = findViewById(android.R.id.content);
+        try {
+          myPlaygroundDrawOverlayService.drawWithinApplication(rootView.getWindowToken());
         } catch (RemoteException e) {
           e.printStackTrace();
         }
