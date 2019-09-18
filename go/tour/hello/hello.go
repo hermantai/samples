@@ -471,6 +471,7 @@ func mapsSample() {
 	fmt.Println(m)
 	fmt.Println(m["Bell labs"])
 
+	fmt.Println("map literal")
 	m2 := map[string]Vertex2{
 		"Bell labs": Vertex2{
 			40.68433, -74.39967,
@@ -480,6 +481,28 @@ func mapsSample() {
 		},
 	}
 	fmt.Println(m2)
+
+	fmt.Println("skip the Vertex2 type name")
+	var m3 = map[string]Vertex2{
+		"Bell labs": {
+			40.68433, -74.39967,
+		},
+		"Google": {
+			37.42202, -122.08408,
+		},
+	}
+	fmt.Println(m3)
+
+	fmt.Println("map mutations")
+	m4 := make(map[string]int)
+	m4["Answer"] = 42
+	fmt.Println("The value:", m4["Answer"])
+	m4["Answer"] = 48
+	fmt.Println("The value:", m4["Answer"])
+	delete(m4, "Answer")
+	fmt.Println("The value:", m4["Answer"])
+	v, ok := m4["Answer"]
+	fmt.Println("The value:", v, "Present?", ok)
 }
 
 // end of samples
