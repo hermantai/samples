@@ -148,6 +148,9 @@ func main() {
 
 	printSection("Slices")
 	slicesSample()
+
+	printSection("Maps")
+	mapsSample()
 }
 
 // end of main
@@ -360,11 +363,8 @@ func slicesSample() {
 	fmt.Println("after s[0] = 101, s, s2:", s, s2)
 
 	s3 := s[:]
-	fmt.Println("s3 =", s3)
-	fmt.Println("s2 info:")
-	printSlice(s2)
-	fmt.Println("s3 info:")
-	printSlice(s3)
+	printSliceWithName("s2", s2)
+	printSliceWithName("s3", s3)
 
 	slicesOfStructs := []struct {
 		i int
@@ -431,6 +431,55 @@ func slicesSample() {
 	for i := 0; i < len(board); i++ {
 		fmt.Printf("%s\n", strings.Join(board[i], " "))
 	}
+
+	var growingSlice []int
+	printSliceWithName("growingSlice", growingSlice)
+
+	growingSlice = append(growingSlice, 12)
+	printSliceWithName("growingSlice", growingSlice)
+
+	growingSlice = append(growingSlice, 13, 14, 15)
+	printSliceWithName("growingSlice", growingSlice)
+
+	fmt.Println("Print a slice with a for loop")
+	for i, v := range growingSlice {
+		fmt.Printf("%d: %d\n", i, v)
+	}
+
+	fmt.Println("Only index")
+	for i := range growingSlice {
+		fmt.Println(i)
+	}
+	fmt.Println("Only value")
+	for _, v := range growingSlice {
+		fmt.Println(v)
+	}
+}
+
+type Vertex2 struct {
+	Lat, Long float64
+}
+
+func mapsSample() {
+	// m is nil with no keys. No keys can be added, either.
+	var m map[string]Vertex2
+
+	m = make(map[string]Vertex2) // now m is ready
+	m["Bell labs"] = Vertex2{
+		12.123, 22.23,
+	}
+	fmt.Println(m)
+	fmt.Println(m["Bell labs"])
+
+	m2 := map[string]Vertex2{
+		"Bell labs": Vertex2{
+			40.68433, -74.39967,
+		},
+		"Google": Vertex2{
+			37.42202, -122.08408,
+		},
+	}
+	fmt.Println(m2)
 }
 
 // end of samples
