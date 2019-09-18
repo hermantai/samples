@@ -7,6 +7,30 @@ You can run the tour with:
     go get golang.org/x/tour
     tour
 
+Notice that in Chrome OS, you need to start *tour* at a port that the crostini
+container forward, e.g. 8000.
+
+    tour -http 127.0.0.1:8000
+
+See [reddit](https://www.reddit.com/r/Crostini/comments/99s3t9/wellknown_ports_are_now_autoforwarded_to_the/) for detail.
+
+```
+// TCP ports to statically forward to the container over SSH.
+const uint16_t kStaticForwardPorts[] = {
+  3000,  // Rails
+  4200,  // Angular
+  5000,  // Flask
+  8000,  // Django
+  8008,  // HTTP alternative port
+  8080,  // HTTP alternative port
+  8085,  // Cloud SDK
+  8888,  // ipython/jupyter
+  9005,  // Firebase login
+};
+```
+
+Another option is to use a connection forwarder: https://github.com/kzahel/connection-forwarder
+
 ## Run files in the tour folder
 
 Assuming github.com/hermantai... is in your go workspace, you can run hello
