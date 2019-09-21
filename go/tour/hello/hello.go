@@ -3,6 +3,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/hermantai/samples/go/commonutil"
 	"math"
 	"math/cmplx"
 	"math/rand"
@@ -21,7 +22,7 @@ var (
 func main() {
 	// defer's are executed in LIFO
 	defer fmt.Println("The End!")
-	defer printSectionSeparator()
+	defer commonutil.PrintSectionSeparator()
 
 	rand.Seed(time.Now().UTC().UnixNano())
 
@@ -29,10 +30,10 @@ func main() {
 	fmt.Println("My favorite number is", rand.Intn(10))
 	fmt.Println(math.Pi) // Pi is an exported varialbe, pi is not (package private).
 
-	printSection("time formatting")
+	commonutil.PrintSection("time formatting")
 	timeFormatting()
 
-	printSection("simple functions")
+	commonutil.PrintSection("simple functions")
 	fmt.Println("add(3, 4) =", add(3, 4))
 
 	s1, s2 := swap("apple", "boy")
@@ -41,7 +42,7 @@ func main() {
 	fmt.Println("nakedReturn(100) // 100 degree celsius to fahrenheit")
 	fmt.Println(nakedReturn(100))
 
-	printSection("variable declaractions")
+	commonutil.PrintSection("variable declaractions")
 	var i int
 	fmt.Println(i, c, java, python, c2, java2, python2, num)
 
@@ -51,7 +52,7 @@ func main() {
 	var c4, python4, java4 = true, false, "no!"
 	fmt.Println(c4, java4, python4)
 
-	printSection("different types")
+	commonutil.PrintSection("different types")
 
 	// bool
 	//
@@ -79,7 +80,7 @@ func main() {
 	fmt.Printf("Type: %T Value: %v\n", MaxInt64, MaxInt64)
 	fmt.Printf("Type: %T Value: %v\n", z, z)
 
-	printSection("Type conversions")
+	commonutil.PrintSection("Type conversions")
 
 	int1 := 42
 	float1 := float64(int1)
@@ -88,7 +89,7 @@ func main() {
 	uint2 := uint(float2)
 	fmt.Println(int1, float1, uint1, float2, uint2)
 
-	printSection("Type inference")
+	commonutil.PrintSection("Type inference")
 	int3 := 42
 	float3 := 3.142
 	complex3 := 0.867 + 0.5i
@@ -99,10 +100,10 @@ func main() {
 	const Pi = 3.14
 	fmt.Printf("Type %T = %v\n", Pi, Pi)
 
-	printSection("Constant types based on context")
+	commonutil.PrintSection("Constant types based on context")
 	constantsDependsOnContext()
 
-	printSection("For loop")
+	commonutil.PrintSection("For loop")
 	for i := 0; i < 10; i++ {
 		fmt.Println(i)
 	}
@@ -114,17 +115,17 @@ func main() {
 		sum++
 	}
 
-	printSection("If")
+	commonutil.PrintSection("If")
 	fmt.Println(sqrt(2), sqrt(-4))
 
 	fmt.Println(pow(3, 2, 10), pow(3, 3, 20))
 
 	greetingWithTime()
 
-	printSection("exercise with loops")
+	commonutil.PrintSection("exercise with loops")
 	fmt.Println(mySqrt(2))
 
-	printSection("switch")
+	commonutil.PrintSection("switch")
 	fmt.Print("Go runs on ")
 	switch os := runtime.GOOS; os {
 	case "darwin":
@@ -137,22 +138,22 @@ func main() {
 
 	greetingWithTimeUsingSwitch()
 
-	printSection("Pointers")
+	commonutil.PrintSection("Pointers")
 	pointersSample()
 
-	printSection("Structs")
+	commonutil.PrintSection("Structs")
 	structsSample()
 
-	printSection("Arrays")
+	commonutil.PrintSection("Arrays")
 	arraysSample()
 
-	printSection("Slices")
+	commonutil.PrintSection("Slices")
 	slicesSample()
 
-	printSection("Maps")
+	commonutil.PrintSection("Maps")
 	mapsSample()
 
-	printSection("Function as values")
+	commonutil.PrintSection("Function as values")
 	functionAsValuesSample()
 }
 
@@ -171,14 +172,14 @@ func timeFormatting() {
 	printTimeFormatAndFormattedTime(t, "Mon Jan _2 15:04:05 2006")
 	printTimeFormatAndFormattedTime(t, "2006-01-02T15:04:05.999999-07:00")
 
-	printSubsectionSeparator()
+	commonutil.PrintSubsectionSeparator()
 
 	fmt.Println("Show time's fields:")
 	fmt.Printf("%d-%02d-%02dT%02d:%02d:%02d\n",
 		t.Year(), t.Month(), t.Day(),
 		t.Hour(), t.Minute(), t.Second())
 
-	printSubsectionSeparator()
+	commonutil.PrintSubsectionSeparator()
 
 	fmt.Println("Error is like this:")
 	ansic := "Mon Jan _2 15:04:05 2006"
@@ -188,22 +189,6 @@ func timeFormatting() {
 
 func printTimeFormatAndFormattedTime(t time.Time, format string) {
 	fmt.Println(format, "=>", t.Format(format))
-}
-
-func printSectionSeparator() {
-	fmt.Println("\n-----\n")
-}
-
-func printSection(header string) {
-	fmt.Printf("\n-- %s --\n\n", header)
-}
-
-func printSubsectionSeparator() {
-	fmt.Println("\n")
-}
-
-func printSubsection(subheader string) {
-	fmt.Printf("\n%s\n\n", subheader)
 }
 
 func add(x, y int) int {
@@ -325,7 +310,7 @@ func structsSample() {
 	p.X = 101
 	fmt.Printf("After changing p.X, v = %v\n", v)
 
-	printSubsection("struct literals")
+	commonutil.PrintSubsection("struct literals")
 	v1 := Vertex{X: 102}
 	v2 := Vertex{}
 	p2 := &Vertex{5, 7}
@@ -344,11 +329,11 @@ func arraysSample() {
 	fmt.Println("Whole array", a)
 
 	primes := [6]int{2, 3, 5, 7, 11, 13}
-	printTypeAndValue(primes)
+	commonutil.PrintTypeAndValue(primes)
 
 	// primes2 is actually a slice
 	primes2 := []int{2, 3, 5, 7, 11, 13}
-	printTypeAndValue(primes2)
+	commonutil.PrintTypeAndValue(primes2)
 
 	fmt.Println("Arrays cannot be resized.")
 }
@@ -358,7 +343,7 @@ func slicesSample() {
 
 	var s []int = nums[1:4]
 	fmt.Print("nums[1:4] = ")
-	printTypeAndValue(s)
+	commonutil.PrintTypeAndValue(s)
 
 	s2 := nums[3:5]
 	fmt.Println("s, s2:", s, s2)
@@ -381,7 +366,7 @@ func slicesSample() {
 		{13, true},
 	}
 	fmt.Println("slicesOfStructs:")
-	printTypeAndValue(slicesOfStructs)
+	commonutil.PrintTypeAndValue(slicesOfStructs)
 
 	// The length of a slice is the number of elements it contains.
 	// The capacity of a slice is the number of elements in the underlying
@@ -430,7 +415,7 @@ func slicesSample() {
 	board[1][0] = "O"
 	board[0][2] = "X"
 
-	printSubsection("Tic-tac-toe")
+	commonutil.PrintSubsection("Tic-tac-toe")
 	for i := 0; i < len(board); i++ {
 		fmt.Printf("%s\n", strings.Join(board[i], " "))
 	}
@@ -549,10 +534,6 @@ func fibonacci() func() int {
 }
 
 // end of samples
-
-func printTypeAndValue(v interface{}) {
-	fmt.Printf("Type %T: %v\n", v, v)
-}
 
 func printSlice(s []int) {
 	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
