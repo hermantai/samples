@@ -151,6 +151,9 @@ func main() {
 
 	printSection("Maps")
 	mapsSample()
+
+	printSection("Function as values")
+	functionAsValuesSample()
 }
 
 // end of main
@@ -503,6 +506,46 @@ func mapsSample() {
 	fmt.Println("The value:", m4["Answer"])
 	v, ok := m4["Answer"]
 	fmt.Println("The value:", v, "Present?", ok)
+}
+
+func functionAsValuesSample() {
+	hypot := func(x, y float64) float64 {
+		return math.Sqrt(x*x + y*y)
+	}
+	fmt.Println(compute(hypot))
+
+	pos, neg := adder(), adder()
+
+	for i := 0; i < 10; i++ {
+		fmt.Println(pos(i), neg(-2*i))
+	}
+
+	fmt.Println("fibonacci sequence:")
+	fib := fibonacci()
+	for i := 0; i < 10; i++ {
+		fmt.Println(fib())
+	}
+}
+
+func compute(fn func(float64, float64) float64) int {
+	return int(fn(3, 4))
+}
+
+func adder() func(int) int {
+	sum := 0
+	return func(x int) int {
+		sum += x
+		return sum
+	}
+}
+
+func fibonacci() func() int {
+	i1, i2 := 0, 1
+	return func() (r int) {
+		r = i1
+		i1, i2 = i2, i1+i2
+		return
+	}
 }
 
 // end of samples
