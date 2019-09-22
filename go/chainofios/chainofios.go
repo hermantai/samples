@@ -16,6 +16,10 @@
 // and a general purpose tcp server. It also demo some file read and write
 // (that's why it's a chain of IOs...) including the use of template. A lot of
 // code snippets are from the book https://www.golang-book.com/books/intro
+//
+// The HTTP is the main server. When it gets a request, it gets a response from
+// an RPC server, which gets a response from the TCP server. The HTTP server also
+// gets its content from an HTTP template.
 package main
 
 import (
