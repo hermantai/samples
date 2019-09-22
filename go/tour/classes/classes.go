@@ -24,8 +24,19 @@ func methodsSample() {
 
 	fmt.Println("Scale by 2")
 	v := Vertex{3, 4}
+	// This is actually a shortcut of (&v).Scale(2). That means even the method
+	// has a pointer receiver, it can take a value as well.
 	v.Scale(2)
 	fmt.Println(v)
+	fmt.Println("Scale by 2 again")
+	ScaleFunc(&v, 2)
+	fmt.Println(v)
+	fmt.Println("Print v.Abs() and p.Abs()")
+	p := &v
+	// methods with value receivers can take either a value or a pointer
+	fmt.Println(v.Abs(), p.Abs())
+	// The following won't compile
+	// ScaleFunc(v, 2)
 
 	commonutil.PrintSubsection("MyFloat")
 	f := MyFloat(-math.Sqrt2)
@@ -42,6 +53,11 @@ func (v Vertex) Abs() float64 {
 }
 
 func (v *Vertex) Scale(f float64) {
+	v.X *= f
+	v.Y *= f
+}
+
+func ScaleFunc(v *Vertex, f float64) {
 	v.X *= f
 	v.Y *= f
 }
