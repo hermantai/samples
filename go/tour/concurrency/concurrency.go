@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/hermantai/samples/go/commonutil"
 	"golang.org/x/tour/tree"
+	"sync"
 	"time"
 )
 
@@ -17,6 +18,9 @@ func main() {
 	commonutil.PrintSection("Equivalent binary tree")
 	fmt.Println(Same(tree.New(1), tree.New(1)))
 	fmt.Println(Same(tree.New(1), tree.New(2)))
+
+	commonutil.PrintSection("Locks")
+	locksSample()
 }
 
 // end of main
@@ -149,6 +153,35 @@ func Same(t1, t2 *tree.Tree) bool {
 			return false
 		}
 	}
+}
+
+func locksSample() {
+	c := SafeCounter{v: make(map[string]int)}
+	for i := 0; i < 1000; i++ {
+		go c.Inc("somekey")
+	}
+
+	time.Sleep(time.Second)
+	fmt.Println(c.Value("somekey"))
+}
+
+// SafeCounter is safe to use concurrently.
+type SafeCounter struct {
+	v   map[string]int
+	mux sync.Mutex
+}
+
+// Inc increments the counter for the given key.
+func (c *SafeCounter) Inc(key string) {
+	c.mux.Lock()
+	c.v[key]++
+	c.mux.Unlock()
+}
+
+func (c *SafeCounter) Value(key string) int {
+	c.mux.Lock()
+	defer c.mux.Unlock()
+	return c.v[key]
 }
 
 // end of samples
