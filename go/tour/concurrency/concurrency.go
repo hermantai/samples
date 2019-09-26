@@ -9,6 +9,10 @@ import (
 )
 
 func main() {
+	// defer's are executed in LIFO
+	defer fmt.Println("The End!")
+	defer commonutil.PrintSectionSeparator()
+
 	commonutil.PrintSection("Goroutines")
 	goroutinesSample()
 
@@ -24,6 +28,15 @@ func main() {
 
 	commonutil.PrintSection("exercise: web crawler")
 	webcrawlerSample()
+
+	// Notice the same i is binded to every go funcs.
+	for i := 0; i < 10; i++ {
+		go func() {
+			time.Sleep(1 * time.Second)
+			fmt.Println("what is the number?", i)
+		}()
+	}
+	time.Sleep(2 * time.Second)
 }
 
 // end of main
