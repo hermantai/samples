@@ -28,13 +28,20 @@ func (MyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Referer is: %s\n", r.Referer())
 }
 
+func myHandlerFunc(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "In myHandlerFunc:\n")
+	fmt.Fprintf(w, "User agent is: %s\n", r.UserAgent())
+	fmt.Fprintf(w, "Referer is: %s\n", r.Referer())
+}
+
 func main() {
 	var h MyHandler
 
 	http.Handle("/", h)
+	http.HandleFunc("/func", myHandlerFunc)
 
-	fmt.Println("Server is starting at localhost:4000")
-	err := http.ListenAndServe("localhost:4000", nil)
+	fmt.Println("Server is starting at localhost:8000")
+	err := http.ListenAndServe("localhost:8000", nil)
 
 	if err != nil {
 		log.Fatal(err)
