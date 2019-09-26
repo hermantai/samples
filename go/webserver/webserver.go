@@ -26,12 +26,14 @@ type MyHandler struct{}
 func (MyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "User agent is: %s\n", r.UserAgent())
 	fmt.Fprintf(w, "Referer is: %s\n", r.Referer())
+	fmt.Fprintf(w, "Hi there, I love: %s!\n", r.URL.Path[1:])
 }
 
 func myHandlerFunc(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "In myHandlerFunc:\n")
 	fmt.Fprintf(w, "User agent is: %s\n", r.UserAgent())
 	fmt.Fprintf(w, "Referer is: %s\n", r.Referer())
+	fmt.Fprintf(w, "Hi there, I love: %s!\n", r.URL.Path[1:])
 }
 
 func main() {
@@ -40,7 +42,7 @@ func main() {
 	http.Handle("/", h)
 	http.HandleFunc("/func", myHandlerFunc)
 
-	fmt.Println("Server is starting at localhost:8000")
+	fmt.Println("Server is starting at http://localhost:8000")
 	err := http.ListenAndServe("localhost:8000", nil)
 
 	if err != nil {
