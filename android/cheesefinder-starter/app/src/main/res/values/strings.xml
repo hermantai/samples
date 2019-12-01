@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Cheese Finder</string>
+    <string name="nothing_found">No cheeses found</string>
+    <string name="search">search</string>
+  <string name="error_inserting_cheeses">Error inserting cheeses!</string>
+  <string name="success">Cheeses have been inserted into the database!</string>
+</resources>
