@@ -13,4 +13,14 @@ interface IMyPlaygroundDrawOverlayService {
      * Draw an overlay within the application.
      */
     void drawWithinApplication(IBinder windowsToken);
+
+    /**
+     * Draw an overlay within the application but with a delay
+     */
+    void drawWithinApplicationDelayed(IBinder windowsToken);
+
+    /**
+     * Crash the host app.
+     */
+    void crashHostApp();
 }

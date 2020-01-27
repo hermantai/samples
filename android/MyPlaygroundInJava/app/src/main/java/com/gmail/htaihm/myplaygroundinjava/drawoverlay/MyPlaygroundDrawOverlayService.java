@@ -31,7 +31,21 @@ public class MyPlaygroundDrawOverlayService extends Service {
 
     @Override
     public void drawWithinApplication(IBinder windowsToken) throws RemoteException {
-      new MyHandlers(MyPlaygroundDrawOverlayService.this).onDrayWithinAplication(windowsToken);
+      new MyHandlers(MyPlaygroundDrawOverlayService.this).onDrawWithinApplication(windowsToken);
+    }
+
+    @Override
+    public void drawWithinApplicationDelayed(IBinder windowsToken) throws RemoteException {
+      new MyHandlers(MyPlaygroundDrawOverlayService.this).onDrawWithinApplicationDelayed(windowsToken);
+    }
+
+    @Override
+    public void crashHostApp() throws RemoteException {
+      Log.i(TAG, "crashHostApp: My main thread is " + android.os.Process.myTid());
+      Log.i(TAG, "crashHostApp: My process id is " + android.os.Process.myPid());
+
+      Log.i(TAG, "I am ordered to be crashed.");
+      throw new RuntimeException("MyPlaygroundDrawOverlayService is ordered to crash.");
     }
   };
 }

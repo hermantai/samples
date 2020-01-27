@@ -114,5 +114,27 @@ public class DrawOverlayClientActivity extends AppCompatActivity {
         }
       }
     }
+
+    public void onDrawWithinApplicationByServerDelayed() {
+      Log.i(TAG, "onDrawWithinApplicationByServerDelayed");
+      Log.i(TAG, "My main thread is " + android.os.Process.myTid());
+      Log.i(TAG, "My process id is " + android.os.Process.myPid());
+      if (myPlaygroundDrawOverlayService != null) {
+        View rootView = findViewById(android.R.id.content);
+        try {
+          myPlaygroundDrawOverlayService.drawWithinApplicationDelayed(rootView.getWindowToken());
+        } catch (RemoteException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+
+    public void crashHostApp() {
+      try {
+        myPlaygroundDrawOverlayService.crashHostApp();
+      } catch (RemoteException e) {
+        e.printStackTrace();
+      }
+    }
   }
 }

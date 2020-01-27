@@ -37,6 +37,9 @@ public class DrawOverlayActivity extends AppCompatActivity {
     ActivityDrawOverlayBinding binding = DataBindingUtil
         .setContentView(this, R.layout.activity_draw_overlay);
     binding.setHandlers(new MyHandlers(this));
+
+    Log.i(TAG, "onCreate(): My main thread is " + android.os.Process.myTid());
+    Log.i(TAG, "onCreate(): My process id is " + android.os.Process.myPid());
   }
 
   public static class MyHandlers {
@@ -55,12 +58,18 @@ public class DrawOverlayActivity extends AppCompatActivity {
       handler.post(() -> onDrawOverlayHelper(windowToken, /* overlay= */ true));
     }
 
-    public void onDrayWithinAplication(@Nullable IBinder windowToken) {
+    public void onDrawWithinApplication(@Nullable IBinder windowToken) {
       handler.post(() -> onDrawOverlayHelper(windowToken, /* overlay= */ false));
     }
 
+    public void onDrawWithinApplicationDelayed(@Nullable IBinder windowToken) {
+      handler.postDelayed(() -> onDrawOverlayHelper(windowToken, /* overlay= */ false), 10_000);
+    }
+
     public void onDrawOverlayHelper(@Nullable IBinder windowToken, boolean overlay) {
-      Log.i(TAG, "onDrawOverlay");
+      Log.i(TAG, "onDrawOverlayHelper");
+      Log.i(TAG, "My main thread is " + android.os.Process.myTid());
+      Log.i(TAG, "My process id is " + android.os.Process.myPid());
 
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         // Show alert dialog to the user saying a separate permission is needed
