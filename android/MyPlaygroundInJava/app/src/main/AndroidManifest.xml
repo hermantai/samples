@@ -11,12 +11,15 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
+    <activity android:name=".complexbackgroundimage.ComplexBackgroundImageActivity">
+    </activity>
+
     <service
       android:enabled="true"
       android:exported="true"
       android:name=".drawoverlay.MyPlaygroundDrawOverlayService">
       <intent-filter>
-        <action android:name="com.gmail.htaihm.myplaygroundinjava.MyPlaygroundDrawOverlayService.BIND" />
+        <action android:name="com.gmail.htaihm.myplaygroundinjava.MyPlaygroundDrawOverlayService.BIND"/>
       </intent-filter>
     </service>
 
