@@ -24,3 +24,7 @@ If you havn't clone the repository and put it in your GOPATH, you should use
 
     $ go get github.com/hermantai/samples/go/hello
     $ $GOPATH/bin/hello
+
+You can also run a go program directly by going to the directory, then run:
+
+    $ samples/go/timestamp$ go run timestamp.go
