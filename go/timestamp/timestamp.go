@@ -23,7 +23,6 @@ import (
 )
 
 func main() {
-	go_time := "Mon Jan 2 15:04:05 MST 2006"
-	t, _ := time.Parse( /* format */ go_time, go_time)
+	t, _ := time.Parse(time.RFC3339, "2006-01-02T15:04:05-07:00")
 	fmt.Printf("%s timestamp is %v\n", t, t.Unix())
 }
