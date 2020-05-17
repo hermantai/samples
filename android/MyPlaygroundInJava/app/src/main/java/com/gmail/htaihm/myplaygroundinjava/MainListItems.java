@@ -10,6 +10,7 @@ import com.gmail.htaihm.myplaygroundinjava.observescrolling.ObserveScrollingActi
 import com.gmail.htaihm.myplaygroundinjava.lighboxchooser.LightboxChooserActivity;
 import com.gmail.htaihm.myplaygroundinjava.progressbarwithindicator.ProgressBarWithIndicator;
 import com.gmail.htaihm.myplaygroundinjava.viewpositioning.LinearLayoutViewPositioningActivity;
+import com.gmail.htaihm.myplaygroundinjava.widgetsdemo.WidgetsDemoActivity;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,6 +40,9 @@ public class MainListItems {
               .createIntent(context)),
       new MainListItem("Progress Bar with Indicator",
           (context) -> ProgressBarWithIndicator
+              .createIntent(context)),
+      new MainListItem("Widgets Demo",
+          (context) -> WidgetsDemoActivity
               .createIntent(context))
   );
 }
