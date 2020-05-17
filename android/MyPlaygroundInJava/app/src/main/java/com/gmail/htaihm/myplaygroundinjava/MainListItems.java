@@ -5,6 +5,7 @@ import com.gmail.htaihm.myplaygroundinjava.colorchanger.ColorChangerActivity;
 import com.gmail.htaihm.myplaygroundinjava.complexbackgroundimage.ComplexBackgroundImageActivity;
 import com.gmail.htaihm.myplaygroundinjava.drawoverlay.DrawOverlayActivity;
 import com.gmail.htaihm.myplaygroundinjava.fillscrollview.FillScrollViewActivity;
+import com.gmail.htaihm.myplaygroundinjava.focusjumpwithdpad.FocusJumpWithDpadActivity;
 import com.gmail.htaihm.myplaygroundinjava.observescrolling.ObserveScrollingActivity;
 import com.gmail.htaihm.myplaygroundinjava.lighboxchooser.LightboxChooserActivity;
 import com.gmail.htaihm.myplaygroundinjava.progressbarwithindicator.ProgressBarWithIndicator;
@@ -25,6 +26,8 @@ public class MainListItems {
       new MainListItem("Draw Overlay", (context) -> DrawOverlayActivity.createIntent(context)),
       new MainListItem("Fill ScrollView",
           (context) -> FillScrollViewActivity.createIntent(context)),
+      new MainListItem("Focus Jump with D-pad",
+          (context) -> FocusJumpWithDpadActivity.createIntent(context)),
       new MainListItem("Lightbox Chooser",
           (context) -> LightboxChooserActivity
               .createIntent(context)),
