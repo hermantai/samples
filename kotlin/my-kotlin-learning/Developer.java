@@ -1,5 +1,3 @@
-package com.gmail.htaihm;
-
 public class Developer {
   private String name;
   private String favoriteLanguage;

@@ -1,5 +1,3 @@
-import com.gmail.htaihm.Developer;
-
 // ?: symbol
 fun formatName(name: String?) = name ?: "Fellow Human"
 
@@ -9,6 +7,7 @@ fun greetReader(greeting: String = "Hey", name: String?) =
 
 // data class
 data class Language(val name: String)
+data class KotlinDeveloper(val name: String)
 
 // Working with nulls:
 // safe calls, non-null assertion, conditionals, elvis operator, safe casts
@@ -37,6 +36,9 @@ fun workingWithNulls() {
 fun useJavaClass() {
   val developer = Developer("herman", "python")
   println("${developer.name} loves ${developer.getFavoriteLanguage()}")
+  Logger.logMessage("Logger.logMessage called from Kotlin")
+  Logger.logDeveloper()
+  Logger.callKotlinFuncFromJava()
 }
 
 fun main(args: Array<String>) {
@@ -51,6 +53,7 @@ fun main(args: Array<String>) {
   printHeader("Working with nulls")
   workingWithNulls()
 
+  printHeader("Use java from kotlin")
   useJavaClass()
 }
 
