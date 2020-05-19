@@ -141,6 +141,12 @@ infix fun <T> T.isEqualTo(other: T): Boolean = this == other
 class Needle<T>(val value: T) {
   public infix fun inside(hayStack: List<T>): Boolean = hayStack.contains(value)
 }
+
+fun String.isKotlin() = this == "Kotlin"
+
+fun demoExtensionFunctions() {
+  println("IsKotlin? " + "Kotlin".isKotlin())
+}
 // end of lessons
 
 fun main(args: Array<String>) {
@@ -172,6 +178,9 @@ fun main(args: Array<String>) {
 
   printHeader("Infix function")
   demoInfixFunction()
+
+  printHeader("Extension functions")
+  demoExtensionFunctions()
 }
 
 fun printHeader(header: String?) {
