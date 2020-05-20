@@ -9,6 +9,7 @@ fun greetReader(greeting: String = "Hey", name: String?) =
 
 // data class
 data class Language(val name: String)
+// used by Java Logger.java
 data class KotlinDeveloper(val name: String)
 
 // Working with nulls:
@@ -58,9 +59,26 @@ open class Person(val firstName: String, val lastName: String) {
 
 class Programmer(firstName: String, lastName: String, val favoriteLanguage: String) : Person(firstName, lastName)
 
+class Course(courseTitle: String) {
+  // properties are public by default
+  // kotlin generates getting/setter for var and getting for val
+  val title = courseTitle  // usually the constructor "val title: String" should take care of this
+  var description = ""
+    set(value) {
+      field = value + " (modified)"
+    }
+    get() {
+      return field + " (returned)"
+    }
+}
+
 fun useClass() {
   val programmer = Programmer("Peter", "Pan", "python")
   println("Programmer: ${programmer.getFormattedName()}")
+
+  val course = Course("courseTitle1")
+  course.description = "desc1"
+  println("course title: ${course.title}, desc: ${course.description}")
 }
 
 fun functionAsFirstClass() {
