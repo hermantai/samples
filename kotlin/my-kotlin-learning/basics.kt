@@ -53,34 +53,6 @@ fun loopAndRange(n: Int) : Int {
   return sum
 }
 
-open class Person(val firstName: String, val lastName: String) {
-  fun getFormattedName() = "$lastName, $firstName"
-}
-
-class Programmer(firstName: String, lastName: String, val favoriteLanguage: String) : Person(firstName, lastName)
-
-class Course(courseTitle: String) {
-  // properties are public by default
-  // kotlin generates getting/setter for var and getting for val
-  val title = courseTitle  // usually the constructor "val title: String" should take care of this
-  var description = ""
-    set(value) {
-      field = value + " (modified)"
-    }
-    get() {
-      return field + " (returned)"
-    }
-}
-
-fun useClass() {
-  val programmer = Programmer("Peter", "Pan", "python")
-  println("Programmer: ${programmer.getFormattedName()}")
-
-  val course = Course("courseTitle1")
-  course.description = "desc1"
-  println("course title: ${course.title}, desc: ${course.description}")
-}
-
 fun functionAsFirstClass() {
   // store function in a variable
   val stringFilter: (String) -> Boolean = {
@@ -165,6 +137,85 @@ fun String.isKotlin() = this == "Kotlin"
 fun demoExtensionFunctions() {
   println("IsKotlin? " + "Kotlin".isKotlin())
 }
+
+open class Person(val firstName: String, val lastName: String) {
+  fun getFormattedName() = "$lastName, $firstName"
+}
+
+class Programmer(firstName: String, lastName: String, val favoriteLanguage: String) : Person(firstName, lastName)
+
+class Course(courseTitle: String) {
+  // properties are public by default
+  // kotlin generates getting/setter for var and getting for val
+  val title = courseTitle  // usually the constructor "val title: String" should take care of this
+  var description = ""
+    set(value) {
+      field = value + " (modified)"
+    }
+    get() {
+      return field + " (returned)"
+    }
+}
+
+// Same as class School public constructor(var teacher: String) {
+class School(var teacher: String) {
+  val numOfStudents: Int
+
+  init {
+    numOfStudents = 100
+  }
+
+  fun praiseTeacher(praise: String) {
+    println("$praise, $teacher")
+  }
+
+  // secondary constructor needs to delegate to the primary constructor
+  constructor(realTeacher: String, enabled: Boolean) : this(realTeacher + " (real) " + enabled) // { ...}
+}
+
+fun useClass() {
+  val programmer = Programmer("Peter", "Pan", "python")
+  println("Programmer: ${programmer.getFormattedName()}")
+
+  val course = Course("courseTitle1")
+  course.description = "desc1"
+  println("course title: ${course.title}, desc: ${course.description}")
+
+  val school = School("teacher1")
+  school.teacher = "teacher2"
+  println(school.teacher)
+  school.praiseTeacher("Thanks!")
+  println("${school.numOfStudents} students in school")
+
+  val school2 = School("Professor", true)
+  println(school2.teacher)
+}
+
+interface GameObject {
+  val id: String
+  val id2: String
+    get() = "defaultId2"
+  // not allowed: val id3 = "id3default"
+  val id4: String
+  fun update(currentTime: Long)
+}
+
+class Player : GameObject {
+  override val id = "playerId"
+  override val id4
+    get() = "id4FromPlayer"
+
+  override fun update(currentTime: Long) {
+    println("Update time: " + currentTime + " for " + id)
+    println("id2 " + id2)
+    println("id4 " + id4)
+  }
+}
+
+fun demoInterfaces() {
+  val player = Player()
+  player.update(1000)
+}
 // end of lessons
 
 fun main(args: Array<String>) {
@@ -185,9 +236,6 @@ fun main(args: Array<String>) {
   printHeader("Loop and range")
   println(loopAndRange(10))
   
-  printHeader("Classes")
-  useClass()
-
   printHeader("Functions")
   functionAsFirstClass()
 
@@ -199,6 +247,12 @@ fun main(args: Array<String>) {
 
   printHeader("Extension functions")
   demoExtensionFunctions()
+
+  printHeader("Classes")
+  useClass()
+
+  printHeader("Interfaces")
+  demoInterfaces()
 }
 
 fun printHeader(header: String?) {
