@@ -197,10 +197,25 @@ interface GameObject {
     get() = "defaultId2"
   // not allowed: val id3 = "id3default"
   val id4: String
-  fun update(currentTime: Long)
+
+  fun update(currentTime: Long) {
+    println("id: $id GameObject update")
+  }
 }
 
-class Player : GameObject {
+// interface inheritance
+interface Movable : GameObject {
+  fun move(currentTime: Long)
+}
+
+interface Drawable {
+  fun draw()
+  fun update(currentTime: Long) {
+    println("Drawable update")
+  }
+}
+
+class Player : Movable, Drawable {
   override val id = "playerId"
   override val id4
     get() = "id4FromPlayer"
@@ -209,12 +224,27 @@ class Player : GameObject {
     println("Update time: " + currentTime + " for " + id)
     println("id2 " + id2)
     println("id4 " + id4)
+    // Cannot use super because two implemented interfaces have default
+    // implementations.
+    //super.update(currentTime)
+    super<Movable>.update(currentTime)
+    super<Drawable>.update(currentTime)
+  }
+
+  override fun move(currentTime: Long) {
+    println("move time: ${currentTime} for $id")
+  }
+
+  override fun draw() {
+    println("draw itself, $id")
   }
 }
 
 fun demoInterfaces() {
   val player = Player()
   player.update(1000)
+  player.move(2000)
+  player.draw()
 }
 // end of lessons
 
