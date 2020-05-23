@@ -142,7 +142,9 @@ open class Person(val firstName: String, val lastName: String) {
   fun getFormattedName() = "$lastName, $firstName"
 }
 
-class Programmer(firstName: String, lastName: String, val favoriteLanguage: String) : Person(firstName, lastName)
+class Programmer(
+  firstName: String, lastName: String,
+  val favoriteLanguage: String) : Person(firstName, lastName)
 
 class Course(courseTitle: String) {
   // properties are public by default
@@ -246,6 +248,26 @@ fun demoInterfaces() {
   player.move(2000)
   player.draw()
 }
+
+interface Shape {
+  fun getArea() : Double
+}
+// open not needed
+abstract class Rectangle2 : Shape
+open class Rectangle(val width: Double, val height: Double) : Shape {
+  // prevent subclass from overriding this
+  final override fun getArea() = width * height
+
+  open fun printArea() = println("Area is ${getArea()}")
+}
+class Square(val edgeLength : Double) : Rectangle(edgeLength, edgeLength) {
+  override fun printArea() = println("Square area is ${getArea()}")
+}
+fun demoAbstractClasses() {
+ val rect = Rectangle(10.0, 20.0)
+ println("rect area: ${rect.getArea()}")
+ Square(12.0).printArea()
+}
 // end of lessons
 
 fun main(args: Array<String>) {
@@ -283,6 +305,9 @@ fun main(args: Array<String>) {
 
   printHeader("Interfaces")
   demoInterfaces()
+
+  printHeader("abstract classes")
+  demoAbstractClasses()
 }
 
 fun printHeader(header: String?) {
