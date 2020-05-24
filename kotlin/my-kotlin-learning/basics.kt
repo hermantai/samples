@@ -268,6 +268,45 @@ fun demoAbstractClasses() {
  println("rect area: ${rect.getArea()}")
  Square(12.0).printArea()
 }
+
+interface SettingsProvider {
+  fun getSetting(key: String) : String
+  fun putSetting(key: String, value: String)
+}
+
+object SettingsManager : SettingsProvider {
+  private val map = HashMap<String, String>()
+
+  override fun getSetting(key : String) = map.getOrDefault(key, "")
+  override fun putSetting(key : String, value : String) {
+    map.put(key, value)
+  }
+
+  fun printSettings() = map.forEach{ println(it) }
+}
+
+class UserManager(settingsProvider : SettingsProvider) : SettingsProvider by
+settingsProvider
+
+fun demoDelegate() {
+  val userManager = UserManager(SettingsManager)
+  userManager.putSetting("a", "apple")
+  println("usermanager: " + userManager.getSetting("a"))
+
+  val settingsProvider : SettingsProvider = SettingsManager
+  (settingsProvider as SettingsManager).putSetting("b", "boy")
+  // Once it's casted once, don't have to be casted subsequently.
+  settingsProvider.putSetting("c", "cat")
+  println("settingsProvider casted to SettingsManager")
+  settingsProvider.printSettings()
+
+  val settingsProvider2 : SettingsProvider = SettingsManager
+  if (settingsProvider2 is SettingsManager) {
+    println("settingsProvider2 uses smart casting")
+    settingsProvider.printSettings()
+  }
+
+}
 // end of lessons
 
 fun main(args: Array<String>) {
@@ -308,6 +347,9 @@ fun main(args: Array<String>) {
 
   printHeader("abstract classes")
   demoAbstractClasses()
+
+  printHeader("delegate")
+  demoDelegate()
 }
 
 fun printHeader(header: String?) {
