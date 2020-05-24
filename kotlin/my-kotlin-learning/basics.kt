@@ -307,6 +307,26 @@ fun demoDelegate() {
   }
 
 }
+
+data class Article(val title: String, val author: String) {
+  // Not in the primary constructor, so won't be used in equals, hashcode,
+  // toString.
+  var snippet: String = ""
+}
+fun demoDataClass() {
+  val article1 = Article("title1", "author1")
+  article1.snippet = "article1 has this snippet"
+  val article2 = Article("title1", "author1")
+  article2.snippet = "article2 has this snippet"
+  println("${article1} == ${article2}? " + (article1 == article2))
+  val article3 = article1.copy("title3")
+  println("${article1} == ${article3}? " + (article1 == article3))
+
+  // title = article1.getComponent1()
+  // author = article1.getComponent2()
+  val (title, author) = article1
+  println("deconstructed " + title + ", " + author)
+}
 // end of lessons
 
 fun main(args: Array<String>) {
@@ -350,6 +370,9 @@ fun main(args: Array<String>) {
 
   printHeader("delegate")
   demoDelegate()
+
+  printHeader("data class")
+  demoDataClass()
 }
 
 fun printHeader(header: String?) {
