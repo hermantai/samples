@@ -43,6 +43,9 @@ eatingrace
   eatingrace is a demo of concurrency in Go using math/rand, sync.Once,
   time.Tick, time.After, goroutines and channels.
 
+playgomodules
+  Try out go modules described in https://blog.golang.org/using-go-modules.
+
 webserver
   webserver demos how to start a simple HTTP server.
 
