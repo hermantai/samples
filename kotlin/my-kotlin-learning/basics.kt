@@ -327,6 +327,17 @@ fun demoDataClass() {
   val (title, author) = article1
   println("deconstructed " + title + ", " + author)
 }
+
+class FooWithObject {
+  companion object {
+    const val ID_FROM_OBJECT = "123"
+    @JvmStatic
+    val ID_FROM_OBJECT_WITH_JVM_STATIC = "123456"
+  }
+}
+fun demoUseStaticFromJava() {
+  Logger.callKotlinStaticVariable()
+}
 // end of lessons
 
 fun main(args: Array<String>) {
@@ -373,6 +384,9 @@ fun main(args: Array<String>) {
 
   printHeader("data class")
   demoDataClass()
+
+  printHeader("use static from java")
+  demoUseStaticFromJava()
 }
 
 fun printHeader(header: String?) {
