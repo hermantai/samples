@@ -4,6 +4,7 @@ import com.gmail.htaihm.myplaygroundinjava.cancelableasyncloader.CancelableAsync
 import com.gmail.htaihm.myplaygroundinjava.colorchanger.ColorChangerActivity;
 import com.gmail.htaihm.myplaygroundinjava.complexbackgroundimage.ComplexBackgroundImageActivity;
 import com.gmail.htaihm.myplaygroundinjava.drawoverlay.DrawOverlayActivity;
+import com.gmail.htaihm.myplaygroundinjava.expandlistwithanimation.ExpandListWithAnimationActivity;
 import com.gmail.htaihm.myplaygroundinjava.fillscrollview.FillScrollViewActivity;
 import com.gmail.htaihm.myplaygroundinjava.focusjumpwithdpad.FocusJumpWithDpadActivity;
 import com.gmail.htaihm.myplaygroundinjava.observescrolling.ObserveScrollingActivity;
@@ -25,6 +26,9 @@ public class MainListItems {
           (context) -> ComplexBackgroundImageActivity
               .createIntent(context)),
       new MainListItem("Draw Overlay", (context) -> DrawOverlayActivity.createIntent(context)),
+      new MainListItem("Expand a list with animation",
+          (context) -> ExpandListWithAnimationActivity
+              .createIntent(context)),
       new MainListItem("Fill ScrollView",
           (context) -> FillScrollViewActivity.createIntent(context)),
       new MainListItem("Focus Jump with D-pad",
