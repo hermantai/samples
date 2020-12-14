@@ -9,16 +9,15 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:supportsRtl="true"
       android:theme="@style/AppTheme">
-    <activity android:name=".expandlistwithanimation.ExpandListWithAnimationActivity"></activity>
-    <activity android:name=".widgetsdemo.WidgetsDemoActivity"></activity>
-    <activity android:name=".focusjumpwithdpad.FocusJumpWithDpadActivity"></activity>
-    <activity android:name=".complexbackgroundimage.ComplexBackgroundImageActivity"></activity>
-
-    <activity android:name=".drawoverlay.DrawOverlayActivity"></activity>
-
-    <activity android:name=".cancelableasyncloader.CancelableAsyncLoaderActivity"></activity>
-    <activity android:name=".progressbarwithindicator.ProgressBarWithIndicator"></activity>
-    <activity android:name=".fillscrollview.FillScrollViewActivity"></activity>
+    <activity android:name=".expandabletextwithmore.ExpandableTextWithMoreActivity"></activity>
+    <activity android:name=".expandlistwithanimation.ExpandListWithAnimationActivity" />
+    <activity android:name=".widgetsdemo.WidgetsDemoActivity" />
+    <activity android:name=".focusjumpwithdpad.FocusJumpWithDpadActivity" />
+    <activity android:name=".complexbackgroundimage.ComplexBackgroundImageActivity" />
+    <activity android:name=".drawoverlay.DrawOverlayActivity" />
+    <activity android:name=".cancelableasyncloader.CancelableAsyncLoaderActivity" />
+    <activity android:name=".progressbarwithindicator.ProgressBarWithIndicator" />
+    <activity android:name=".fillscrollview.FillScrollViewActivity" />
     <activity android:name=".MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
@@ -27,10 +26,11 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:name=".colorchanger.ColorChangerActivity"></activity>
-    <activity android:name=".viewpositioning.LinearLayoutViewPositioningActivity"></activity>
-    <activity android:name=".observescrolling.ObserveScrollingActivity"></activity>
-    <activity android:name=".lighboxchooser.LightboxChooserActivity"></activity>
+    <activity android:name=".colorchanger.ColorChangerActivity" />
+    <activity android:name=".viewpositioning.LinearLayoutViewPositioningActivity" />
+    <activity android:name=".observescrolling.ObserveScrollingActivity" />
+    <activity android:name=".lighboxchooser.LightboxChooserActivity" />
+
     <service
         android:name=".drawoverlay.MyPlaygroundDrawOverlayService"
         android:enabled="true"

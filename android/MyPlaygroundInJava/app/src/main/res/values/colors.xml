@@ -11,6 +11,8 @@
   <color name="progress_bar_stroke">@color/white</color>
   <color name="progress_bar_background">@color/g_grey200</color>
 
+  <color name="more_text">#01875F</color>
+
   <!-- literal colors -->
   <color name="white">#ffffff</color>
   <color name="black">#000000</color>
@@ -25,4 +27,6 @@
   <color name="g_grey700">#5f6368</color>
   <color name="g_grey800">#3c4043</color>
   <color name="g_grey900">#202124</color>
+
+  <color name="transparent">#00000000</color>
 </resources>

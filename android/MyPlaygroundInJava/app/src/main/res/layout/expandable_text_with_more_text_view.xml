@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/flExpandableTextContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:colorBackground">
+  <TextView
+      android:id="@+id/tvExpandableTextText"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+  <RelativeLayout
+      android:id="@+id/rlMoreTextContainer"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_gravity="bottom">
+    <TextView
+        android:id="@+id/tvMoreText"
+        android:text="More"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/more_text"
+        android:background="?android:colorBackground" />
+    <View
+        android:id="@+id/vGradient"
+        android:layout_width="32dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tvMoreText"
+        android:layout_alignTop="@id/tvMoreText"
+        android:layout_toStartOf="@id/tvMoreText"
+        android:background="@drawable/expandable_text_gradient_background" />
+  </RelativeLayout>
+</FrameLayout>
