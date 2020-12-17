@@ -24,5 +24,6 @@ import (
 
 func main() {
 	t, _ := time.Parse(time.RFC3339, "2006-01-02T15:04:05-07:00")
+	// Returns 1136239445.
 	fmt.Printf("%s timestamp is %v\n", t, t.Unix())
 }
