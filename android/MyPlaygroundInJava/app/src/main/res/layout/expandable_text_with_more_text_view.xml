@@ -12,14 +12,13 @@
   <RelativeLayout
       android:id="@+id/rlMoreTextContainer"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
+      android:layout_height="wrap_content"
       android:layout_gravity="bottom">
     <TextView
         android:id="@+id/tvMoreText"
         android:text="More"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:textColor="@color/more_text"
         android:background="?android:colorBackground" />

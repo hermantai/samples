@@ -38,13 +38,13 @@ public class ExpandableTextWithMoreActivity extends AppCompatActivity {
     llContainer.addView(getExpandableTextView(linesOfText(5)));
     llContainer.addView(getExpandableTextView(linesOfText(6)));
 
-    TextView tv = new TextView(this);
-    tv.setText("end");
-    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-        LayoutParams.WRAP_CONTENT);
-    tv.setLayoutParams(params);
+    // TextView tv = new TextView(this);
+    // tv.setText("end");
+    // LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+    //     LayoutParams.WRAP_CONTENT);
+    // tv.setLayoutParams(params);
 
-    llContainer.addView(tv);
+    // llContainer.addView(tv);
   }
 
   @RequiresApi(api = VERSION_CODES.O)
