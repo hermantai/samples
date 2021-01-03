@@ -20,4 +20,6 @@
     now this is the end\n\n
     and the end\n
   </string>
+  <string name="what_is_your_nickname">What is your Nickname?</string>
+  <string name="done">done</string>
 </resources>
