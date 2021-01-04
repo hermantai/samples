@@ -19,5 +19,16 @@
       android:startColor="#FFFFFFFF"
       android:endColor="#00FFFFFF"
       android:type="linear"/>
+    <!--
+      A better gradient?
+      from top to bottom
+    <gradient
+      android:angle="270"
+      android:startColor="#00FFFFFF"
+      android:centerColor="#00FFFFFF"
+      android:centerY="0.45"
+      android:endColor="#FFFFFFFF"
+      android:type="linear"/>
+     -->
   </shape>
 </layer-list>
