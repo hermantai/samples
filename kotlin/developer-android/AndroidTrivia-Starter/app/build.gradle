@@ -55,4 +55,8 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+
+    // For the navigation drawer
+    // https://developer.android.com/codelabs/kotlin-android-training-add-navigation/index.html#9
+    // implementation "com.google.android.material:material:$version"
 }
