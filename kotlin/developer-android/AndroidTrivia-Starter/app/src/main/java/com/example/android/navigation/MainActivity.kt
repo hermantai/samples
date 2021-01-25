@@ -21,44 +21,69 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.example.android.navigation.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var drawerLayout : DrawerLayout
+  private lateinit var drawerLayout: DrawerLayout
+  private lateinit var appBarConfiguration: AppBarConfiguration
+  private val showHamburgerIconsForAll = true
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        @Suppress("UNUSED_VARIABLE")
-        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        drawerLayout = binding.drawerLayout
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    @Suppress("UNUSED_VARIABLE")
+    val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+    drawerLayout = binding.drawerLayout
 
-        val navController = findNavController(R.id.myNavHostFragment)
-        // To support up action and also the title, the third parameter is optional and is used
-        // for the hamburger menu for drawer.
-        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
 
-        // show the navigation drawer
-        NavigationUI.setupWithNavController(binding.navView, navController)
+    // Only used if showHamburgerIconsForAll is true.
+    appBarConfiguration =
+      AppBarConfiguration.Builder(setOf(R.id.titleFragment, R.id.aboutFragment, R.id.rulesFragment))
+        .setOpenableLayout(drawerLayout).build();
+
+    val navController = findNavController(R.id.myNavHostFragment)
+    // To support up action and also the title, the third parameter is optional and is used
+    // for the hamburger menu for drawer.
+    if (showHamburgerIconsForAll) {
+      NavigationUI.setupActionBarWithNavController(
+        this,
+        navController,
+        appBarConfiguration
+      )
+    } else {
+      NavigationUI.setupActionBarWithNavController(
+        this,
+        navController,
+        drawerLayout
+      )
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.myNavHostFragment)
+    // show the navigation drawer
+    NavigationUI.setupWithNavController(binding.navView, navController)
+  }
+
+  override fun onSupportNavigateUp(): Boolean {
+    val navController = findNavController(R.id.myNavHostFragment)
 //        // This is for the up button
 //        return navController.navigateUp()
 
-        // this is for the hamburger menu
-        return NavigationUI.navigateUp(navController, drawerLayout)
+    // this is for the hamburger menu
+    if (showHamburgerIconsForAll) {
+      return NavigationUI.navigateUp(navController, appBarConfiguration)
+    } else {
+      return NavigationUI.navigateUp(navController, drawerLayout)
     }
+  }
 
-    // TODO (01) Create the new TitleFragment
-    // Select File->New->Fragment->Fragment (Blank)
+  // TODO (01) Create the new TitleFragment
+  // Select File->New->Fragment->Fragment (Blank)
 
-    // TODO (02) Clean up the new TitleFragment
-    // In our new TitleFragment
+  // TODO (02) Clean up the new TitleFragment
+  // In our new TitleFragment
 
-    // TODO (03) Use DataBindingUtil.inflate to inflate and return the titleFragment in onCreateView
-    // In our new TitleFragment
-    // R.layout.fragment_title
+  // TODO (03) Use DataBindingUtil.inflate to inflate and return the titleFragment in onCreateView
+  // In our new TitleFragment
+  // R.layout.fragment_title
 }
