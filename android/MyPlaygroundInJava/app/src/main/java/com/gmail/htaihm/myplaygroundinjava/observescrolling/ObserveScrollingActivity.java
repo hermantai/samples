@@ -1,5 +1,6 @@
 package com.gmail.htaihm.myplaygroundinjava.observescrolling;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -39,10 +40,15 @@ public class ObserveScrollingActivity extends AppCompatActivity {
 
     populateContent(Color.argb(255, 0, 0, 0));
 
+    findViewById(R.id.btnScrollToBottom).setOnClickListener(
+        v -> scrollViewToBottom(getString(R.string.scroll_view_tag), /* durationInMs= */ 500));
+    findViewById(R.id.btnScrollToBottomDefault).setOnClickListener(
+        v -> scrollViewToBottom(getString(R.string.scroll_view_tag), /* durationInMs= */ 0));
+
     scrollView.setFadingEdgeLength(500);
     Button btnClickFade = findViewById(R.id.btnClickFade);
     btnClickFade.setOnClickListener(new View.OnClickListener() {
-      private boolean fadeOff = false;
+      private boolean fadeOff = true;
 
       @Override
       public void onClick(View v) {
@@ -112,6 +118,52 @@ public class ObserveScrollingActivity extends AppCompatActivity {
       textView.setText("text " + i);
       textView.setTextColor(color);
       llContentContainer.addView(textView);
+    }
+  }
+
+  private void scrollViewToBottom(String tag, long durationInMs) {
+    View rootView = getWindow().getDecorView().getRootView();
+
+    if (rootView == null) {
+      Log.i(TAG, "Root view not found");
+      return;
+    }
+
+    View foundView = rootView.findViewWithTag(tag);
+    if (foundView == null) {
+      Log.i(TAG, "View with tag " + tag + " not found");
+      return;
+    }
+
+    if (!(foundView instanceof ScrollView)) {
+      Log.i(TAG, "foundView is not a ScrollView");
+      return;
+    }
+
+    ScrollView foundScrollView = (ScrollView) foundView;
+
+    if (foundScrollView.getChildCount() == 0) {
+      Log.i(TAG, "foundScrollView getChildCount == 0");
+      return;
+    }
+
+    View lastChild = foundScrollView.getChildAt(foundScrollView.getChildCount() - 1);
+    int scrollViewBottom = lastChild.getBottom() + foundScrollView.getPaddingBottom();
+    int currentPosition = foundScrollView.getScrollY() + foundScrollView.getHeight();
+    int delta = scrollViewBottom - currentPosition;
+
+    if (durationInMs > 0) {
+      Log.i(TAG,
+          String.format("lastChild bottom: %s, paddingBottom: %s, scrollViewBottom: %s",
+              lastChild.getBottom(), foundScrollView.getPaddingBottom(), scrollViewBottom));
+      // foundScrollView.smoothScrollBy is not smooth in practice, so we create our own scrolling.
+      ObjectAnimator.ofInt(foundScrollView, "scrollY", scrollViewBottom)
+          .setDuration(durationInMs)
+          .start();
+    } else {
+      // Fallback to foundScrollView.smoothScrollBy when durationInMs
+      // is not set, so the scrolling happens no matter it's smooth or not.
+      foundScrollView.smoothScrollBy(0, delta);
     }
   }
 }

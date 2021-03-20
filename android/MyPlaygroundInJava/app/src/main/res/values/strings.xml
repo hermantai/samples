@@ -4,4 +4,5 @@
     changed. Color, fruit and text are saved in ViewModels.
     The default color is white. Text saved can survive System Initiated Process Death
     because it uses SavedState.</string>
+  <string name="scroll_view_tag">scroll_view</string>
 </resources>
