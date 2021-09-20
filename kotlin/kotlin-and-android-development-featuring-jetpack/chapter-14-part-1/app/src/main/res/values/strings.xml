@@ -1,0 +1,21 @@
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<resources>
+    <string name="app_name">Penny Drop</string>
+    <string name="players">Players</string>
+    <string name="game">Game</string>
+    <string name="player_name">Player Name</string>
+    <string name="roll">Roll</string>
+    <string name="or">OR</string>
+    <string name="pass">Pass</string>
+    <string name="cur_player">Current Player</string>
+    <string name="coin_icon">Coin Icon</string>
+    <string name="coins_left">coin(s) left</string>
+    <string name="na">N/A</string>
+</resources>

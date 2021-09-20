@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="leader"
+            type="dev.mfazio.abl.leaders.LeaderListItem" />
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:onClick="@{clickListener}">
+
+        <TextView
+            android:id="@+id/leadersStatCategory"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/basic_circle"
+            android:gravity="center"
+            android:text="@{leader.statCategory}"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="WHIP" />
+
+        <TextView
+            android:id="@+id/leadersPlayerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@{leader.player.boxScoreLastName}"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@id/leadersPlayerTeamName"
+            app:layout_constraintStart_toEndOf="@id/leadersStatCategory"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Fazio, M." />
+
+        <TextView
+            android:id="@+id/leadersPlayerTeamName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@{leader.teamName}"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/leadersStatCategory"
+            app:layout_constraintTop_toBottomOf="@id/leadersPlayerName"
+            tools:text="Riffs" />
+
+        <TextView
+            android:id="@+id/leadersStatValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{leader.statValue}"
+            android:textSize="26sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text=".378" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

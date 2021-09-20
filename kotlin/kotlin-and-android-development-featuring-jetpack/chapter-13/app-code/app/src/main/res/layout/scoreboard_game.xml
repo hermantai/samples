@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="java.util.List" />
+
+        <import type="dev.mfazio.abl.teams.UITeam" />
+
+        <variable
+            name="game"
+            type="dev.mfazio.abl.scoreboard.ScheduledGame" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <include
+            android:id="@+id/awayTeam"
+            layout="@layout/scoreboard_team"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toTopOf="@id/homeTeam"
+            app:layout_constraintEnd_toStartOf="@id/scoreboardStatusSeparator"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:score="@{game.awayScore}"
+            app:winLoss="@{game.awayWinLoss}"
+            app:uiTeam="@{UITeam.fromTeamId(game.awayTeamId)}" />
+
+        <include
+            android:id="@+id/homeTeam"
+            layout="@layout/scoreboard_team"
+            android:layout_width="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/awayTeam"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/awayTeam"
+            app:score="@{game.homeScore}"
+            app:winLoss="@{game.homeWinLoss}"
+            app:uiTeam="@{UITeam.fromTeamId(game.homeTeamId)}" />
+
+        <View
+            android:id="@+id/scoreboardStatusSeparator"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/lightGray"
+            app:layout_constraintBottom_toBottomOf="@id/homeTeam"
+            app:layout_constraintEnd_toStartOf="@id/scoreboardStatus"
+            app:layout_constraintStart_toEndOf="@id/awayTeam"
+            app:layout_constraintTop_toTopOf="@id/awayTeam" />
+
+        <include
+            android:id="@id/scoreboardStatus"
+            layout="@layout/scoreboard_game_status"
+            android:layout_width="75dp"
+            android:layout_height="100dp"
+            app:game="@{game}"
+            app:layout_constraintBottom_toBottomOf="@id/homeTeam"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/scoreboardStatusSeparator"
+            app:layout_constraintTop_toTopOf="@id/awayTeam" />
+
+        <include
+            android:id="@+id/scoreboardPlayers"
+            layout="@layout/scoreboard_players"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:game="@{game}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scoreboardStatusSeparator" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

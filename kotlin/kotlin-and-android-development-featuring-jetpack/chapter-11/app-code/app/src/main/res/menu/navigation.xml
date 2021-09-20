@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/mainMenuGroup">
+        <item
+            android:id="@+id/scoreboardFragment"
+            android:icon="@drawable/mdi_scoreboard_outline"
+            android:title="@string/scoreboard" />
+        <item
+            android:id="@+id/teamsFragment"
+            android:icon="@drawable/ic_jersey"
+            android:title="@string/teams" />
+        <item
+            android:id="@+id/standingsFragment"
+            android:icon="@drawable/ic_baseline_outlined_flag_24"
+            android:title="@string/standings" />
+        <item
+            android:id="@+id/playersFragment"
+            android:icon="@drawable/ic_baseline_directions_run_24"
+            android:title="@string/players" />
+        <item
+            android:id="@+id/leadersFragment"
+            android:icon="@drawable/ic_baseline_analytics_24"
+            android:title="@string/leaders" />
+    </group>
+    <group android:id="@+id/settingsMenuGroup">
+        <item
+            android:id="@+id/settingsFragment"
+            android:icon="@drawable/ic_baseline_settings_24"
+            android:title="@string/settings" />
+        <item
+            android:id="@+id/aboutTheAppFragment"
+            android:icon="@drawable/ic_baseline_help_outline_24"
+            android:title="@string/about_the_app" />
+    </group>
+</menu>

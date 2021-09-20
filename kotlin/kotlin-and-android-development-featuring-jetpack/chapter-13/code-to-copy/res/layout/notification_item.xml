@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="notificationItem"
+            type="dev.mfazio.abl.notifications.NotificationItem" />
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:onClick="@{clickListener}">
+
+        <TextView
+            android:id="@+id/notificationItemTypeLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@{notificationItem.getNotificationTypeShortName()}"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="L" />
+
+        <TextView
+            android:id="@+id/notificationItemName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="@{notificationItem.title}"
+            android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@id/notificationItemTypeLabel"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Local Notification - Player" />
+
+        <TextView
+            android:id="@+id/notificationItemDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="@{notificationItem.description}"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/notificationItemName"
+            app:layout_constraintStart_toEndOf="@id/notificationItemTypeLabel"
+            tools:text="Displays a local notification for Rolando Lopez, which when clicked, takes a user to his player page." />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

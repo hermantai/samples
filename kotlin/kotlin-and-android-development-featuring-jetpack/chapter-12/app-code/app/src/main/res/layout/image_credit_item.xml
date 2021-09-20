@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.text.Html" />
+
+        <variable
+            name="imageCredit"
+            type="dev.mfazio.abl.settings.ImageCredit" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp">
+
+        <ImageView
+            android:id="@+id/imageCreditsImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="10dp"
+            android:padding="5dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/image_credits_image"
+            android:scaleType="fitCenter"
+            android:src="@{imageCredit.imageResourceId}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imageCreditsLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/fi_ic_electric_guitar"
+            tools:layout_height="100dp"/>
+
+        <TextView
+            android:id="@+id/imageCreditsLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{imageCredit.fileLabel}"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageCreditsImage"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Waukesha Logo" />
+
+        <TextView
+            android:id="@+id/imageCreditsUsageRights"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{Html.fromHtml(imageCredit.usageDescription, Html.FROM_HTML_MODE_LEGACY)}"
+            android:textSize="14sp"
+            android:autoLink="web"
+            app:layout_constraintBottom_toTopOf="@id/imageCreditsUrl"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/imageCreditsLabel"
+            tools:text="Icons made by FreePik from www.flaticon.com" />
+
+        <TextView
+            android:id="@+id/imageCreditsUrl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{Html.fromHtml(imageCredit.anchorUrl, Html.FROM_HTML_MODE_LEGACY)}"
+            android:autoLink="web"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/imageCreditsLabel"
+            tools:text="https://www.flaticon.com/free-icon/fox_672640"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

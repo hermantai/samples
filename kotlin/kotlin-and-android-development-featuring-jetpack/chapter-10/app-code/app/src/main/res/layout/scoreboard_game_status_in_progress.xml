@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="dev.mfazio.abl.util.UIExtensionsKt" alias="UIExtensions" />
+
+        <variable
+            name="game"
+            type="dev.mfazio.abl.scoreboard.ScheduledGame" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/scoreboardStatus"
+        android:layout_width="75dp"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/scoreboardStatusInning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@{UIExtensions.getInningText(game)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Top 8" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/scoreboardStatusCountOuts"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scoreboardStatusInning">
+
+            <ImageView
+                android:id="@+id/scoreboardStatusFirstBase"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:contentDescription="@string/scoreboard_first_base"
+                android:src="@drawable/scoreboard_status_base"
+                app:isOccupied="@{game.occupiedBases.first}"
+                app:layout_constraintHeight_percent=".5"
+                app:layout_constraintStart_toEndOf="@id/scoreboardStatusThirdBase"
+                app:layout_constraintTop_toTopOf="@id/scoreboardStatusUpperGuideline"
+                app:layout_constraintWidth_percent=".5"/>
+
+            <ImageView
+                android:id="@+id/scoreboardStatusSecondBase"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:contentDescription="@string/scoreboard_second_base"
+                android:src="@drawable/scoreboard_status_base"
+                app:isOccupied="@{game.occupiedBases.second}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent=".5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent=".5" />
+
+            <ImageView
+                android:id="@+id/scoreboardStatusThirdBase"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:contentDescription="@string/scoreboard_third_base"
+                android:src="@drawable/scoreboard_status_base"
+                app:isOccupied="@{game.occupiedBases.third}"
+                app:layout_constraintEnd_toStartOf="@id/scoreboardStatusFirstBase"
+                app:layout_constraintHeight_percent=".5"
+                app:layout_constraintTop_toTopOf="@id/scoreboardStatusUpperGuideline"
+                app:layout_constraintWidth_percent=".5" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/scoreboardStatusUpperGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintGuide_percent=".333333333"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/scoreboardStatusMidGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintGuide_percent=".5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/scoreboardStatusCountOuts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{game.outs + " out"}'
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="2 out" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,59 @@
+There are a number of images used in the app code and shown in the pages of this book. Below is a list of the images along with attributions.
+If an image is not listed below, it means it's from Google's Material Design library, which can be found within Android Studio.
+
+Appleton Logo (fi_ic_fox.xml) - Icons made by Freepik from www.flaticon.com
+https://www.flaticon.com/free-icon/fox_672640
+
+Baraboo Logo (fi_ic_circus.xml) - Icons made by Freepik from www.flaticon.com
+https://www.flaticon.com/free-icon/circus_1838455
+
+Eau Claire Logo (fi_ic_lake.xml) - Icons made by Good Ware from www.flaticon.com
+https://www.flaticon.com/free-icon/lake_2151296
+
+Green Bay Logo (ic_skyline_logo.xml) - All rights to the Skyline logo belongs to Skyline Technologies, a Core BTS company
+https://www.skylinetechnologies.com/
+
+La Crosse Logo (fi_ic_heart.xml) - Icons made by Freepik from www.flaticon.com
+https://www.flaticon.com/free-icon/love_2950226
+
+Lake Delton Logo (fi_ic_sea.xml) - Icons made by Freepik from www.flaticon.com
+https://www.flaticon.com/free-icon/waves_3219501
+
+Madison Logo (fi_ic_snow_sharp.xml) - Icons made by Good Ware from www.flaticon.com
+https://www.flaticon.com/free-icon/snowflake_2834554
+
+Milwaukee Logo (mke_flag.xml) - The Milwaukee logo is from the People's Flag of Milwaukee
+https://milwaukeeflag.com
+
+Pewaukee Logo (fi_ic_crown.xml) - Icons made by Freepik from www.flaticon.com
+https://www.flaticon.com/free-icon/crown_3141842
+
+Shawano Logo (fi_ic_swallow.xml) - Icons made by Smashicons from www.flaticon.com
+https://www.flaticon.com/free-icon/swallow_2484514
+
+Sturgeon Bay Logo (fi_ic_walking_stick.xml) - Icons made by Freepik from www.flaticon.com
+https://www.flaticon.com/free-icon/walking-stick_2852351
+
+Spring Green Logo (fi_ic_theater.xml) - Icons made by Smashicons from www.flaticon.com
+https://www.flaticon.com/free-icon/theater_1138104
+
+Waukesha Logo (fi_ic_electric_guitar.xml) - Icons made by Freepik from www.flaticon.com
+https://www.flaticon.com/free-icon/electric-guitar_836903
+
+Wisconsin Rapids Logo (fi_ic_cranberry.xml) - Icons made by Vitaly Gorbachev from www.flaticon.com
+https://www.flaticon.com/free-icon/cranberry_2044976
+
+ABL Logo Background (ic_abl_logo_with_text.xml) - Icons made by smalllikeart from www.flaticon.com
+https://www.flaticon.com/free-icon/home-plate_2288316
+
+Scoreboard Icon (mdi_scoreboard_outline.xml) - Icon created by Yaroslav Bandura and found on MaterialDesignIcons.com
+https://materialdesignicons.com/icon/scoreboard-outline
+
+Jersey Icon (ic_jersey.xml) - Icons made by Freepik from www.flaticon.com
+https://www.flaticon.com/free-icon/baseball-jersey_2591372
+
+Coin (mdi_coin_black_24dp.xml) - Icon from MaterialDesignIcons.com
+https://materialdesignicons.com/icon/currency-usd-circle-outline
+
+D6 Die (mdi_dice_6_black_24dp.xml) - Icon created by Yasmina Lembachar for MaterialDesignIcons.com
+https://materialdesignicons.com/icon/dice-6

@@ -1,0 +1,53 @@
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+  <group android:scaleX="0.02406582"
+      android:scaleY="0.02406582"
+      android:translateX="18.9"
+      android:translateY="18.9">
+    <path
+        android:pathData="M2425,1775.01l-966.67,833.33l-966.67,-833.33l-0,-1100l1933.33,-0l0,1100Z"
+        android:fillColor="#e8e7dd"
+        android:fillType="nonZero"/>
+    <path
+        android:pathData="M625,1708.34l833.33,700l0,200l-966.67,-833.33l133.33,-66.67Z"
+        android:fillColor="#afad97"
+        android:fillType="nonZero"/>
+    <path
+        android:pathData="M2291.67,1708.34l-833.33,700l0,200l966.67,-833.33l-133.33,-66.67Z"
+        android:fillColor="#9b977e"
+        android:fillType="nonZero"/>
+    <path
+        android:pathData="M491.67,675.01l-0,1100l133.33,-66.67l0,-900l1666.67,0l-0,900l133.33,66.67l-0,-1100l-1933.33,-0Z"
+        android:fillColor="#cecdba"
+        android:fillType="nonZero"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M858.33,1375.01l-66.67,-0l-0,200c0.01,9.73 4.28,18.98 11.67,25.3l233.33,200l43.33,-50.6l-221.67,-190.03l0,-184.67Z"
+        android:fillType="nonZero"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M1758.33,1041.67l300,0l0,133.33l66.67,-0l0,-200l-366.67,-0l0,66.67Z"
+        android:fillType="nonZero"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M2058.33,1241.67h66.67v66.67h-66.67z"/>
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M2425,641.67l-1933.33,0c-18.29,0 -33.33,15.05 -33.33,33.33l0,1100c-0,9.7 4.22,18.93 11.57,25.27l966.67,833.33c12.45,10.74 31.08,10.74 43.53,-0l966.67,-833.33c7.35,-6.33 11.57,-15.57 11.57,-25.27l0,-1100c0,-18.29 -15.05,-33.33 -33.33,-33.33ZM1425,2535.6l-873.67,-753.17l69,-34.5l804.67,675.93l0,111.73ZM1458.33,2364.8l-800,-672l0,-851.13l1600,0l0,851.13l-800,672ZM1491.67,2535.6l-0,-111.73l804.67,-675.93l69,34.5l-873.67,753.17ZM2391.67,1721.07l-66.67,-33.33l0,-879.4c0,-18.29 -15.05,-33.33 -33.33,-33.33l-1666.67,-0c-18.29,-0 -33.33,15.05 -33.33,33.33l-0,879.4l-66.67,33.33l0,-1012.73l1866.67,0l-0,1012.73Z"
+        android:fillType="nonZero"/>
+    <path
+        android:pathData="M1730.91,1246.69l78.61,-135.86c6.84,-13.24 1.71,-29.48 -11.11,-36.31c-12.39,-6.41 -27.77,-2.56 -35.46,9.4l-80.32,138.42c-122.19,-51.69 -259.76,-51.69 -381.94,-0l-80.32,-138.42c-8.12,-12.39 -24.78,-16.23 -37.17,-8.54c-11.96,7.69 -15.81,23.07 -9.4,35.46l78.61,135.86c-132.44,75.62 -218.74,211.9 -230.7,364l939.9,-0c-11.96,-152.09 -98.26,-288.38 -230.7,-364ZM1278.05,1493.2c-29.48,-0 -53.4,-23.92 -53.4,-53.4c0,-29.48 23.92,-53.4 53.4,-53.4c29.48,-0 53.4,23.92 53.4,53.4c-0,29.48 -23.92,53.4 -53.4,53.4ZM1705.28,1493.2c-29.48,-0 -53.4,-23.92 -53.4,-53.4c-0,-29.48 23.92,-53.4 53.4,-53.4c29.48,-0 53.4,23.92 53.4,53.4c-0,29.48 -23.92,53.4 -53.4,53.4Z"
+        android:fillColor="#00de7a"/>
+  </group>
+</vector>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:bottom="42dp"
+        android:left="42dp"
+        android:right="42dp"
+        android:top="42dp">
+        <rotate android:fromDegrees="45">
+            <shape>
+                <size
+                    android:width="200dp"
+                    android:height="200dp" />
+                <solid android:color="@color/androidGreen" />
+                <stroke
+                    android:width="5dp"
+                    android:color="@color/darkGray" />
+            </shape>
+        </rotate>
+    </item>
+</layer-list>

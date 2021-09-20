@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="score"
+            type="Integer" />
+        <variable
+            name="winLoss"
+            type="String" />
+        <variable
+            name="uiTeam"
+            type="dev.mfazio.abl.teams.UITeam" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:layout_width="300dp">
+
+        <ImageView
+            android:id="@+id/scoreboardTeamLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/team_logo"
+            android:src="@{uiTeam.logoId}"
+            app:layout_constraintBottom_toBottomOf="@id/scoreboardTeamRecord"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/scoreboardTeamName"
+            tools:src="@drawable/fi_ic_electric_guitar" />
+
+        <TextView
+            android:id="@+id/scoreboardTeamName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:text="@{uiTeam.nickname}"
+            app:layout_constraintStart_toEndOf="@id/scoreboardTeamLogo"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Riffs" />
+
+        <TextView
+            android:id="@+id/scoreboardTeamRecord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/scoreboardTeamName"
+            app:layout_constraintTop_toBottomOf="@id/scoreboardTeamName"
+            android:text='@{winLoss}'
+            tools:text="101-53" />
+
+        <TextView
+            android:id="@+id/scoreboardTeamScore"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:textSize="36sp"
+            android:text='@{score.toString()}'
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="8" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

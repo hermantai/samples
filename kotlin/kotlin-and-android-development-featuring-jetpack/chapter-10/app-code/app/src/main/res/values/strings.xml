@@ -1,0 +1,37 @@
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<resources>
+    <string name="app_name">Android Baseball League</string>
+    <string name="app_short_name">ABL</string>
+    <string name="teams">Teams</string>
+    <string name="team_logo">Team Logo</string>
+    <string name="abl_logo">ABL Logo</string>
+    <string name="scoreboard">Scoreboard</string>
+    <string name="standings">Standings</string>
+    <string name="players">Players</string>
+    <string name="leaders">Leaders</string>
+    <string name="settings">Settings</string>
+    <string name="about_the_app">About the App</string>
+    <string name="wins_w">W</string>
+    <string name="losses_l">L</string>
+    <string name="percentage_abbr">PCT</string>
+    <string name="games_back_abbr">GB</string>
+    <string name="last_ten_abbr">L10</string>
+    <string name="streak_abbr">STRK</string>
+    <string name="view_roster">View Roster</string>
+    <string name="in_abl">in ABL</string>
+    <string name="network_exception_message">A network error has occurred. Please check your connection and try again.</string>
+    <string name="request_exception_message">The API request was invalid. Please try again.</string>
+    <string name="general_exception_message">An error occurred retrieving data. Please try again.</string>
+    <string name="scoreboard_first_base">Scoreboard First Base</string>
+    <string name="scoreboard_second_base">Scoreboard Second Base</string>
+    <string name="scoreboard_third_base">Scoreboard Third Base</string>
+    <string name="scoreboard_left_arrow">Scoreboard Left Arrow</string>
+    <string name="scoreboard_right_arrow">Scoreboard Right Arrow</string>
+</resources>

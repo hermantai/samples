@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="uiTeamStanding"
+            type="dev.mfazio.abl.standings.UITeamStanding" />
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{clickListener}"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/teamId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{uiTeamStanding.teamId}"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="PKE" />
+
+        <TextView
+            android:id="@+id/teamWins"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{uiTeamStanding.wins}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/teamLosses"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="102" />
+
+        <TextView
+            android:id="@+id/teamLosses"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{uiTeamStanding.losses}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/teamWinPercentage"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="52" />
+
+        <TextView
+            android:id="@+id/teamWinPercentage"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{uiTeamStanding.winPercentage}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/teamGamesBack"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text=".642" />
+
+        <TextView
+            android:id="@+id/teamGamesBack"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{uiTeamStanding.gamesBackText}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/teamLastTen"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="4.0" />
+
+        <TextView
+            android:id="@+id/teamLastTen"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{uiTeamStanding.lastTenText}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/teamStreak"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="6-4" />
+
+        <TextView
+            android:id="@+id/teamStreak"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{uiTeamStanding.streakText}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="W3" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

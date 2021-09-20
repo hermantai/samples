@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import
+            alias="UIExtensions"
+            type="dev.mfazio.abl.util.UIExtensionsKt" />
+        <variable
+            name="game"
+            type="dev.mfazio.abl.scoreboard.ScheduledGame" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <include
+            layout="@layout/scoreboard_player_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:label="@{UIExtensions.getPlayerLabel(game, 0)}"
+            app:playerInfo="@{game.firstPlayer}" />
+        <include
+            layout="@layout/scoreboard_player_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            app:label="@{UIExtensions.getPlayerLabel(game, 1)}"
+            app:playerInfo="@{game.secondPlayer}" />
+        <include
+            layout="@layout/scoreboard_player_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isVisible="@{game.thirdPlayer != null}"
+            app:label="@{UIExtensions.getPlayerLabel(game, 2)}"
+            app:playerInfo="@{game.thirdPlayer}" />
+    </LinearLayout>
+</layout>

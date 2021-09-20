@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/playersFragment">
+    <action
+        android:id="@+id/actionGoToTeam"
+        app:destination="@id/singleTeamFragment">
+        <argument
+            android:name="teamId"
+            app:argType="string" />
+        <argument
+            android:name="teamName"
+            app:argType="string" />
+    </action>
+    <action
+        android:id="@+id/actionGoToPlayer"
+        app:destination="@id/singlePlayerFragment">
+        <argument
+            android:name="playerId"
+            app:argType="string" />
+        <argument
+            android:name="playerName"
+            app:argType="string" />
+    </action>
+    <action
+        android:id="@+id/actionGoToTeamRoster"
+        app:destination="@id/playersFragment">
+        <argument
+            android:name="teamId"
+            app:argType="string" />
+    </action>
+    <fragment
+        android:id="@+id/aboutTheAppFragment"
+        android:name="dev.mfazio.abl.settings.AboutTheAppFragment"
+        android:label="@string/about_the_app"
+        tools:layout="@layout/fragment_about_the_app" />
+    <fragment
+        android:id="@+id/imageCreditsFragment"
+        android:name="dev.mfazio.abl.settings.ImageCreditsFragment"
+        android:label="@string/image_credits"
+        tools:layout="@layout/fragment_image_credits" />
+    <fragment
+        android:id="@+id/leadersFragment"
+        android:name="dev.mfazio.abl.leaders.LeadersFragment"
+        android:label="@string/leaders"
+        tools:layout="@layout/fragment_leaders" />
+    <fragment
+        android:id="@+id/playersFragment"
+        android:name="dev.mfazio.abl.players.PlayersFragment"
+        android:label="@string/players">
+        <argument
+            android:name="teamId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="dev.mfazio.abl.settings.SettingsFragment"
+        android:label="@string/settings"/>
+    <fragment
+        android:id="@+id/singlePlayerFragment"
+        android:name="dev.mfazio.abl.players.SinglePlayerFragment"
+        android:label="{playerName}"
+        tools:layout="@layout/fragment_single_player">
+        <argument
+            android:name="playerId"
+            app:argType="string" />
+        <argument
+            android:name="playerName"
+            app:argType="string" />
+        <deepLink app:uri="https://link.mfazio.dev/players/{playerId}?playerName={playerName}" />
+    </fragment>
+    <fragment
+        android:id="@+id/scoreboardFragment"
+        android:name="dev.mfazio.abl.scoreboard.ScoreboardFragment"
+        android:label="@string/scoreboard" />
+    <fragment
+        android:id="@+id/standingsFragment"
+        android:name="dev.mfazio.abl.standings.StandingsFragment"
+        android:label="@string/standings" />
+    <fragment
+        android:id="@+id/teamsFragment"
+        android:name="dev.mfazio.abl.teams.TeamsFragment"
+        android:label="@string/teams" />
+    <fragment
+        android:id="@+id/singleTeamFragment"
+        android:name="dev.mfazio.abl.teams.SingleTeamFragment"
+        android:label="{teamName}"
+        tools:layout="@layout/fragment_single_team">
+        <argument
+            android:name="teamId"
+            app:argType="string" />
+        <argument
+            android:name="teamName"
+            app:argType="string" />
+        <deepLink app:uri="https://link.mfazio.dev/teams/{teamId}?teamName={teamName}" />
+    </fragment>
+</navigation>

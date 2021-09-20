@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import
+            alias="UIExtensions"
+            type="dev.mfazio.abl.util.UIExtensionsKt" />
+
+        <variable
+            name="game"
+            type="dev.mfazio.abl.scoreboard.ScheduledGame" />
+    </data>
+
+    <TextView
+        android:id="@+id/scoreboardStatusUpcoming"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text='@{UIExtensions.getGameStartTimeText(game)}'
+        android:textStyle="bold"
+        tools:text="6:00 PM CT" />
+</layout>

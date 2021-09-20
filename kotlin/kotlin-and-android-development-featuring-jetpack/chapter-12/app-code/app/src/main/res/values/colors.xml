@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<resources>
+
+    <color name="androidGreen">#00DE7A</color>
+    <color name="darkAndroidGreen">#006f3d</color>
+    <color name="ablTan">#afad97</color>
+    <color name="darkAblTan">#9b977e</color>
+    <color name="lightGray">#CCC</color>
+    <color name="darkGray">#555</color>
+
+    <color name="appletonPrimary">#FF4F19</color>
+    <color name="appletonSecondary">#3A3A41</color>
+    <color name="appletonTertiary">#FFC173</color>
+
+    <color name="barabooPrimary">#DC4955</color>
+    <color name="barabooSecondary">#FFF</color>
+    <color name="barabooTertiary">#365F7E</color>
+
+    <color name="eauClairePrimary">#72BDF6</color>
+    <color name="eauClaireSecondary">#120e30</color>
+    <color name="eauClaireTertiary">#FFF</color>
+
+    <color name="greenBayPrimary">#013C5B</color>
+    <color name="greenBaySecondary">#57c8e8</color>
+    <color name="greenBayTertiary">#FFF</color>
+
+    <color name="laCrossePrimary">#FC5A95</color>
+    <color name="laCrosseSecondary">#000</color>
+    <color name="laCrosseTertiary">#FCA5CD</color>
+
+    <color name="lakeDeltonPrimary">#7CF0EE</color>
+    <color name="lakeDeltonSecondary">#26ABFF</color>
+    <color name="lakeDeltonTertiary">#000</color>
+
+    <color name="madisonPrimary">#5E9CD3</color>
+    <color name="madisonSecondary">#CAE7FC</color>
+    <color name="madisonTertiary">#73B7DD</color>
+
+    <color name="milwaukeePrimary">#0d2240</color>
+    <color name="milwaukeeSecondary">#f7a800</color>
+    <color name="milwaukeeTertiary">#00a8e1</color>
+
+    <color name="pewaukeePrimary">#06d8f4</color>
+    <color name="pewaukeeSecondary">#ffc34d</color>
+    <color name="pewaukeeTertiary">#FFF</color>
+
+    <color name="shawanoPrimary">#F44335</color>
+    <color name="shawanoSecondary">#5F7D95</color>
+    <color name="shawanoTertiary">#000</color>
+
+    <color name="springGreenPrimary">#69E781</color>
+    <color name="springGreenSecondary">#FDD834</color>
+    <color name="springGreenTertiary">#000</color>
+
+    <color name="sturgeonBayPrimary">#AB7B64</color>
+    <color name="sturgeonBaySecondary">#EDC472</color>
+    <color name="sturgeonBayTertiary">#000</color>
+
+    <color name="waukeshaPrimary">#420183</color>
+    <color name="waukeshaSecondary">#000</color>
+    <color name="waukeshaTertiary">#FFDEA9</color>
+
+    <color name="wiRapidsPrimary">#FF5872</color>
+    <color name="wiRapidsSecondary">#A8FFA9</color>
+    <color name="wiRapidsTertiary">#000</color>
+</resources>

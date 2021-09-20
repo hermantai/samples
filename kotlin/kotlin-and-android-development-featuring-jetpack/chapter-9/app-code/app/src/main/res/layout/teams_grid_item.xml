@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="team"
+            type="dev.mfazio.abl.teams.UITeam" />
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{clickListener}"
+        android:layout_margin="8dp">
+
+        <ImageView
+            android:id="@+id/teamLogo"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription="@string/team_logo"
+            android:src="@{team.logoId}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/fi_ic_electric_guitar" />
+
+        <TextView
+            android:id="@+id/teamLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{team.location}"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/teamLogo"
+            tools:text="Waukesha" />
+
+        <TextView
+            android:id="@+id/teamNickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{team.nickname}"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/teamLocation"
+            tools:text="Riffs" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="dev.mfazio.abl.teams.UITeam" />
+
+        <variable
+            name="vm"
+            type="dev.mfazio.abl.players.SinglePlayerViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/singlePlayerTeamLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/single_player_team_logo"
+            android:padding="8dp"
+            android:src="@{UITeam.fromTeamId(vm.playerWithStats.player.teamId).logoId}"
+            app:layout_constraintBottom_toBottomOf="@id/singlePlayerPosition"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/singlePlayerName"
+            tools:src="@drawable/fi_ic_electric_guitar" />
+
+        <TextView
+            android:id="@+id/singlePlayerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@{vm.playerWithStats.player.fullName}"
+            android:textSize="32sp"
+            app:layout_constraintEnd_toStartOf="@id/singlePlayerNumber"
+            app:layout_constraintStart_toEndOf="@id/singlePlayerTeamLogo"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Ulfric Gardisson" />
+
+        <TextView
+            android:id="@+id/singlePlayerNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text='@{"#" + vm.playerWithStats.player.number}'
+            android:textSize="32sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/singlePlayerName"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="#55" />
+
+        <TextView
+            android:id="@+id/singlePlayerPosition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{vm.playerWithStats.player.position.shortName}"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@id/singlePlayerBats"
+            app:layout_constraintStart_toEndOf="@id/singlePlayerTeamLogo"
+            app:layout_constraintTop_toBottomOf="@id/singlePlayerName"
+            tools:text="SP" />
+
+        <View
+            android:id="@+id/singlePlayerPositionBatsSeparator"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/lightGray"
+            app:layout_constraintBottom_toBottomOf="@id/singlePlayerPosition"
+            app:layout_constraintEnd_toStartOf="@id/singlePlayerBats"
+            app:layout_constraintStart_toEndOf="@id/singlePlayerPosition"
+            app:layout_constraintTop_toTopOf="@id/singlePlayerPosition" />
+
+        <TextView
+            android:id="@+id/singlePlayerBats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{"Bats: " + vm.playerWithStats.player.batsWith}'
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@id/singlePlayerBatsThrowsSeparator"
+            app:layout_constraintStart_toEndOf="@id/singlePlayerPositionBatsSeparator"
+            app:layout_constraintTop_toBottomOf="@id/singlePlayerName"
+            tools:text="Bats: Right" />
+
+        <View
+            android:id="@+id/singlePlayerBatsThrowsSeparator"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/lightGray"
+            app:layout_constraintBottom_toBottomOf="@id/singlePlayerThrows"
+            app:layout_constraintEnd_toStartOf="@id/singlePlayerThrows"
+            app:layout_constraintStart_toEndOf="@id/singlePlayerBats"
+            app:layout_constraintTop_toTopOf="@id/singlePlayerThrows" />
+
+        <TextView
+            android:id="@+id/singlePlayerThrows"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:text='@{"Throws: " + vm.playerWithStats.player.throwsWith}'
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/singlePlayerBatsThrowsSeparator"
+            app:layout_constraintTop_toBottomOf="@id/singlePlayerName"
+            tools:text="Throws: Right" />
+
+
+        <View
+            android:id="@+id/singlePlayerInfoStatsSeparator"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_margin="8dp"
+            android:background="@color/lightGray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/singlePlayerPosition" />
+
+        <include
+            android:id="@+id/singlePlayerStats"
+            layout="@layout/single_player_stats"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            app:stats="@{vm.stats}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/singlePlayerInfoStatsSeparator" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

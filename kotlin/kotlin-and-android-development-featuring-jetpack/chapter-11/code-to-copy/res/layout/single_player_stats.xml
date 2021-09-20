@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="java.util.List" />
+
+        <variable
+            name="stats"
+            type="List&lt;dev.mfazio.abl.players.PlayerStatWithLabel>" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/statWithLabel1"
+            layout="@layout/single_player_stat_with_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/statWithLabel2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:stat="@{stats[0]}" />
+
+        <include
+            android:id="@+id/statWithLabel2"
+            layout="@layout/single_player_stat_with_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/statWithLabel3"
+            app:layout_constraintStart_toEndOf="@id/statWithLabel1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:stat="@{stats[1]}" />
+
+        <include
+            android:id="@+id/statWithLabel3"
+            layout="@layout/single_player_stat_with_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/statWithLabel4"
+            app:layout_constraintStart_toEndOf="@id/statWithLabel2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:stat="@{stats[2]}" />
+
+        <include
+            android:id="@+id/statWithLabel4"
+            layout="@layout/single_player_stat_with_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/statWithLabel3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:stat="@{stats[3]}" />
+
+        <include
+            android:id="@+id/statWithLabel5"
+            layout="@layout/single_player_stat_with_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@id/statWithLabel6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/statWithLabel1"
+            app:stat="@{stats[4]}" />
+
+        <include
+            android:id="@+id/statWithLabel6"
+            layout="@layout/single_player_stat_with_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@id/statWithLabel7"
+            app:layout_constraintStart_toEndOf="@id/statWithLabel5"
+            app:layout_constraintTop_toBottomOf="@id/statWithLabel2"
+            app:stat="@{stats[5]}" />
+
+        <include
+            android:id="@+id/statWithLabel7"
+            layout="@layout/single_player_stat_with_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@id/statWithLabel8"
+            app:layout_constraintStart_toEndOf="@id/statWithLabel6"
+            app:layout_constraintTop_toBottomOf="@id/statWithLabel3"
+            app:stat="@{stats[6]}" />
+
+        <include
+            android:id="@+id/statWithLabel8"
+            layout="@layout/single_player_stat_with_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/statWithLabel7"
+            app:layout_constraintTop_toBottomOf="@id/statWithLabel4"
+            app:stat="@{stats[7]}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

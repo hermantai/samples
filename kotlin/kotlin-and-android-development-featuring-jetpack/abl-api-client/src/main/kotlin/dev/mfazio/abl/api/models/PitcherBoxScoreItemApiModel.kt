@@ -1,0 +1,33 @@
+package dev.mfazio.abl.api.models
+
+data class PitcherBoxScoreItemApiModel(
+    val playerId: String,
+    val teamId: String,
+    val firstName: String,
+    val lastName: String,
+    val number: Int = 0,
+    val bats: HandApiModel = HandApiModel.Right,
+    val throws: HandApiModel = HandApiModel.Right,
+    val position: PositionApiModel = PositionApiModel.Unknown,
+    val boxScoreLastName: String?,
+    val games: Int,
+    val gamesStarted: Int,
+    val outs: Int,
+    val hits: Int,
+    val doubles: Int,
+    val triples: Int,
+    val homeRuns: Int,
+    val runs: Int,
+    val earnedRuns: Int,
+    val baseOnBalls: Int,
+    val hitByPitches: Int,
+    val strikeouts: Int,
+    val errors: Int,
+    val wildPitches: Int,
+    val battersFaced: Int,
+    val wins: Int,
+    val losses: Int,
+    val saves: Int,
+    val blownSaves: Int,
+    val holds: Int
+)

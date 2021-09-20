@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Kotlin and Android Development featuring Jetpack",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material,
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose.
+ ! Visit http://www.pragmaticprogrammer.com/titles/mfjetpack for more book information.
+-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="dev.mfazio.abl.scoreboard.ScoreboardViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/scoreboardChangeYesterday"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:background="?attr/colorPrimary"
+            android:contentDescription="@string/scoreboard_left_arrow"
+            android:longClickable="true"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/ic_baseline_arrow_left_24"
+            app:layout_constraintBottom_toBottomOf="@id/scoreboardCurrentDate"
+            app:layout_constraintEnd_toStartOf="@id/scoreboardCurrentDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@android:color/white" />
+
+        <TextView
+            android:id="@+id/scoreboardCurrentDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@{vm.currentDateText}"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/scoreboardGamesScrollView"
+            app:layout_constraintEnd_toStartOf="@id/scoreboardChangeTomorrow"
+            app:layout_constraintStart_toEndOf="@id/scoreboardChangeYesterday"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Wednesday, Oct 28" />
+
+        <ImageView
+            android:id="@+id/scoreboardChangeTomorrow"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:background="?attr/colorPrimary"
+            android:contentDescription="@string/scoreboard_right_arrow"
+            android:foregroundGravity="right"
+            android:longClickable="true"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:scaleType="fitEnd"
+            android:src="@drawable/ic_baseline_arrow_right_24"
+            app:layout_constraintBottom_toBottomOf="@id/scoreboardCurrentDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/scoreboardCurrentDate"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@android:color/white" />
+
+        <ScrollView
+            android:id="@+id/scoreboardGamesScrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scoreboardCurrentDate">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isVisible="@{vm.games != null &amp;&amp; vm.games.size() > 0}"
+                android:layout_marginTop="10dp">
+
+                <include
+                    android:id="@+id/scoreboardGameOne"
+                    layout="@layout/scoreboard_game"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:game="@{vm.games[0]}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/scoreboardGameTopSeparator"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_margin="10dp"
+                    android:background="@color/lightGray"
+                    app:layout_constraintBottom_toTopOf="@id/scoreboardGameTwo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/scoreboardGameOne" />
+
+                <include
+                    android:id="@+id/scoreboardGameTwo"
+                    layout="@layout/scoreboard_game"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:game="@{vm.games[1]}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/scoreboardGameTopSeparator" />
+
+                <View
+                    android:id="@+id/scoreboardGameBottomSeparator"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_margin="10dp"
+                    android:background="@color/lightGray"
+                    app:layout_constraintBottom_toTopOf="@id/scoreboardGameThree"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/scoreboardGameTwo" />
+
+                <include
+                    android:id="@+id/scoreboardGameThree"
+                    layout="@layout/scoreboard_game"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:game="@{vm.games[2]}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/scoreboardGameBottomSeparator" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

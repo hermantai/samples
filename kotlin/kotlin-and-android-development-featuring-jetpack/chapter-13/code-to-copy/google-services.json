@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "479866297707",
+    "firebase_url": "https://android-baseball-league.firebaseio.com",
+    "project_id": "android-baseball-league",
+    "storage_bucket": "android-baseball-league.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479866297707:android:cdbdf2d1142fa298cec02e",
+        "android_client_info": {
+          "package_name": "dev.mfazio.abl"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "479866297707-bpntfd4l3ihuetmrgnd4l2do91le90d3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEvgbNpSkrxLYErgV_C0YlFQJrwNx7gOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "479866297707-bpntfd4l3ihuetmrgnd4l2do91le90d3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
