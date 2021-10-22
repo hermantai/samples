@@ -1,5 +1,11 @@
 // Beginning of individual Kotlin lessons.
 
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+
 // ?: symbol
 fun formatName(name: String?) = name ?: "Fellow Human"
 
@@ -338,9 +344,114 @@ class FooWithObject {
 fun demoUseStaticFromJava() {
   Logger.callKotlinStaticVariable()
 }
+
+fun demoUsingCoroutines() {
+  runBlocking {
+    launch {
+      delay(2000L)
+      println("Done using coroutines")
+    }
+    println("printed from a coroutine")
+    useCoroutineScope()
+  }
+}
+
+suspend fun useCoroutineScope() = coroutineScope {
+  launch {
+    delay(1000L)
+    println("end of useCoroutineScope")
+  }
+  println("printed inside useCoroutineScope")
+}
+
+/**
+ * From https://kotlinlang.org/docs/flow.html#flows
+ */
+fun demoUsingFlows() {
+  runBlocking {
+    runBlocking {
+      launch {
+          for (k in 1..3) {
+              println("I'm not blocked $k")
+              delay(100)
+          }
+      }
+      // Collect the flow
+      simpleFlow().collect { value -> println("Got ${value} from flow") }
+    }
+
+    runBlocking {
+      var flowWithEmitEcho = simpleFlowWithEmitEcho(100)
+      launch {
+        // The print out proves that flowWithEmitEcho is not run until
+        // the delay is done, thus we need "collect" to start
+        // the flow.
+        delay(1000)
+        flowWithEmitEcho.collect { value ->
+          println("Got ${value} from flow with echo")
+        }
+      }
+    }
+
+    runBlocking {
+      // The print out proves that once a flow is started by collect,
+      // it can keep emitting values without waiting for the
+      // receiver to handle the values.
+      var flowWithEmitEcho2 = simpleFlowWithEmitEcho2(100)
+      flowWithEmitEcho2.collect { value ->
+        launch {
+          delay(1000)
+          println("Got ${value} from flow with echo 2")
+        }
+      }
+    }
+  }
+}
+
+fun simpleFlow(): Flow<Int> = flow {
+  for (i in 1..3) {
+    delay(100)
+    emit(i)
+  }
+}
+
+fun simpleFlowWithEmitEcho(delayInMs: Long): Flow<Int> = flow {
+  printWithTimeStamp("simpleFlowWithEmitEcho started")
+  for (i in 1..3) {
+    delay(delayInMs)
+    printWithTimeStamp("simpleFlowWithEmitEcho emits $i")
+    emit(i)
+  }
+}
+
+fun simpleFlowWithEmitEcho2(delayInMs: Long): Flow<Int> = flow {
+  printWithTimeStamp("simpleFlowWithEmitEcho2 started")
+  for (i in 1..15) {
+    delay(delayInMs)
+    printWithTimeStamp("simpleFlowWithEmitEcho2 emits $i")
+    emit(i)
+  }
+}
+/*
+fun main() = runBlocking<Unit> {
+    // Launch a concurrent coroutine to check if the main thread is blocked
+    launch {
+        for (k in 1..3) {
+            println("I'm not blocked $k")
+            delay(100)
+        }
+    }
+    // Collect the flow
+    simple().collect { value -> println(value) }
+}
+*/
+
 // end of lessons
 
 fun main(args: Array<String>) {
+  var argCount = args.size
+  println("main argCount $argCount")
+
   greetReader("Hello!", "Reader")
 
   // data class to demonstrate object-oriented programming
@@ -387,6 +498,12 @@ fun main(args: Array<String>) {
 
   printHeader("use static from java")
   demoUseStaticFromJava()
+
+  printHeader("use coroutines")
+  demoUsingCoroutines()
+
+  printHeader("use flows")
+  demoUsingFlows()
 }
 
 fun printHeader(header: String?) {
@@ -395,4 +512,17 @@ fun printHeader(header: String?) {
   } else {
     println("\n=== $header ====\n")
   }
+}
+
+fun getCurrentDateTime(): String {
+  val format = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+  val locale = Locale.getDefault()
+  val date = Calendar.getInstance().time
+  val formatter = SimpleDateFormat(format, locale)
+  return formatter.format(date)
+}
+
+fun printWithTimeStamp(s: Any) {
+  print(getCurrentDateTime() + ": ")
+  println(s)
 }
