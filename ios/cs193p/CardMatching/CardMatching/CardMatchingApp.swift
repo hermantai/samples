@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct CardMatchingApp: App {
+    @StateObject var gameThemeStore = GameThemeStore(named: "Default")
+        
     var body: some Scene {
         WindowGroup {
-            EmojiMemoryGameContentView(game: EmojiMemoryGame()/*.startNewGame()*/)
+            ThemeManagerView().environmentObject(gameThemeStore)
         }
     }
 }

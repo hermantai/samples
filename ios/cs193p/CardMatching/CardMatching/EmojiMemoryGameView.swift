@@ -1,5 +1,5 @@
 //
-//  EmojiMemoryGameContentView.swift
+//  EmojiMemoryGameView.swift
 //  Shared
 //
 //  Created by Herman (Heung) Tai on 10/21/21.
@@ -9,10 +9,23 @@ import SwiftUI
 
 
 
-struct EmojiMemoryGameContentView: View {
+struct EmojiMemoryGameView: View {
+    
     @ObservedObject var game: EmojiMemoryGame
+    @Binding var games: [GameTheme: EmojiMemoryGame]
         
     @Namespace private var dealingNamespace;
+    
+    init(games: Binding<[GameTheme: EmojiMemoryGame]>, gameTheme: GameTheme) {
+        self._games = games
+        if let game = games.wrappedValue[gameTheme] {
+            self.game = game
+        } else {
+            let game = EmojiMemoryGame(gameTheme: gameTheme)
+            games.wrappedValue[gameTheme] = game
+            self.game = game
+        }
+    }
     
     var body: some View {
         VStack {
@@ -29,22 +42,12 @@ struct EmojiMemoryGameContentView: View {
         .padding(.horizontal)
     }
     
-    @State private var dealt = Set<Int>()
-        
-    func deal(_ card: EmojiMemoryGame.Card) {
-        dealt.insert(card.id)
-    }
-    
-    func isUndealt(_ card: EmojiMemoryGame.Card) -> Bool {
-        !dealt.contains(card.id)
-    }
-    
     var gameBody: some View {
         VStack {
             Text(game.gameTheme.name).font(.largeTitle)
         
             AspectVGrid(items: game.cards, aspectRatio: DrawingConstants.cardAspectRatio) { card in
-                if !isUndealt(card) {
+                if !game.isUndealt(card) {
                     CardView(card: card)
                         // This is used with deckBody to produce a "deal" animation
                         .matchedGeometryEffect(id: card.id, in: dealingNamespace)
@@ -57,14 +60,20 @@ struct EmojiMemoryGameContentView: View {
                             }
                         }
                 }
-            }.foregroundColor(getColor(themeColor: game.gameTheme.color))
+            }.foregroundColor(Color(rgbaColor: game.gameTheme.color))
+        }
+        .onAppear {
+            game.resumeGame()
+        }
+        .onDisappear {
+            game.pauseGame()
         }
     }
     
     func deckBody(withSize: CGSize) -> some View {
         let cardWidth = widthThatFits(itemCount: game.cards.count, in:withSize, itemAspectRatio: DrawingConstants.cardAspectRatio)
         return ZStack {
-            ForEach(game.cards.filter(isUndealt)) { card in
+            ForEach(game.cards.filter(game.isUndealt)) { card in
                 CardView(card: card)
                     // This is used with the actual card position to produce a "deal" animation
                     .matchedGeometryEffect(id: card.id, in: dealingNamespace)
@@ -80,7 +89,7 @@ struct EmojiMemoryGameContentView: View {
             }
             .frame(width: cardWidth, height: cardWidth/DrawingConstants.cardAspectRatio)
         }
-        .foregroundColor(getColor(themeColor: game.gameTheme.color))
+        .foregroundColor(Color(rgbaColor: game.gameTheme.color))
         .onTapGesture {
             // trigger the animation of dealing cards
             for (index, card) in game.cards.enumerated() {
@@ -88,7 +97,7 @@ struct EmojiMemoryGameContentView: View {
                     if index == game.cards.count - 1 {
                         dealAnimationObserver.start()
                     }
-                    deal(card)
+                    game.deal(card)
                 }
             }
         }
@@ -103,47 +112,13 @@ struct EmojiMemoryGameContentView: View {
             
             Spacer()
             
-            // (TODO) Remove this after https://stackoverflow.com/questions/69783683/how-to-set-a-property-or-any-callbacks-upon-the-finishing-of-an-animation
-            // is answered
-            // myTestButton
             Text("Score: \(game.score)")
         }
         .padding(.horizontal)
     }
-    
-    @State var showRect = true
-    @ObservedObject private var rectAnimationObserver = AnimationLifeCycleObserver();
-    var myTestButton: some View {
-        HStack {
-            Rectangle().fill()
-                .opacity(showRect ? 1 : 0)
-            Button("Show") {
-                withAnimation(.linear(duration: 2)) {
-                    showRect = true
-                    rectAnimationObserver.start()
-                }
-            }
-            .withLifeCycleObserver(rectAnimationObserver) {
-                print("rect animation done from Show button")
-            }
-            .disabled(showRect || rectAnimationObserver.isAnimating)
-            
-            Button("Hide") {
-                withAnimation(.linear(duration: 2)) {
-                    showRect = false
-                    rectAnimationObserver.start()
-                }
-            }
-            .withLifeCycleObserver(rectAnimationObserver) {
-                print("rect animation done from Hide button")
-            }
-            .disabled(!showRect || rectAnimationObserver.isAnimating)
-        }
-    }
-    
+        
     var startNewGameButton: some View {
         Button("New Game") {
-            dealt = []
             game.startNewGame()
         }
     }
@@ -161,21 +136,6 @@ struct EmojiMemoryGameContentView: View {
         return Animation.easeInOut(duration: DrawingConstants.dealDuration).delay(delay)
     }
     
-    func getColor(themeColor: String) ->  Color {
-        switch(themeColor) {
-        case "red":
-            return Color.red
-        case "orange":
-            return Color.orange
-        case "yellow":
-            return Color.yellow
-        case "grey":
-            return Color.black
-        default:
-            return Color.red
-        }
-    }
-    
     // The following scroll view was replaced by the AspectVGrid.
     var oldScrollView: some View {
         ScrollView {
@@ -188,7 +148,7 @@ struct EmojiMemoryGameContentView: View {
                         }
                 }
             }
-        }.foregroundColor(getColor(themeColor: game.gameTheme.color))
+        }.foregroundColor(Color(rgbaColor: game.gameTheme.color))
     }
     
     private struct DrawingConstants {
@@ -271,12 +231,12 @@ struct CardView: View {
 
 struct EmojiMemoryGameContentView_Previews: PreviewProvider {
     static var previews: some View {
-        let game = EmojiMemoryGame()
-        
+        let store = GameThemeStore(named: "Default")
+        let games: [GameTheme: EmojiMemoryGame] = [:]
         Group {
-            EmojiMemoryGameContentView(game: game)
+            EmojiMemoryGameView(games: .constant(games), gameTheme: store.gameTheme(at: 2))
                 .preferredColorScheme(.light)
-            EmojiMemoryGameContentView(game: game)
+            EmojiMemoryGameView(games: .constant(games), gameTheme: store.gameTheme(at: 2))
                 .preferredColorScheme(.dark)
         }
     }

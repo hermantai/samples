@@ -63,10 +63,18 @@ struct MemoryGame<CardContent: Equatable> {
         }
     }
     
+    mutating func pauseGame() {
+        cards.indices.forEach{ cards[$0].hidden = true }
+    }
+    
+    mutating func resumeGame() {
+        cards.indices.forEach{ cards[$0].hidden = false }
+    }
+    
     struct Card: Identifiable {
         var isFaceUp = false {
             didSet {
-                if isFaceUp {
+                if isFaceUp && !hidden {
                     faceUpCountDownTimer.start()
                 } else {
                     faceUpCountDownTimer.pause()
@@ -78,6 +86,24 @@ struct MemoryGame<CardContent: Equatable> {
                 faceUpCountDownTimer.pause()
             }
         }
+        
+        /// If the card is hidden, it is assumed not being seen by any users even the card is faced up.
+        fileprivate var hidden = false {
+            didSet {
+                if oldValue == hidden {
+                    return
+                }
+                // If we are hidding the card and the card is faced up, pause the time.
+                if hidden && isFaceUp {
+                    faceUpCountDownTimer.pause()
+                }
+                // If we are unhidding the card and the card is faced up, resume the time.
+                if !hidden && isFaceUp {
+                    faceUpCountDownTimer.start()
+                }
+            }
+        }
+        
         var content: CardContent
         var id: Int
         /// Count down for the time period that the card is faced up and is not matched.
