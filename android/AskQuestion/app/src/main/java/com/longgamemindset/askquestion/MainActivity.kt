@@ -71,11 +71,14 @@ fun TimeShownOnModalSheet() {
     val modalBottomSheetState =
         rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
-
+    var t: String by remember { mutableStateOf("")}
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { scope.launch { modalBottomSheetState.show() } }) {
+                onClick = {
+                    scope.launch {
+                        t = Date().toString()
+                        modalBottomSheetState.show() } }) {
                 Icon(
                     Icons.Rounded.Add,
                     contentDescription = "add"
@@ -85,7 +88,6 @@ fun TimeShownOnModalSheet() {
         ModalBottomSheetLayout(
             sheetState = modalBottomSheetState,
             sheetContent = {
-                var t = Date().toString()
                 MySheet(
                     str = t,
                     onSave = {
@@ -109,7 +111,7 @@ fun TimeShownOnModalSheet() {
                 Text("My text is: ${strHolder.s}")
                 TextField(
                     value = strHolder.s,
-                    onValueChange = { strHolder.s = it },
+                    onValueChange = { strHolder = StrHolder(it) },
                 )
             }
         }
