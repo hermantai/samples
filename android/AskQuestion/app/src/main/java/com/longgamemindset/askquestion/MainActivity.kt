@@ -38,7 +38,6 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(navController = navController, startDestination = Screen.TOC.name) {
                     composable(Screen.TOC.name) { Toc(navController) }
-                    composable(Screen.TIME_SHOWN_ON_MODAL_SHEET.name) { TimeShownOnModalSheet() }
                     composable(Screen.NESTED_MODAL_SHEET.name) { NestedModalSheets() }
                 }
             }
@@ -48,7 +47,6 @@ class MainActivity : ComponentActivity() {
 
 enum class Screen {
     TOC,
-    TIME_SHOWN_ON_MODAL_SHEET,
     NESTED_MODAL_SHEET
 }
 
@@ -62,76 +60,6 @@ fun Toc(navHostController: NavHostController) {
             }
 
         }
-    }
-}
-
-@ExperimentalMaterialApi
-@Composable
-fun TimeShownOnModalSheet() {
-    val modalBottomSheetState =
-        rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-    val scope = rememberCoroutineScope()
-    var t: String by remember { mutableStateOf("")}
-    Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    scope.launch {
-                        t = Date().toString()
-                        modalBottomSheetState.show() } }) {
-                Icon(
-                    Icons.Rounded.Add,
-                    contentDescription = "add"
-                )
-            }
-        }) {
-        ModalBottomSheetLayout(
-            sheetState = modalBottomSheetState,
-            sheetContent = {
-                MySheet(
-                    str = t,
-                    onSave = {
-                        scope.launch {
-                            modalBottomSheetState.hide()
-                        }
-                    },
-                    onCancel = { scope.launch { modalBottomSheetState.hide() } })
-            }
-        ) {
-            Column {
-                var text by remember { mutableStateOf("") }
-                TextField(
-                    value = text,
-                    onValueChange = { text = it },
-                )
-
-                var strHolder by remember {
-                    mutableStateOf(StrHolder(""))
-                }
-                Text("My text is: ${strHolder.s}")
-                TextField(
-                    value = strHolder.s,
-                    onValueChange = { strHolder = StrHolder(it) },
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun MySheet(str: String, onSave: () -> Unit, onCancel: () -> Unit) {
-    Column {
-        Box(modifier = Modifier.fillMaxWidth()) {
-            Icon(
-                Icons.Rounded.Close,
-                contentDescription = "edit",
-                modifier = Modifier.align(Alignment.CenterStart).clickable { onCancel() })
-            Button(onClick = onSave, modifier = Modifier.align(Alignment.CenterEnd)) {
-                Text("save")
-            }
-        }
-        Text(str)
-        Spacer(Modifier.height(100.dp))
     }
 }
 
