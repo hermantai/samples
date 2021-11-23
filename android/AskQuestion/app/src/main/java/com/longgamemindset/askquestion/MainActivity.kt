@@ -32,8 +32,6 @@ import kotlinx.coroutines.launch
 import java.time.Instant
 import java.util.*
 
-class StrHolder(var s: String)
-
 class MainActivity : ComponentActivity() {
     private val store by viewModels<Store>()
 
@@ -136,9 +134,6 @@ fun StoreUpdateLiveDataObject(myValue: StringHolder, updateValue: (StringHolder)
         Text(getTextHeightForStyle(LocalTextStyle.current, 5).toString())
         Text(getTextHeightForStyle(LocalTextStyle.current, 50).toString())
         Text(getTextHeightForStyle(LocalTextStyle.current, 100).toString())
-        Text(getTextHeightForStyle2(LocalTextStyle.current, 1).toString())
-        Text(getTextHeightForStyle2(LocalTextStyle.current, 5).toString())
-        Text(getTextHeightForStyle2(LocalTextStyle.current, 100).toString())
         OutlinedTextField(
             value = myValue.s,
             onValueChange = {
@@ -160,22 +155,7 @@ class Store: ViewModel() {
     }
 }
 
-class StringHolder(var s: String) {
-//
-//    override fun equals(other: Any?): Boolean {
-//        if (this === other) return true
-//        if (javaClass != other?.javaClass) return false
-//
-//        other as StringHolder
-//
-//        return s == other.s
-//    }
-
-//    override fun hashCode(): Int {
-//        Log.i("tag", "hashcode called")
-//        return 1
-//    }
-}
+class StringHolder(var s: String) {}
 
 @Composable
 fun getTextHeightForStyle(style: TextStyle, lines: Int): Dp {
@@ -184,25 +164,6 @@ fun getTextHeightForStyle(style: TextStyle, lines: Int): Dp {
             text = "t".repeat(lines),
             style = style,
             // the Paragraph returned height using maxLines as the lines
-            maxLines = lines,
-            density = LocalDensity.current,
-            resourceLoader = LocalFontLoader.current,
-            width = 1f
-        )
-            .height
-            .toDp()
-    }
-}
-
-@Composable
-fun getTextHeightForStyle2(style: TextStyle, lines: Int): Dp {
-    return with(LocalDensity.current) {
-        Paragraph(
-            text = "t".repeat(lines),
-            style = style,
-            // By having the width of 1, we put one character per line in order to expand
-            // Paragraph large enough to occupy the given lines in order to return the correct
-            // height. maxLine would have to be at least lines for this calculation to work.
             maxLines = lines,
             density = LocalDensity.current,
             resourceLoader = LocalFontLoader.current,
