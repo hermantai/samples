@@ -2,6 +2,8 @@ package com.longgamemindset.askquestion
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -11,15 +13,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFontLoader
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.Paragraph
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.zIndex
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -35,9 +46,14 @@ import java.util.*
 class MainActivity : ComponentActivity() {
     private val store by viewModels<Store>()
 
+    fun rootView(): View {
+        return getWindow().getDecorView().findViewById(android.R.id.content)
+    }
+
     @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         setContent {
             AskQuestionTheme {
                 val navController = rememberNavController()
@@ -47,6 +63,9 @@ class MainActivity : ComponentActivity() {
                     composable(Screen.NESTED_MODAL_SHEET.name) { NestedModalSheets() }
                     composable(Screen.STORE_UPDATE_LIVE_DATA_OBJECT.name) {
                         StoreUpdateLiveDataObject(myValue, updateValue = store::updateValue)
+                    }
+                    composable(Screen.STICKY_BOTTOM_BAR.name) {
+                        StickyBottomBar()
                     }
                 }
             }
@@ -58,6 +77,7 @@ enum class Screen {
     TOC,
     NESTED_MODAL_SHEET,
     STORE_UPDATE_LIVE_DATA_OBJECT,
+    STICKY_BOTTOM_BAR,
 }
 
 @ExperimentalMaterialApi
@@ -250,5 +270,63 @@ class TiTask {
         result = 31 * result + (endTimestamp?.hashCode() ?: 0)
         result = 31 * result + tags.hashCode()
         return result
+    }
+}
+
+@Composable
+fun StickyBottomBar() {
+    Scaffold(bottomBar = {MyBottomBar()}) {
+        Text("hello world")
+//        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+//            repeat(3) {
+//                Text("Some text $it")
+//            }
+//            var t by remember { mutableStateOf("") }
+//            OutlinedTextField(
+//                value = t,
+//                onValueChange = {
+//                    t = it
+//                },
+//                label = { Text("Description") }
+//            )
+//            repeat(20) {
+//                Text("bottom has some text $it")
+//            }
+//        }
+    }
+}
+
+@Composable
+private fun MyBottomBar() {
+    var expanded by remember { mutableStateOf(false) }
+    BottomAppBar {
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Row(modifier = Modifier.align(Alignment.CenterEnd)) {
+                Box {
+                    IconButton(
+                        onClick = {expanded = true}
+                    ) {
+                        Icon(
+                            Icons.Filled.MoreVert,
+                            contentDescription = "more"
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = {
+                            Log.i("mytag", "this is not reached")
+                            expanded = false
+                        }
+                    ) {
+                        DropdownMenuItem(onClick = { expanded = false }) {
+                            Text("item1")
+                        }
+                        DropdownMenuItem(onClick = { expanded = false }) {
+                            Text("item2")
+                        }
+                    }
+                }
+            }
+        }
     }
 }
