@@ -43,14 +43,10 @@ import kotlinx.coroutines.launch
 import java.time.Instant
 import java.util.*
 
+@ExperimentalMaterialApi
 class MainActivity : ComponentActivity() {
     private val store by viewModels<Store>()
 
-    fun rootView(): View {
-        return getWindow().getDecorView().findViewById(android.R.id.content)
-    }
-
-    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -275,24 +271,23 @@ class TiTask {
 
 @Composable
 fun StickyBottomBar() {
-    Scaffold(bottomBar = {MyBottomBar()}) {
-        Text("hello world")
-//        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-//            repeat(3) {
-//                Text("Some text $it")
-//            }
-//            var t by remember { mutableStateOf("") }
-//            OutlinedTextField(
-//                value = t,
-//                onValueChange = {
-//                    t = it
-//                },
-//                label = { Text("Description") }
-//            )
-//            repeat(20) {
-//                Text("bottom has some text $it")
-//            }
-//        }
+    Scaffold(bottomBar = { MyBottomBar() }) {
+        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+            repeat(3) {
+                Text("Some text $it")
+            }
+            var t by remember { mutableStateOf("") }
+            OutlinedTextField(
+                value = t,
+                onValueChange = {
+                    t = it
+                },
+                label = { Text("Description") }
+            )
+            repeat(20) {
+                Text("bottom has some text $it")
+            }
+        }
     }
 }
 
@@ -300,30 +295,28 @@ fun StickyBottomBar() {
 private fun MyBottomBar() {
     var expanded by remember { mutableStateOf(false) }
     BottomAppBar {
-        Box(modifier = Modifier.fillMaxWidth()) {
-            Row(modifier = Modifier.align(Alignment.CenterEnd)) {
-                Box {
-                    IconButton(
-                        onClick = {expanded = true}
-                    ) {
-                        Icon(
-                            Icons.Filled.MoreVert,
-                            contentDescription = "more"
-                        )
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+            Box {
+                IconButton(
+                    onClick = {expanded = true}
+                ) {
+                    Icon(
+                        Icons.Filled.MoreVert,
+                        contentDescription = "more"
+                    )
+                }
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = {
+                        Log.i("mytag", "this is not reached")
+                        expanded = false
                     }
-                    DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = {
-                            Log.i("mytag", "this is not reached")
-                            expanded = false
-                        }
-                    ) {
-                        DropdownMenuItem(onClick = { expanded = false }) {
-                            Text("item1")
-                        }
-                        DropdownMenuItem(onClick = { expanded = false }) {
-                            Text("item2")
-                        }
+                ) {
+                    DropdownMenuItem(onClick = { expanded = false }) {
+                        Text("item1")
+                    }
+                    DropdownMenuItem(onClick = { expanded = false }) {
+                        Text("item2")
                     }
                 }
             }
