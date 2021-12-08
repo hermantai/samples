@@ -22,10 +22,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalFontLoader
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.Paragraph
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.zIndex
 import androidx.core.view.ViewCompat
@@ -63,6 +65,9 @@ class MainActivity : ComponentActivity() {
                     composable(Screen.STICKY_BOTTOM_BAR.name) {
                         StickyBottomBar()
                     }
+                    composable(Screen.RESET_AND_CLEAR.name) {
+                        ResetAndClearTextField()
+                    }
                 }
             }
         }
@@ -74,6 +79,7 @@ enum class Screen {
     NESTED_MODAL_SHEET,
     STORE_UPDATE_LIVE_DATA_OBJECT,
     STICKY_BOTTOM_BAR,
+    RESET_AND_CLEAR,
 }
 
 @ExperimentalMaterialApi
@@ -320,6 +326,28 @@ private fun MyBottomBar() {
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun ResetAndClearTextField() {
+    val (textFieldValue, setTextFieldValue) = remember { mutableStateOf(
+        TextFieldValue("")
+    ) }
+    val focusManager = LocalFocusManager.current
+
+    Column {
+        TextField(
+            value = textFieldValue,
+            onValueChange = setTextFieldValue
+        )
+
+        Button(onClick = {
+            setTextFieldValue(TextFieldValue(""))
+            focusManager.clearFocus()
+        }) {
+            Text("reset and clear")
         }
     }
 }
