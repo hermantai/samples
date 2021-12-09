@@ -79,10 +79,12 @@ enum class Screen {
 @ExperimentalMaterialApi
 @Composable
 fun Toc(navHostController: NavHostController) {
-    LazyColumn {
-        items(Screen.values()) {
-            ListItem(modifier = Modifier.clickable { navHostController.navigate(it.name) }) {
-                Text(it.name)
+    Scaffold {
+        LazyColumn {
+            items(Screen.values()) {
+                ListItem(modifier = Modifier.clickable { navHostController.navigate(it.name) }) {
+                    Text(it.name)
+                }
             }
         }
     }
