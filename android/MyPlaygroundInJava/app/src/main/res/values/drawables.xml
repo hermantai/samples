@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-  <item type="drawable" name="expandable_text_gradient_background">@drawable/expandable_text_with_more_text_light</item>
-</resources>
