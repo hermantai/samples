@@ -14,20 +14,55 @@
     .box.three {
       background-color: blue;
     }
+    /* This selects a dom that has the v-cloak attribute. */
     [v-cloak] {
       display: none;
     }
   </style>
 </head>
 <body>
+  <!-- This "app" is the anchor component for the Vue app created by
+  Vue.createApp. -->
+  <!-- The v-cloak attribute is defined in css above. Basically this
+  attribute stays until the app is loaded, so the #app component is not
+  shown until the app is loaded, and the v-cloak would be removed by
+  the app by then. -->
   <div id="app" v-cloak>
+    <!-- Reference the greeting variable. The var is defined by
+    the app's data function. -->
     {{ greeting }}
+    <!--
+      Call greet function with the greeting variable. Both the function
+      and the var are defined by the app created from Vue.createApp.
+
+      @keyup has a bunch of shortcuts that allows for adding stuff to some
+      keyup events for specific keys. You can do @keyup.13 for the enter key
+      as well. @keyup.right click.
+
+      Quite a lot other events from the @ annotation, like @click.
+    -->
+    <!-- v-model defines a two-way binding for the variable **greeting** -->
     <input @keyup.enter="greet(greeting + '!!!')" v-model="greeting" />
 
     <hr />
 
+    <!-- @click adds a click event for the button Note that it only has
+    a reference to a method, defined by the app created from 
+    Vue.createApp.
+
+    @click is a syntactic sugar for v-on:click, e.g.
+
+      v-on:click="isVisible = true"
+
+      v-on:click="toogleBox"
+
+    @click.prevent to prevent default form submit behavior
+    @click.prevent.stop can stop propagation
+    -->
     <button @click="toggleBox">Toggle Box</button>
     <button @click="toggleBox2">Toggle Box2</button>
+    <!-- v-if, v-else-if, v-else directives work together for conditional
+    logic. -->
     <div v-if="isVisible" class="box"></div>
     <div v-else-if="isVisible2" class="box two"></div>
     <div v-else class="box three"></div>
@@ -35,7 +70,11 @@
 
   <script src="http://unpkg.com/vue@next"></script>
   <script>
+    // Create a Vue app assigned to the **app** variable. The Vue app is then
+    // mounted to the #app dom later. Note how variables and methods for
+    // the app is dfined using properties in the object passed to createApp.
     let app = Vue.createApp({
+      // Define variables which can be used throughout the app component.
       data: function() {
         return {
           greeting: 'Hello Vue 3',
@@ -43,15 +82,23 @@
           isVisible2: true,
         }
       },
+      // Define methods which can be used throughout the app component.
       methods: {
+        // A short hand to define a function is
+        // toggleBox: () {
+        //   ...
+        // }
         toggleBox: function() {
+          // Notice how we reference the variables defined from the **data**
+          // function above.
           this.isVisible = !this.isVisible
         },
         toggleBox2: function() {
           this.isVisible2 = !this.isVisible2
         },
-        greet: function() {
-          console.log(this.greeting)
+        /* you can pass in variables to this func as well */
+        greet: function(greeting) {
+          console.log(greeting)
         }
       },
       updated() {
