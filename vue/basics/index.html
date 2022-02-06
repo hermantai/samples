@@ -18,6 +18,11 @@
     [v-cloak] {
       display: none;
     }
+
+    input {
+      margin: 10px;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -66,12 +71,16 @@
     <div v-if="isVisible" class="box"></div>
     <div v-else-if="isVisible2" class="box two"></div>
     <div v-else class="box three"></div>
+
+    <hr />
+    <!-- custom component defined below -->
+    <login-form />
   </div>
 
   <script src="http://unpkg.com/vue@next"></script>
   <script>
-    // Create a Vue app assigned to the **app** variable. The Vue app is then
-    // mounted to the #app dom later. Note how variables and methods for
+    // Create a Vue appplication instance and assigne it to the **app** variable.
+    // The Vue app is then mounted to the #app dom later. Note how variables and methods for
     // the app is dfined using properties in the object passed to createApp.
     let app = Vue.createApp({
       // Define variables which can be used throughout the app component.
@@ -107,6 +116,36 @@
     })
     app.component('test-box', {
     })
+
+    // We can use any options like data, methods, etc., just like the options
+    // passed to Vue.createApp.
+    app.component('login-form', {
+      // @submit.prevent is similar to passing (event) to handleSubmit and call
+      // event.preventDefault() there.
+      template: `
+        <form @submit.prevent="handleSubmit">
+          <h1>{{ title }}</h1>
+          <!-- notice that a email type input needs to have @ side, otherwise the
+          submit is not triggered -->
+          <input type="email" v-model="email" />
+          <input type="password" v-model="password" />
+          <button>Log in</button>
+        </form>
+      `,
+      // Can only be used inside its own template
+      data() {
+        return {
+          title: 'Login Form',
+          email: '',
+          password: '',
+        }
+      },
+      methods: {
+        handleSubmit() {
+          console.log(this.email, this.password);
+        }
+      },
+    });
     app.mount('#app')
   </script>
 </body>
