@@ -446,6 +446,14 @@ fun main() = runBlocking<Unit> {
 }
 */
 
+fun demoFunctionPassing() {
+  takeIntToVoidFunc({int -> println(int)})
+  takeIntToVoidFunc({ println(123345) })
+}
+
+fun takeIntToVoidFunc(intToVoidFunc: (Int) -> Unit) {
+  intToVoidFunc(123)
+}
 // end of lessons
 
 fun main(args: Array<String>) {
@@ -504,6 +512,9 @@ fun main(args: Array<String>) {
 
   printHeader("use flows")
   demoUsingFlows()
+
+  printHeader("function without params passed to function with params parameter")
+  demoFunctionPassing()
 }
 
 fun printHeader(header: String?) {
