@@ -125,23 +125,29 @@
       template: `
         <form @submit.prevent="handleSubmit">
           <h1>{{ title }}</h1>
-          <!-- notice that a email type input needs to have @ inside, otherwise the
-          submit is not triggered -->
 
-          <!-- original definitions of inputs -->
+          <!-- good practice to define a key to uniquely identfy the element that you loop through for
+          performan and prevent bugs. Let's say we have an array "inputs", then: -->
+          <!-- <p v-for="(str, i) in inputs" :key="i">{{ str }}</p> -->
+
+          <!-- *** original definitions of inputs *** -->
           <!-- notice the v-model variables do not need "this." prefix -->
+          <!-- A email type input needs to contain @ inside the string to be valid, otherwise the
+          submit is not triggered -->
           <!--
           <input type="email" v-model="email" />
           <input type="password" v-model="password" />
           -->
+          <!-- *** end of original definitions of inputs *** -->
 
-          <!-- Notice that when we pass the value of the the emailLabel variable from login-form
+          <!-- *** non-for-loop version of using custom-input -->
+          <!-- When we pass the value of the the emailLabel variable from login-form
           to another component, custom-input, we have to use v-bind:label, in which the "label"
           is a property needed by the custom-input component.
 
           The "v-bind:" attribute turns the "label" html attribute into a javascript so we
           can pass down a variable, e.g. emailLabel, to the property of a child component. If
-          we don't need to pass down a variable, we can skip the v-bind and just do 'label="liter al string"'
+          we don't need to pass down a variable, we can skip the v-bind and just do 'label="literal string"'
           to pass down a literal string to a component property.
 
           Because "v-bind:" is so common, we can just use ":label" instead of "v-bind:label".
@@ -154,30 +160,54 @@
           update the value of the variable being passed in. (This allows for two-way binding
           from the parent variable, e.g. "email", to a child variable, "inputValue".
           -->
-          <custom-input v-model="email" v-bind:label="emailLabel" />
-          <custom-input v-model="password"  :label="passwordLabel" />
+          <!--
+            <custom-input v-model="email" v-bind:label="emailLabel" />
+            <custom-input v-model="password"  :label="passwordLabel" />
+          -->
+          <!-- *** end of non-for-loop version of using custom-input -->
+          <custom-input
+            v-for="(input, i) in inputs"
+            :key="i"
+            v-model="input.value"
+            :label="input.label"
+            :type="input.type"
+          />
           <button>Log in</button>
         </form>
       `,
-      // Can only be used inside its own template Notice that the "components"
+      // Can only be used inside its own template. Notice that the "components"
       // property, which is needed for a component depending on components.
-      // It's not need for the global html because the global html mounted with
-      // the app instance because the app instance can access to all components,
+      // It's not needed for the global html because the global html mounted with
+      // the app instance, that means  the app instance can access to all components,
       // e.g. login-form can be referenced from the global html on this page.
       components: ['custom-input'],
       data() {
         return {
           title: 'Login Form',
-          email: '',
-          password: '',
-          emailLabel: 'Email',
-          passwordLabel: 'Password',
+          inputs: [
+            {
+              label: 'Email',
+              value: '',
+              type: 'email',
+            },
+            {
+              label: 'Password',
+              value: '',
+              type: 'password',
+            },
+          ],
+          // // email and password are not needed after using the inputs array
+          // email: '',
+          // password: '',
+          // emailLabel: 'Email',
+          // passwordLabel: 'Password',
 
         }
       },
       methods: {
         handleSubmit() {
-          console.log(this.email, this.password);
+          // console.log(this.email, this.password);
+          console.log(this.inputs[0].value, this.inputs[1].value);
         }
       },
     });
@@ -186,12 +216,12 @@
       template: `
         <label>
           {{ label }}
-          <input type="text" v-model="inputValue" />
+          <input :type="type" v-model="inputValue" />
         </label>
       `,
       // Properties are read-only and passed from a parent component.
       // modelValue is a special property that is used by v-model under the hood.
-      props: ['label', 'modelValue'],
+      props: ['label', 'type', 'modelValue'],
       // A fancy way to define variables is to use computed instead of data options.
       // This allows for returning a evaluated expression for a variable, and setting something
       // when the variable is assigned with some value.
@@ -210,7 +240,7 @@
             },
             set(value) {
               // $emit is a special method that can emit events. "update:modelValue" is a event
-              // that updates the value of modelValue. This "event" is listen by the v-model.
+              // that updates the value of modelValue. This "event" is listened by the v-model.
               this.$emit("update:modelValue", value)
             }
         }
