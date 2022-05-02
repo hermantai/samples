@@ -13,6 +13,9 @@ fn main() {
 
     print_header();
     play_string_interpolation();
+
+    print_header();
+    play_variable_stuff();
 }
 
 /**
@@ -63,6 +66,30 @@ fn play_string_interpolation() {
     // string interpolation
     let x = 5 + /* 90 + */ 5;
     println!("Is `x` 10 or 100? x = {}", x);
+}
+
+/**
+ * Plays with variable assignments.
+ */
+fn play_variable_stuff() {
+    // Mutable variable.
+    let mut x = 5;
+    println!("Number is {}", x);
+    x = 6;
+    println!("Number is {}", x);
+    
+    // Constants are always immutable and a type has to be specified.
+    const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
+    println!("Constant is {}", THREE_HOURS_IN_SECONDS);
+
+    let s = 5;
+    let s = s + 1; // now s is 6
+    println!("s is {}", s);
+    {
+        let s = s * 2;
+        println!("s inside a block is {}", s);
+    }
+    println!("s outside the block is still {}", s);
 }
 
 /**
