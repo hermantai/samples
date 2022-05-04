@@ -34,6 +34,9 @@ fn main() {
 
     print_header("play_functions");
     play_functions();
+
+    print_header("play_control_flows");
+    play_control_flows();
 }
 
 fn play_process_input() {
@@ -167,7 +170,10 @@ fn play_data_types() {
     let (a, b, c) = tup;
     print_subsector_divider();
     println!("tuple: first = {}, b = {}, last = {}", tup.0, b, tup.2);
-    println!("pattern matching to deconstruct a tuple for assignment: a = {}, c = {}", a, c);
+    println!(
+        "pattern matching to deconstruct a tuple for assignment: a = {}, c = {}",
+        a, c
+    );
 
     // array has fixed length, and all elements have to ahve the same type.
     // An array is allocated on stack.
@@ -211,6 +217,82 @@ fn play_functions() {
  */
 fn five() -> i32 {
     5
+}
+
+fn play_control_flows() {
+    let number = 3;
+    if number % 4 == 0 {
+        println!("number divisible by 4");
+    } else if number < 5 {
+        println!("number less than 5");
+    } else {
+        println!("condition was false");
+    }
+
+    print_subsector_divider();
+    // Notice that the arms in the expression have the be the same types.
+    let x = if number == 3 { 2 } else { 5 };
+    println!("let with if expression: {}", x);
+
+    print_subsector_divider();
+    let mut count = 0;
+    // counting_up is a label for the loop, so it can be "break" or "continue"
+    // to.
+    'counting_up: loop {
+        let mut remaining = 3;
+        loop {
+            println!("remaining = {}", remaining);
+            if remaining == 1 {
+                break;
+            }
+            if count == 2 {
+                break 'counting_up;
+            }
+            remaining -= 1;
+        }
+        count += 1;
+    }
+    println!("ending count: {}", count);
+
+    print_subsector_divider();
+    count = 0;
+    // You an even assign a value returned by a loop to a variable. If that's
+    // the case, add ";" to the end of a loop because "let" is a statement
+    // and "loop" is an expression.
+    let result = 'counting_up_with_return_value: loop {
+        let mut remaining = 3;
+        loop {
+            println!("remaining = {}", remaining);
+            if remaining == 1 {
+                break;
+            }
+            if count == 2 {
+                break 'counting_up_with_return_value count * 10;
+            }
+            remaining -= 1;
+        }
+        count += 1;
+    };
+    println!("ending count: {}", count);
+    println!("ending result: {}", result);
+
+    print_subsector_divider();
+    let mut number = 3;
+
+    while number != 0 {
+        println!("{}!", number);
+
+        number -= 1;
+    }
+    println!("while loop, ended number with: {}", number);
+
+    let ar = [1, 2, 3, 4, 5];
+    for val in ar {
+        println!("for-loop to loop through an array: {}", val);
+    }
+    for number in (1..4).rev() {
+        println!("count down using for-loop: {}", number);
+    }
 }
 
 /**
