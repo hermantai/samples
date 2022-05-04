@@ -3,7 +3,7 @@ This program is created by `cargo new rust-playground`.
 
 This Playground comes from reading "The Book": https://doc.rust-lang.org/book
 
-Bookmark: https://doc.rust-lang.org/book/ch03-03-how-functions-work.html (remember to read Chapter 2 after this)
+Bookmark: https://doc.rust-lang.org/book/ch03-04-comments.html (remember to read Chapter 2 after this)
 
 ## Dev
 Commands are run the top-level directory, i.e. "rust-playground".
