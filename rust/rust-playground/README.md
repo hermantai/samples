@@ -3,7 +3,7 @@ This program is created by `cargo new rust-playground`.
 
 This Playground comes from reading "The Book": https://doc.rust-lang.org/book
 
-Bookmark: https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html (remember to read Chapter 4 after this)
+Bookmark: https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html
 
 ## Dev
 Commands are run the top-level directory, i.e. "rust-playground".
@@ -11,6 +11,8 @@ Commands are run the top-level directory, i.e. "rust-playground".
 Use `cargo doc` to generate docs in the _target_ directory.
 The document can be viewed by opening
 _rust-playground/target/doc/rust_playground/index.html_.
+
+Use `cargo doc --open` to generate and open the doc.
 
 Use `cargo build` to build the program. The program is stored as
 _target/debug/rust-playground_.

@@ -1,6 +1,7 @@
 //! This program is created by `cargo new rust-playground`.
 //! Use `cargo doc` in the top-level directory to generate docs in the _target_
 //! directory.
+//! Use `cargo doc --open` to generate and open the doc.
 //!
 //! Convention: Rust code uses snake case as the conventional style for function and variable
 //! names, in which all letters are lowercase and underscores separate words
@@ -8,8 +9,11 @@
 //! Each small lesson is enclosed in a function named "play_xxx" where xxx
 //! is the lession.
 
+// Rng is a trait in the rand library crate. A trait defines methods.
+use rand::Rng;
 use std::env;
 use std::io;
+use std::cmp::Ordering;
 use std::process;
 
 // This is the main function
@@ -37,7 +41,11 @@ fn main() {
 
     print_header("play_control_flows");
     play_control_flows();
+
+    print_header("play_random_number");
+    play_random_number();
 }
+// end of main
 
 fn play_process_input() {
     let args: Vec<String> = env::args().collect();
@@ -50,14 +58,25 @@ fn play_process_input() {
             let ar = [1, 2, 3, 4, 5];
             println!("array is {:?}. Please enter an index:", ar);
             let mut index = String::new();
+            // read_line returns a Result, that has a method `expect`
+            // to print a message then crash the program if Result is the
+            // variant (value) Err. If Result is Ok, expect just returns
+            // the value that Ok is holding, which is the number of bytes in
+            // the user input.
             io::stdin()
                 .read_line(&mut index)
                 .expect("Failed to read line");
 
+            // parse can return any number types, so we need to specify it.
             let index: usize = index
                 .trim()
                 .parse()
                 .expect("Index entered was not a number");
+            // An alternative is
+            // let index: usize = match index.trim().parse() {
+            //     Ok(num) => num,
+            //     Err(_) => do something,
+            // };
             let element = ar[index];
             println!(
                 "The value of the element at index {} is : {}",
@@ -295,6 +314,22 @@ fn play_control_flows() {
     }
 }
 
+fn play_random_number() {
+    // 1..101 means starting from 1 inclusive, ending at 101 exclusive. It's
+    // equivalent to 1..=100.
+    //
+    // thread_rng returns a random number generator that is local to the
+    // current thread and seeded by the operating system.
+    let secret_number = rand::thread_rng().gen_range(1..101);
+    println!("The secret number is {}", secret_number);
+
+    let guess = 50;
+    match guess.cmp(&secret_number) {
+        Ordering::Less => println!("The secret number is less than 50"),
+        Ordering::Greater => println!("The secret number is greater than 50"),
+        Ordering::Equal => println!("The secret number is 50!"),
+    }
+}
 /**
  * Prints a header.
  */
