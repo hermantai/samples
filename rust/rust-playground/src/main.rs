@@ -44,6 +44,12 @@ fn main() {
 
     print_header("play_random_number");
     play_random_number();
+
+    print_header("play_ownerships");
+    play_ownerships();
+
+    print_header("play_slices");
+    play_slices();
 }
 // end of main
 
@@ -221,7 +227,7 @@ fn play_data_types() {
 }
 
 /**
- * Plas functions: https://doc.rust-lang.org/book/ch03-03-how-functions-work.html.
+ * Plays functions: https://doc.rust-lang.org/book/ch03-03-how-functions-work.html.
  *
  * Expressions do not include ending semicolons. If you add a semicolon to the end of an
  * expression, you turn it into a statement, and it will then not return a value.
@@ -314,6 +320,9 @@ fn play_control_flows() {
     }
 }
 
+/**
+ * Plays random number generation.
+ */
 fn play_random_number() {
     // 1..101 means starting from 1 inclusive, ending at 101 exclusive. It's
     // equivalent to 1..=100.
@@ -330,6 +339,161 @@ fn play_random_number() {
         Ordering::Equal => println!("The secret number is 50!"),
     }
 }
+
+/**
+ * Plays ownerships.
+ *
+ * See https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html
+ */
+fn play_ownerships() {
+    // This converts a string literal (immutable) to a String, which is mutable.
+    // Notice the "mut" keyword. It's needed. Otherwise, we get
+    // "cannot borrow `s` as mutable, as it is not declared as mutable" when
+    // we do `s.push_str` below.
+    let mut s = String::from("hello");
+
+    // append a string to s
+    s.push_str(", world!");
+    println!("{}", s);
+
+    // String is allocated on heap, so the behavior is different than scale
+    // types in which assignment makes a copy implicitly. It has len() and
+    // capacity() methods.
+    //
+    // s is no longer valid after the assignment to s2, which prevents double
+    // free error, so accessing s after this assignment is invalid at
+    // compile time. The assignment is actually a "move" instead of a copy
+    // by pointer.
+    // let s2 = s;
+    
+    // This is a real copy that allows s2 and s to exist after this line.
+    let s2 = s.clone();
+    println!("s = {}, s2 = {}", s, s2);
+
+    takes_ownership(s2);
+    // Now s2 cannot be used either, because it's freed when it is out of
+    // scoped inside take_ownerships.
+    
+    let s3 = gives_ownerships();
+    let s4 = takes_and_gives_ownership(s3);
+    // s3 cannot be used, but we can use s4;
+    println!("s3 cannot be used, but s4 can be because the ownership s back: {}", s4);
+
+    // Let calculate_length to borrow the variable s4.
+    let len = calculate_length(&s4);
+    println!("s4 = {s4}, length is {len}", s4=s4, len=len);
+
+    let mut s5 = String::from("i am a mutable string");
+    change_string(&mut s5);
+    println!("s5 is mutated to: {}", s5);
+
+    // Mutable references have one big restriction: you can have only one mutable reference to a
+    // particular piece of data at a time.
+    // let r1 = &mut s5;
+    // The following fails:
+    // let r2 = &mut s5;
+    //
+    // A similar rule happens when combing mutable and immutable references.
+    // let r1 = &s5;
+    // let r2 = &s5; // ok, because immutable reference
+    // let r3 = &mut s5; // not ok
+    // ...use r1, r2, r3...
+    //
+    // The following is ok because the compiler can tell that the immutable
+    // reference, r1, is done using, called Non-Lexical Lifetimes (NLL for short),
+    // https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html#non-lexical-lifetimes
+    let r1 = &s5;
+    println!("r1 is an immutable reference, and it's not used after this line = {}", r1);
+    let r2 = &mut s5;
+    println!("r2 is a mutable reference = {}", r2);
+    // This is okay as well!
+    let r3 = &mut s5;
+    println!("r3 is a mutable reference = {}", r3);
+    // This is not!
+    // println!("r2 is a mutable reference = {}", r2);
+    
+    // If you have a reference to some data, the compiler will ensure that the data will not go out
+    // of scope before the reference to the data does.
+    // See the dangle() method below.
+}
+
+fn takes_ownership(s: String) {
+    println!("string \"{}\" ownership got taken", s);
+}
+
+/**
+ * Gives the ownership of a string to the caller.
+ */
+fn gives_ownerships() -> String {
+    let s = String::from("ownership granted");
+    s
+}
+
+/**
+ * Takes the ownership of the string from the caller, but gives it back.
+ */
+fn takes_and_gives_ownership(s: String) -> String {
+    s
+}
+
+/**
+ * Gets the length of a string. This function only borrows the string
+ * from the caller, so the ownership is not transferred.
+ *
+ * s is a reference to a string. Unlike a pointer, a reference always points
+ * to a valid value.
+ */
+fn calculate_length(s: &String) -> usize {
+    s.len()
+}
+
+fn change_string(s: &mut String) {
+    s.push_str(": changed!");
+}
+
+
+// fn dangle() -> &String { // dangle returns a reference to a String
+// 
+//     let s = String::from("hello"); // s is a new String
+// 
+//     &s // we return a reference to the String, s
+// } // Here, s goes out of scope, and is dropped. Its memory goes away.
+//   // Danger
+
+/**
+ * Plays slices.
+ */
+fn play_slices() {
+    let s = "a slice";
+    let r1 = &s[1..4];
+    let r2 = &s[2..5];
+    let r3 = &s[..3];
+    let r4 = &s[3..];
+    // Indices cannot be out of bound.
+    // let r5 = &s[3..10];
+    println!("r1 = {}, r2 = {}, r3 = {}, r4 = {}", r1, r2, r3, r4);
+    // Range indices must occur at valid utf-8 character boundaries.
+    let fw = first_word(&s);
+    println!("First word of \"{}\" is {}", s, fw);
+    let s2 = "abcde";
+    let fw = first_word(&s2);
+    println!("First word of \"{}\" is {}", s2, fw);
+
+    let ar = [1,2,3,4,5];
+    println!("a slice of {:?} is {:?}", ar, &ar[1..3]);
+}
+
+fn first_word(s: &str) -> &str {
+    for (i, &b) in s.as_bytes().iter().enumerate() {
+        if b == b' ' {
+            return &s[0..i];
+        }
+    }
+    return &s[..];
+}
+
+// end of playing methods
+
 /**
  * Prints a header.
  */
