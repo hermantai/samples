@@ -54,6 +54,9 @@ fn main() {
 
     print_header("play_structs");
     play_structs();
+
+    print_header("play_enums");
+    play_enums();
 }
 // end of main
 
@@ -506,6 +509,8 @@ fn first_word(s: &str) -> &str {
 
 /**
  * Plays structs.
+ *
+ * https://doc.rust-lang.org/book/ch05-00-structs.html
  */
 fn play_structs() {
     let user = User {
@@ -581,6 +586,10 @@ fn play_structs() {
     println!("can rect2 hold rect3?: {}", &rect2.can_hold(&rect3));
     println!("can rect2 hold rect4?: {}", rect2.can_hold(&rect4));
     println!("square: {:?}", Rectangle::square(10));
+}
+
+fn print_message(m: &Message) {
+    println!("message = {:?}", m);
 }
 
 fn build_user(email: String, username: String) -> User {
@@ -659,6 +668,86 @@ impl Rectangle {
 fn area(rect: &Rectangle) -> u32 {
     rect.height * rect.width
 }
+
+/**
+ * Play enums.
+ *
+ * https://doc.rust-lang.org/book/ch06-00-enums.html
+ */
+fn play_enums() {
+    let m1 = Message::Quit;
+    let m2 = Message::Move { x: 1, y: 2 };
+    let m3 = Message::Write(String::from("write message"));
+    print_message(&m1);
+    print_message(&m2);
+    print_message(&m3);
+
+    if let Message::Move { x, y } = m2 {
+        println!("Use the move x = {}, y = {}", x, y);
+    }
+    if let Message::Write(m) = m3 {
+        println!("Write = {}", m);
+    }
+
+    m1.print();
+
+    // Some and None (variants of the enum Option) instead of nulls.
+    println!("plus_one with 5: {:?}", plus_one(Some(5)));
+    println!("plus_one with none: {:?}", plus_one(None));
+
+    let dice_roll = 9;
+    match dice_roll {
+        3 => add_fancy_hat(),
+        7 => remove_fancy_hat(),
+        other => move_player(other),
+    }
+    match dice_roll {
+        3 => add_fancy_hat(),
+        _ => println!("match all"),
+    }
+    match dice_roll {
+        3 => add_fancy_hat(),
+        // do nothing
+        _ => (),
+    }
+}
+
+#[derive(Debug)]
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+}
+
+// Enum can have methods like struct
+impl Message {
+    fn print(&self) {
+        match self {
+            // If more than statements, need {}
+            Message::Quit => {
+                let m = "quit";
+                println!("message print: {}", m);
+            }
+            // Otherwise, just one statement with comma
+            Message::Move { x, y } => println!("x = {}, y = {}", x, y),
+            Message::Write(m) => println!("m = {}", m),
+        }
+    }
+}
+
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        None => None,
+        Some(i) => Some(i + 1),
+    }
+}
+
+fn add_fancy_hat() {}
+fn remove_fancy_hat() {}
+fn move_player(num_spaces: u8) {
+    println!("move player: {}", num_spaces);
+}
+
 // end of playing methods
 
 /**
