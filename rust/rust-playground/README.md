@@ -3,7 +3,7 @@ This program is created by `cargo new rust-playground`.
 
 This Playground comes from reading "The Book": https://doc.rust-lang.org/book
 
-Bookmark: https://doc.rust-lang.org/book/ch05-00-structs.html
+Bookmark: https://doc.rust-lang.org/book/ch06-00-enums.html
 
 ## Dev
 Commands are run the top-level directory, i.e. "rust-playground".

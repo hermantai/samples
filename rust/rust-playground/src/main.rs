@@ -11,9 +11,10 @@
 
 // Rng is a trait in the rand library crate. A trait defines methods.
 use rand::Rng;
-use std::env;
-use std::io;
 use std::cmp::Ordering;
+use std::env;
+use std::fmt;
+use std::io;
 use std::process;
 
 // This is the main function
@@ -50,6 +51,9 @@ fn main() {
 
     print_header("play_slices");
     play_slices();
+
+    print_header("play_structs");
+    play_structs();
 }
 // end of main
 
@@ -365,7 +369,7 @@ fn play_ownerships() {
     // compile time. The assignment is actually a "move" instead of a copy
     // by pointer.
     // let s2 = s;
-    
+
     // This is a real copy that allows s2 and s to exist after this line.
     let s2 = s.clone();
     println!("s = {}, s2 = {}", s, s2);
@@ -373,15 +377,18 @@ fn play_ownerships() {
     takes_ownership(s2);
     // Now s2 cannot be used either, because it's freed when it is out of
     // scoped inside take_ownerships.
-    
+
     let s3 = gives_ownerships();
     let s4 = takes_and_gives_ownership(s3);
     // s3 cannot be used, but we can use s4;
-    println!("s3 cannot be used, but s4 can be because the ownership s back: {}", s4);
+    println!(
+        "s3 cannot be used, but s4 can be because the ownership s back: {}",
+        s4
+    );
 
     // Let calculate_length to borrow the variable s4.
     let len = calculate_length(&s4);
-    println!("s4 = {s4}, length is {len}", s4=s4, len=len);
+    println!("s4 = {s4}, length is {len}", s4 = s4, len = len);
 
     let mut s5 = String::from("i am a mutable string");
     change_string(&mut s5);
@@ -403,7 +410,10 @@ fn play_ownerships() {
     // reference, r1, is done using, called Non-Lexical Lifetimes (NLL for short),
     // https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html#non-lexical-lifetimes
     let r1 = &s5;
-    println!("r1 is an immutable reference, and it's not used after this line = {}", r1);
+    println!(
+        "r1 is an immutable reference, and it's not used after this line = {}",
+        r1
+    );
     let r2 = &mut s5;
     println!("r2 is a mutable reference = {}", r2);
     // This is okay as well!
@@ -411,7 +421,7 @@ fn play_ownerships() {
     println!("r3 is a mutable reference = {}", r3);
     // This is not!
     // println!("r2 is a mutable reference = {}", r2);
-    
+
     // If you have a reference to some data, the compiler will ensure that the data will not go out
     // of scope before the reference to the data does.
     // See the dangle() method below.
@@ -451,11 +461,10 @@ fn change_string(s: &mut String) {
     s.push_str(": changed!");
 }
 
-
 // fn dangle() -> &String { // dangle returns a reference to a String
-// 
+//
 //     let s = String::from("hello"); // s is a new String
-// 
+//
 //     &s // we return a reference to the String, s
 // } // Here, s goes out of scope, and is dropped. Its memory goes away.
 //   // Danger
@@ -479,10 +488,13 @@ fn play_slices() {
     let fw = first_word(&s2);
     println!("First word of \"{}\" is {}", s2, fw);
 
-    let ar = [1,2,3,4,5];
+    let ar = [1, 2, 3, 4, 5];
     println!("a slice of {:?} is {:?}", ar, &ar[1..3]);
 }
 
+/**
+ * Returns the first word (words delimited by spaces) from a string.
+ */
 fn first_word(s: &str) -> &str {
     for (i, &b) in s.as_bytes().iter().enumerate() {
         if b == b' ' {
@@ -492,6 +504,161 @@ fn first_word(s: &str) -> &str {
     return &s[..];
 }
 
+/**
+ * Plays structs.
+ */
+fn play_structs() {
+    let user = User {
+        email: String::from("email1"),
+        username: String::from("user1"),
+        active: true,
+        sign_in_count: 1,
+    };
+    println!("user = {:?}", user);
+
+    let user1 = build_user(String::from("email1"), String::from("user1"));
+    let mut user2 = User {
+        username: String::from("user2"),
+        // This is called update syntax. The rest of the fields of user2 is
+        // updated from user1.
+        // Notice that this is just like an assignment, since the field
+        // "email" is moved from user1 to user2, user1 is invalid now.
+        ..user1
+    };
+    println!("user2 = {:?}", user2);
+
+    // user2 is declared with mut, so we can mutate its fields. All fields
+    // are mutable with the mut key word.
+    user2.sign_in_count = 4;
+    println!("user2 is mutated = {:?}", user2);
+
+    let c = Color(1, 2, 3);
+    let Color(d, e, f) = c;
+    println!("struct tuple: {}, {}, {}, {}", d, e, f, c.0);
+
+    let rect1 = Rectangle {
+        width: 12,
+        height: 20,
+    };
+    println!("print debug rect1 = {:?}", rect1);
+    println!("pretty print debug rect1 = {:#?}", rect1);
+    println!("area = {}", area(&rect1));
+    println!("rect.area = {}", rect1.area());
+
+    let scale = 2;
+    // dbg! takes ownership of an expression, evaluates the expression, then
+    // returns the ownership of the value.
+    let rect2 = Rectangle {
+        width: dbg!(12 * scale),
+        height: 20,
+    };
+    // dbg! takes ownership of the parameter, use & to avoid the ownership being taken.
+    dbg!(&rect2);
+    println!(
+        "rect2 is here after dbg!, because ownership not taken: {:?}",
+        rect2
+    );
+
+    let a1 = AlwaysEqual;
+    let a2 = AlwaysEqual;
+    println!("AlwaysEqual == AlwaysEqual? {}", a1 == a2);
+
+    let rect2 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+    let rect3 = Rectangle {
+        width: 10,
+        height: 40,
+    };
+    let rect4 = Rectangle {
+        width: 60,
+        height: 45,
+    };
+    // Notice that & is optional for rect2 because Rust automatically adds &,
+    // &mut, or * when calling a method. The feature is called
+    // automatic referencing and dereferencing.
+    println!("can rect2 hold rect3?: {}", &rect2.can_hold(&rect3));
+    println!("can rect2 hold rect4?: {}", rect2.can_hold(&rect4));
+    println!("square: {:?}", Rectangle::square(10));
+}
+
+fn build_user(email: String, username: String) -> User {
+    User {
+        // Because the field names are the same as parameters, we can use
+        // a shortcut here.
+        email,
+        username,
+        active: true,
+        sign_in_count: 1, // trailing commas are ok for fields
+    }
+}
+
+/**
+ * A sample User struct. Usually a struct should own its fields to make sure
+ * the lifetime of the field lives as long as the struct, so String is used
+ * instead of &String.
+ */
+struct User {
+    username: String,
+    email: String,
+    active: bool,
+    sign_in_count: u64, // trailing commas are ok for fields
+}
+
+/**
+ * User implemented the Debug trait.
+ *
+ * This allows for println!("{:?}", user);
+ */
+impl fmt::Debug for User {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "User(email: {}, username: {}, active: {}, sign_in_count: {}",
+            self.email, self.username, self.active, self.sign_in_count
+        )
+    }
+}
+
+struct Color(i32, i32, i32);
+
+#[derive(PartialEq)]
+struct AlwaysEqual;
+
+// This is an outer attribute to opt in Debug, so Rust can print out the debug
+// information for this struct.
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+// Implementation block for Rectangle.
+// Functions are called associated functions.
+impl Rectangle {
+    // &self is short for "self: &Self". Methods must have this first parameter.
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+
+    fn square(size: u32) -> Rectangle {
+        Rectangle {
+            width: size,
+            height: size,
+        }
+    }
+}
+// Can have multiple impl blocks
+impl Rectangle {
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+}
+
+fn area(rect: &Rectangle) -> u32 {
+    rect.height * rect.width
+}
 // end of playing methods
 
 /**
