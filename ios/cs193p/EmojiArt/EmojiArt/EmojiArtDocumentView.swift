@@ -21,21 +21,6 @@ struct EmojiArtDocumentView: View {
     }
     
     @State var selectedEmojis: Set<Int> = []
-    /*
-     A way to export a rect for a view, then be used in somewhere else.
-     
-    @State var rect: CGRect?
-    func rectReader() -> some View {
-        return GeometryReader { (geometry) -> AnyView in
-            rect = geometry.frame(in: .global)
-            return AnyView(Rectangle().fill(Color.clear))
-        }
-    }
-     
-     Text(..)
-     // now the rect of this view is exported to `rect`
-     .background(rectReader())
-*/
     
     var documentBody: some View {
         GeometryReader { geometry in
