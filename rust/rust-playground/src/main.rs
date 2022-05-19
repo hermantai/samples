@@ -17,6 +17,9 @@ use std::fmt;
 use std::io;
 use std::process;
 
+// If using the following, we only need to call eat_at_restaurant()
+// use rust_playground::eat_at_restaurant;
+
 // This is the main function
 /// Generate library docs for the following item. Which is a fancy main
 /// function! Support <b>HTML</b>.
@@ -57,6 +60,9 @@ fn main() {
 
     print_header("play_enums");
     play_enums();
+
+    print_header("play_crates");
+    play_crates();
 }
 // end of main
 
@@ -651,6 +657,7 @@ impl Rectangle {
         self.width * self.height
     }
 
+    // A method without &self parameter is class method.
     fn square(size: u32) -> Rectangle {
         Rectangle {
             width: size,
@@ -748,6 +755,19 @@ fn move_player(num_spaces: u8) {
     println!("move player: {}", num_spaces);
 }
 
+/**
+ * Play crates.
+ *
+ * https://doc.rust-lang.org/book/ch07-02-defining-modules-to-control-scope-and-privacy.html
+ */
+fn play_crates() {
+    // use rust_playground::eat_at_restaurant() is not used,
+    // so need the fully qualify name.
+    rust_playground::eat_at_restaurant();
+
+    println!("Call the re-exported add_to_waitlist method");
+    rust_playground::add_to_waitlist();
+}
 // end of playing methods
 
 /**
