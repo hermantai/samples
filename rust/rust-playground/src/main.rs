@@ -63,6 +63,9 @@ fn main() {
 
     print_header("play_crates");
     play_crates();
+
+    print_header("play_collections");
+    play_collections();
 }
 // end of main
 
@@ -328,6 +331,8 @@ fn play_control_flows() {
     for val in ar {
         println!("for-loop to loop through an array: {}", val);
     }
+
+    // Start is inclusive, end is exclusive.
     for number in (1..4).rev() {
         println!("count down using for-loop: {}", number);
     }
@@ -767,6 +772,57 @@ fn play_crates() {
 
     println!("Call the re-exported add_to_waitlist method");
     rust_playground::add_to_waitlist();
+}
+
+/**
+ * Play collections: Vector, String, Hash map
+ *
+ * https://doc.rust-lang.org/book/ch08-01-vectors.html
+ */
+fn play_collections() {
+    let mut v: Vec<i32>  = Vec::new();
+
+    let v2 = vec![1, 2, 3];
+
+    v.push(10);
+
+    println!("v = {:?}", v);
+    println!("v2 = {:?}", v2);
+
+    // Two ways to get an element from a vector: &[] or get
+    // The returned value is a reference so the Vector can still
+    // own the data. Reference an element only borrows a value.
+
+    let third = &v2[2];
+    println!("Third of v2 is {}", third);
+
+    match v.get(2) {
+        Some(third) => println!("Third of v is {}", third),
+        None => println!("Third of v does not exist"),
+    }
+
+    // You can’t have mutable and immutable references in the same scope. This
+    // applies to vector as well.
+    let v_val = v[0];
+    println!("v_val is {} before mutation", v_val);
+    v.push(4);
+
+    // can't use "v_val" anymore
+    // println!("v_val is {}", v_val);
+    
+    for i in &v {
+        println!("v element {}", i);
+    }
+
+    // iterate over mutable references to change the value
+    for i in &mut v {
+        // This is deferencing i to mutate the value that i points to.
+        *i += 50;
+    }
+    println!("After mutation, v = {:?}", v);
+
+    println!("pop out a value from v: {:?}", v.pop());
+
 }
 // end of playing methods
 

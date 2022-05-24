@@ -3,7 +3,7 @@ This program is created by `cargo new rust-playground`.
 
 This Playground comes from reading "The Book": https://doc.rust-lang.org/book
 
-Bookmark: https://doc.rust-lang.org/book/ch08-00-common-collections.html
+Bookmark: https://doc.rust-lang.org/book/ch08-02-strings.html
 
 ## Describe the organization of crates
 https://doc.rust-lang.org/book/ch07-02-defining-modules-to-control-scope-and-privacy.html
@@ -20,7 +20,9 @@ and a library, both with the same name as the package. A package can have
 multiple binary crates by placing files in the src/bin directory: each file
 will be a separate binary crate.
 
-src/main.rs and src/lib.rs are called crate roots. The reason for their name is that the contents of either of these two files form a module named crate at the root of the crate’s module structure, known as the module tree.
+src/main.rs and src/lib.rs are called crate roots. The reason for their name is
+that the contents of either of these two files form a module named crate at the
+root of the crate’s module structure, known as the module tree.
 
 ## Dev
 Commands are run the top-level directory, i.e. "rust-playground".
@@ -47,6 +49,12 @@ Use `cargo fmt` to format the files for this module.
 executable.
 
 `cargo new --lib restaurant` creates a new library called restaurant.
+## Run
+Three binaries in this playground.
+
+`cargo run --bin rust-playground`
+`cargo run --bin other`
+`cargo run --bin my_prog`
 
 ## Deploy
 `cargo build --release` to build an optimized binary in _target/release_.
