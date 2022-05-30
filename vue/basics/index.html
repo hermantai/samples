@@ -73,7 +73,13 @@
     <div v-else class="box three"></div>
 
     <hr />
+    <!-- life cycle hooks demo -->
+    <h6>Life cycle hooks demo</h6>
+    <button @click="toggleBoxForLifeCycle">Toggle Box</button>
+    <life-cycle-test-box v-if="isVisibleForLifeCycle" />
+    <hr />
     <!-- custom component defined below -->
+    <h6>custom components</h6>
     <login-form />
   </div>
 
@@ -89,6 +95,7 @@
           greeting: 'Hello Vue 3',
           isVisible: false,
           isVisible2: true,
+          isVisibleForLifeCycle: true,
         }
       },
       // Define methods which can be used throughout the app component.
@@ -105,16 +112,31 @@
         toggleBox2: function() {
           this.isVisible2 = !this.isVisible2
         },
+        toggleBoxForLifeCycle: function() {
+          this.isVisibleForLifeCycle = !this.isVisibleForLifeCycle;
+        },
         /* you can pass in variables to this func as well */
         greet: function(greeting) {
           console.log(greeting)
         }
       },
       updated() {
-        console.log('updated')
+        console.log('app updated')
       }
     })
-    app.component('test-box', {
+    app.component('life-cycle-test-box', {
+      template: `
+        <div class="box"></div>
+      `,
+      created() {
+        console.log('created');
+      },
+      mounted() {
+        console.log('mounted');
+      },
+      unmounted() {
+        console.log('unmounted');
+      }
     })
 
     // We can use any options like data, methods, etc., just like the options
@@ -178,7 +200,7 @@
       // Can only be used inside its own template. Notice that the "components"
       // property, which is needed for a component depending on components.
       // It's not needed for the global html because the global html mounted with
-      // the app instance, that means  the app instance can access to all components,
+      // the app instance, that means the app instance can access to all components,
       // e.g. login-form can be referenced from the global html on this page.
       components: ['custom-input'],
       data() {
