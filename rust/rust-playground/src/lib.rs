@@ -75,12 +75,12 @@ mod back_of_house {
 // Bring the module into the scope of eat_at_restaurant.
 use crate::front_of_house::hosting;
 // relative path also works
-use self::back_of_house:: Appetizer;
+use self::back_of_house::Appetizer;
 
 // It's a convention to bring the module in then call module::function().
 //
 // On the other hand, when bringing in structs, enums, and other items with use, it’s idiomatic to specify the full path
-// 
+//
 // If it needs the parent module disambiguate, bring in the parent module, then
 // do parent_module::Class in code. Or we can do:
 // use parent_module::Class as Class2.
@@ -97,7 +97,6 @@ pub use crate::front_of_house::hosting::add_to_waitlist;
 // glob operator works as well:
 //   use std::collections::*;
 
-
 /// All items (functions, methods, structs, enums, modules, and constants) are private by default.
 /// Items in a parent module can’t use the private items inside child modules, but items in child
 /// modules can use the items in their ancestor modules.
@@ -110,10 +109,17 @@ pub fn eat_at_restaurant() {
 
     println!("{:?}", back_of_house::Appetizer::Soup);
     println!("{:?}", back_of_house::Appetizer::Salad);
-    println!("using the use that brings Appetizer into scope: {:?}", Appetizer::Salad);
+    println!(
+        "using the use that brings Appetizer into scope: {:?}",
+        Appetizer::Salad
+    );
 
     let breakfast = back_of_house::Breakfast::summer("my toast");
-    println!("breakfast toast: {:?}, fruit: {}", breakfast, breakfast.my_fruit());
+    println!(
+        "breakfast toast: {:?}, fruit: {}",
+        breakfast,
+        breakfast.my_fruit()
+    );
 
     hosting::call_serving();
 

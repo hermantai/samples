@@ -12,10 +12,13 @@
 // Rng is a trait in the rand library crate. A trait defines methods.
 use rand::Rng;
 use std::cmp::Ordering;
+use std::collections::HashMap;
 use std::env;
 use std::fmt;
 use std::io;
 use std::process;
+// https://crates.io/crates/unicode-segmentation
+use unicode_segmentation::UnicodeSegmentation;
 
 // If using the following, we only need to call eat_at_restaurant()
 // use rust_playground::eat_at_restaurant;
@@ -64,8 +67,14 @@ fn main() {
     print_header("play_crates");
     play_crates();
 
-    print_header("play_collections");
-    play_collections();
+    print_header("play_vector");
+    play_vector();
+
+    print_header("play_string");
+    play_string();
+
+    print_header("play_hash_map");
+    play_hash_map();
 }
 // end of main
 
@@ -779,8 +788,8 @@ fn play_crates() {
  *
  * https://doc.rust-lang.org/book/ch08-01-vectors.html
  */
-fn play_collections() {
-    let mut v: Vec<i32>  = Vec::new();
+fn play_vector() {
+    let mut v: Vec<i32> = Vec::new();
 
     let v2 = vec![1, 2, 3];
 
@@ -809,7 +818,7 @@ fn play_collections() {
 
     // can't use "v_val" anymore
     // println!("v_val is {}", v_val);
-    
+
     for i in &v {
         println!("v element {}", i);
     }
@@ -823,7 +832,171 @@ fn play_collections() {
 
     println!("pop out a value from v: {:?}", v.pop());
 
+    let mut vec1 = vec![1, 2, 3];
+    push_int_to_vec(&mut vec1);
+    println!("vec1 mutated: {:?}", vec1);
 }
+
+fn push_int_to_vec(vec: &mut Vec<i32>) {
+    vec.push(4);
+    vec[0] = 101;
+}
+
+/**
+ * String
+ *
+ * https://doc.rust-lang.org/book/ch08-02-strings.html
+ */
+fn play_string() {
+    let data = "initial contents";
+    // s1 and s2 are just two different ways to create String
+    let s1 = data.to_string();
+    let s2 = String::from("s2 content");
+    println!("{}, {}", s1, s2);
+
+    let chinese_hello = String::from("你好");
+    println!(
+        "Utf-8 encoded strings can be used as well: {}",
+        chinese_hello
+    );
+
+    let mut updatable_s = String::from("updatable string");
+    updatable_s.push_str(": updated");
+
+    let s101 = String::from("tic");
+    let s102 = String::from("tac");
+    let s103 = String::from("toc");
+
+    // + is defined by the following signature.
+    // Notice self is not a reference, so s101 is gone after this line, while
+    // s102 and s103 stays.
+    // fn add(self, s: &str) -> String
+    let s = s101 + "-" + &s102 + "-" + &s103;
+    println!("s is from +: {}", s);
+    println!("s101 is gone after the + above: {}, {}", s102, s103);
+
+    let s201 = String::from("tic");
+    let s202 = String::from("tac");
+    let s203 = String::from("toc");
+    let s = format!("{}-{}-{}", s201, s202, s203);
+    println!("s is from format!: {}", s);
+    println!(
+        "ownerships not taken away from the variables: {}, {}, {}",
+        s201, s202, s203
+    );
+
+    println!(
+        "For {}, len is {}, chars count is {}",
+        chinese_hello,
+        chinese_hello.len(),
+        chinese_hello.chars().count()
+    );
+
+    // Cannot index a string, but can slice a string. The slice can only
+    // valid characters or it will panic. In chinese_hello, first three
+    // bytes make a valid character and thus a valid slice.
+    let s_slice = &chinese_hello[0..3];
+    println!("chinese hello slice: {}", s_slice);
+    for b in chinese_hello.bytes() {
+        println!("b = {}", b);
+    }
+    for c in chinese_hello.chars() {
+        println!("c = {}", c);
+    }
+    let hindu_s = "नमस्ते";
+    println!(
+        "This is hindu: {}, len = {}, chars count is {}",
+        hindu_s,
+        hindu_s.len(),
+        hindu_s.chars().count()
+    );
+    for c in hindu_s.chars() {
+        println!("{}", c);
+    }
+
+    // The following depends on UnicodeSegmentation imported above
+    let g = hindu_s.graphemes(true);
+    println!("iterate over graphemes cluster boundries");
+    // g moved due to this implicit call to `.into_iter()
+    for s_in_g in g {
+        println!("{}", s_in_g);
+    }
+    // cannot reuse g because the iteration above already used g
+    let gvec = hindu_s.graphemes(true).collect::<Vec<&str>>();
+    println!("It has {} characters", gvec.len());
+}
+
+/**
+ * Hash map
+ *
+ * https://doc.rust-lang.org/book/ch08-03-hash-maps.html
+ */
+fn play_hash_map() {
+    // No built-in macro to support hashmaps, unfortunately.
+    // Also we need to import the HashMap above.
+    let mut mutable_scores = HashMap::new();
+    // Notice that for owned values like String, the value are moved and the HashMap
+    // will be the owners of the values (key and value). &str implements
+    // the Copy trait, so it's not a problem. It can be a problem if the
+    // keys (or values) are created from: let s = String::from("key1")
+    mutable_scores.insert("blue", 10);
+    mutable_scores.insert("yellow", 50);
+
+    println!("{:?}", mutable_scores);
+
+    // Another way to create a map is by calling `collect`
+    let teams = vec!["blue", "yellow"];
+    let initial_scores = vec![10, 20];
+    let scores: HashMap<_, _> = teams.into_iter().zip(initial_scores.into_iter()).collect();
+    println!("scores from collect: {:?}", scores);
+
+    // retrieve from a HashMap with get
+    let team_name = String::from("blue");
+    // Without the casting, get would interpret &team_name with the type &String,
+    // but it needs &str, so we need to type cast it.
+    // See https://stackoverflow.com/questions/65549983/trait-borrowstring-is-not-implemented-for-str
+    // The type declartion of score is superfluous.
+    let score: Option<&i32> = scores.get(&team_name as &str);
+
+    if let Some(s) = score {
+        println!("Score of {} is {}", team_name, s);
+    }
+
+    let mut type_printed = false;
+    for (key, value) in &scores {
+        if !type_printed {
+            print!("Types of key and value of scores: ");
+            print_type_of(key);
+            print!(" => ");
+            print_type_of(value);
+            println!("");
+            type_printed = true;
+        }
+        println!("{} => {}", key, value);
+    }
+
+    // Overrides blue with the value 99
+    mutable_scores.insert("blue", 99);
+    // Does nothing because "blue" is already in the map
+    mutable_scores.entry("blue").or_insert(100);
+    // Inserts green into the map because it does not exist before.
+    mutable_scores.entry("green").or_insert(100);
+    println!("mutable_scores after udpate: {:?}", mutable_scores);
+
+    let text = "hello world wonderful world";
+    let mut map = HashMap::new();
+    for word in text.split_whitespace() {
+        // or_insert returns a mutable reference that can be
+        // used to mutate the entry.
+        // The reference goes out of scope at the end of the iteration,
+        // so it's permitted by the borrowing rules:
+        // https://web.mit.edu/rust-lang_v1.25/arch/amd64_ubuntu1404/share/doc/rust/html/book/first-edition/references-and-borrowing.html#the-rules
+        let count = map.entry(word).or_insert(0);
+        *count += 1;
+    }
+    println!("count map: {:?}", map);
+}
+
 // end of playing methods
 
 /**
@@ -835,4 +1008,10 @@ fn print_header(header: &str) {
 
 fn print_subsector_divider() {
     println!("\n-\n");
+}
+
+// This is from https://stackoverflow.com/a/58119924/3321334
+// and looks like the only general way to print a type of a variable.
+fn print_type_of<T>(_: &T) {
+    print!("{}", std::any::type_name::<T>())
 }

@@ -10,6 +10,7 @@ edition = "2021"
 # "0.8.3" is a shorthand for "^0.8.3". It means at least "0.8.3" but below
 # "0.9.0". It's semantic versioning: http://semver.org/
 rand = "0.8.3"
+unicode-segmentation = "1.9.0"
 
 # This config is needed because it's not under src/bin.
 [[bin]]
