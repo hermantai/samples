@@ -13,9 +13,10 @@
 use rand::Rng;
 use std::cmp::Ordering;
 use std::collections::HashMap;
+use std::fs::{self, File};
 use std::env;
 use std::fmt;
-use std::io;
+use std::io::{self, ErrorKind, Write, Read};
 use std::process;
 // https://crates.io/crates/unicode-segmentation
 use unicode_segmentation::UnicodeSegmentation;
@@ -75,12 +76,15 @@ fn main() {
 
     print_header("play_hash_map");
     play_hash_map();
+
+    print_header("play_panic");
+    play_panic();
 }
 // end of main
 
 fn play_process_input() {
     let args: Vec<String> = env::args().collect();
-    println!("Input parameters: {:?}, len = {}", args, args.len());
+    println!("Use input_array_index argument to try entering index from standard in. Input parameters: {:?}, len = {}", args, args.len());
 
     // args[0] is the script itself, so the first parameter is at args[1].
     if args.len() >= 2 {
@@ -995,6 +999,129 @@ fn play_hash_map() {
         *count += 1;
     }
     println!("count map: {:?}", map);
+}
+
+/**
+ * Play with panicking or Result.
+ *
+ * https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html
+ */
+fn play_panic() {
+    // args[0] is the script itself, so the first parameter is at args[1].
+    let args: Vec<String> = env::args().collect();
+    println!("Use \"panic\" argument to panic out. Input parameters: {:?}, len = {}", args, args.len());
+    if args.len() >= 2 {
+        let operation = &args[1];
+        if operation == "panic" {
+            panic!("crash and burn");
+        }
+    }
+
+    let f = File::open("/tmp/2022-05-30-hello.txt");
+    let mut fname = "/tmp/2022-05-30-hello.txt";
+    let mut f = match f {
+        Ok(file) => file,
+        Err(error) => match error.kind() {
+            ErrorKind::NotFound => match File::create("/tmp/2022-05-30-hello2.txt") {
+                Ok(fc) => {
+                    fname = "/tmp/2022-05-30-hello2.txt";
+                    fc
+                },
+                Err(e) => panic!("Problem creating the file: {:?}", e),
+            },
+            other_error => {
+                panic!("Problem opening the file: {:?}", other_error);
+            }
+        }
+    };
+
+    if let Err(e) = f.write_all(b"hello world\n") {
+        println!("error writing to a file: {:?}", e);
+    } else {
+        println!("{} is written", fname);
+    }
+
+    // Another way to write the code above
+    fname = "/tmp/2022-05-30-hello.txt";
+    let mut f = File::open(&fname).unwrap_or_else(|error| {
+        if error.kind() == ErrorKind::NotFound {
+            fname = "/tmp/2022-05-30-hello2.txt";
+            File::create("/tmp/2022-05-30-hello2.txt").unwrap_or_else(|error| {
+                panic!("Problem creating the file: {:?}", error);
+            })
+        } else {
+            panic!("Problem opening the file: {:?}", error);
+        }
+    });
+    if let Err(e) = f.write_all(b"hello world\n") {
+        println!("error writing to a file: {:?}", e);
+    } else {
+        println!("{} is written", fname);
+    }
+
+    println!("read_username_from_file: {:?}", read_username_from_file());
+    println!("read_username_from_file2: {:?}", read_username_from_file2());
+    println!("read_username_from_file3: {:?}", read_username_from_file3());
+    println!("read_username_from_file4: {:?}", read_username_from_file4());
+    let s = "\nabc";
+    println!("last_char_of_first_line({}) = {:?}", s, last_char_of_first_line(s));
+    let s = "abc\nabc";
+    println!("last_char_of_first_line({}) = {:?}", s, last_char_of_first_line(s));
+
+    // This converts Option to Result<char, Err(i32)>
+    // https://doc.rust-lang.org/std/option/enum.Option.html#method.ok_or
+    let option_to_result = last_char_of_first_line(s).ok_or(0);
+    // This converts Result to Option
+    // https://doc.rust-lang.org/std/result/enum.Result.html#method.ok
+    let result_to_option = option_to_result.ok();
+    println!("after converting to result then back to option: {:?}", result_to_option);
+
+    // more in src/bin/main_return_box_error.rs
+}
+
+/// Read a username from a file.
+/// From https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html#propagating-errors
+fn read_username_from_file() -> Result<String, io::Error> {
+    let f = File::open("/tmp/2022-05-30-file-with-username");
+    let mut f = match f {
+        Ok(file) => file,
+        Err(e) => return Err(e),
+    };
+
+    let mut s = String::new();
+
+    match f.read_to_string(&mut s) {
+        Ok(_) => Ok(s),
+        Err(e) => Err(e),
+    }
+}
+
+/// This is similar to read_username_from_file with "?" being used, so
+/// that Err is propagated to the caller.
+fn read_username_from_file2() -> Result<String, io::Error> {
+    let mut f = File::open("/tmp/2022-05-30-file-with-username")?;
+
+    let mut s = String::new();
+    f.read_to_string(&mut s)?;
+    return Ok(s);
+}
+
+/// Simplify read_username_from_file2 by chaining ?
+fn read_username_from_file3() -> Result<String, io::Error> {
+    let mut s = String::new();
+    File::open("/tmp/2022-05-30-file-with-username")?.read_to_string(&mut s)?;
+    return Ok(s);
+}
+
+/// read_username_from_file3 by using fs::read_to_string
+fn read_username_from_file4() -> Result<String, io::Error> {
+    fs::read_to_string("/tmp/2022-05-30-file-with-username")
+}
+
+/// Gets the last character of the first line of the given text.
+/// From https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html#where-the--operator-can-be-used
+fn last_char_of_first_line(text: &str) -> Option<char> {
+    text.lines().next()?.chars().last()
 }
 
 // end of playing methods

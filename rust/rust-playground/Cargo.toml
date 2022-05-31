@@ -1,3 +1,9 @@
+# Uncomment the following if switch from unwinding to aborting to save
+# binary size for release mode.
+# Ref: https://doc.rust-lang.org/book/ch09-01-unrecoverable-errors-with-panic.html
+## [profile.release]
+## panic = 'abort'
+
 [package]
 name = "rust-playground"
 version = "0.1.0"
