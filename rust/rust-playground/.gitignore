@@ -1,0 +1,4 @@
+# rust has special meaning for src/bin directory, which automatically compiles
+# to individual binaries without having to specify in Cargo.toml file, so we
+# need to include that directory.
+!src/bin/
