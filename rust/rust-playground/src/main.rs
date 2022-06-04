@@ -79,6 +79,9 @@ fn main() {
 
     print_header("play_panic");
     play_panic();
+
+    print_header("play_generics");
+    play_generics();
 }
 // end of main
 
@@ -1041,7 +1044,7 @@ fn play_panic() {
         println!("{} is written", fname);
     }
 
-    // Another way to write the code above
+    // Another way to write the code above using closure
     fname = "/tmp/2022-05-30-hello.txt";
     let mut f = File::open(&fname).unwrap_or_else(|error| {
         if error.kind() == ErrorKind::NotFound {
@@ -1122,6 +1125,68 @@ fn read_username_from_file4() -> Result<String, io::Error> {
 /// From https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html#where-the--operator-can-be-used
 fn last_char_of_first_line(text: &str) -> Option<char> {
     text.lines().next()?.chars().last()
+}
+
+fn play_generics() {
+    let nums = vec![2, 1, 5, 4];
+    println!("largest of {:?} is {:?}", nums, largest(&nums));
+
+    let p1 = Point{x: 3.0, y:4.0};
+    println!("{:?} has a x value: {}", p1, p1.x());
+    println!("Its distance to origin is {}", p1.distance_from_origin());
+
+    let p2 = Point{x: "i am x", y: "i am y"};
+    let p3 = p1.mixup(p2);
+    // // Notice the following is invalid it would use moved values (they
+    // // were moved to mixup and be cleaned up).
+    // println!("p1: {:?}, p2: {:?}", p1, p2);
+    println!("p3 is mixed: {:?}", p3);
+}
+
+/// A generic method to get the largest element from a vector.
+fn largest<T: std::cmp::PartialOrd>(list: &[T]) -> &T{
+    let mut largest = &list[0];
+    for item in list {
+        if item > largest {
+            largest = item;
+        }
+    }
+    return largest;
+}
+
+/// Point has x and y, which can be two differen types.
+///
+/// Using generic types won't make your run any slower than it would with concrete types.  Rust
+/// accomplishes this by performing monomorphization of the code using generics at compile time.
+/// Monomorphization is the process of turning generic code into specific code by filling in the
+/// concrete types that are used when compiled.
+/// Source: https://doc.rust-lang.org/book/ch10-01-syntax.html
+#[derive(Debug)]
+struct Point<X1,Y1> {
+    x: X1,
+    y: Y1,
+}
+
+impl<X1, Y1> Point<X1, Y1> {
+    fn x(&self) -> &X1{
+        &self.x
+    }
+
+    /// Returns a new Point that has the x of self, and the y of other.
+    /// Both self and other have their ownerships transferred.
+    fn mixup<X2, Y2>(self, other: Point<X2, Y2>) -> Point<X1, Y2> {
+        Point {
+            x: self.x,
+            y: other.y,
+        }
+    }
+}
+
+/// Only implements a concrete type for Point
+impl Point<f32, f32> {
+    fn distance_from_origin(&self) -> f32 {
+        (self.x.powi(2) + self.y.powi(2)).sqrt()
+    }
 }
 
 // end of playing methods

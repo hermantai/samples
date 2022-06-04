@@ -3,7 +3,7 @@ This program is created by `cargo new rust-playground`.
 
 This Playground comes from reading "The Book": https://doc.rust-lang.org/book
 
-Bookmark: https://doc.rust-lang.org/book/ch10-00-generics.html
+Bookmark: https://doc.rust-lang.org/book/ch10-02-traits.html
 
 ## Describe the organization of crates
 https://doc.rust-lang.org/book/ch07-02-defining-modules-to-control-scope-and-privacy.html
