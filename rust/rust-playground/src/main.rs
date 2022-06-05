@@ -82,6 +82,9 @@ fn main() {
 
     print_header("play_generics");
     play_generics();
+
+    print_header("play_traits");
+    play_traits();
 }
 // end of main
 
@@ -1127,6 +1130,9 @@ fn last_char_of_first_line(text: &str) -> Option<char> {
     text.lines().next()?.chars().last()
 }
 
+/**
+ * Play generics.
+ */
 fn play_generics() {
     let nums = vec![2, 1, 5, 4];
     println!("largest of {:?} is {:?}", nums, largest(&nums));
@@ -1186,6 +1192,110 @@ impl<X1, Y1> Point<X1, Y1> {
 impl Point<f32, f32> {
     fn distance_from_origin(&self) -> f32 {
         (self.x.powi(2) + self.y.powi(2)).sqrt()
+    }
+}
+
+/**
+ * Play traits.
+ */
+fn play_traits() {
+    let t = Tweet {
+        username: String::from("user1"),
+        content: String::from("content1"),
+    };
+
+    let n = NewArticle {
+        content: String::from("new article content"),
+    };
+
+    notify(&t);
+    notify_with_default(&n);
+
+    let chars_vec = vec!['t', 'b', 'v'];
+    println!("largest_for_primitive({:?}) = {}", chars_vec, largest_for_primitive(&chars_vec));
+
+    let t2 = Tweet {
+        username: String::from("user2"),
+        content: String::from("content2"),
+    };
+    println!("{}", summary_and_themselves(&t, &t2));
+
+    println!("new summary: {}", new_summary().summarize());
+}
+
+/// Define a trait bound (shortcut) for generic types
+fn notify(item: &impl Summary) {
+    println!("notify: {}", item.summarize());
+}
+
+/// Another way to define a trait bound
+fn notify_with_default<T: Summary>(item: &T) {
+    println!("notify with default: {}", item.summarize_with_default());
+}
+
+/// Only accepts types which implement PartialOrd and Copy.
+/// Copy allows us to get list[0] instead of &list[0] for largest because we
+/// can get a copy of list[0].
+fn largest_for_primitive<T: std::cmp::PartialOrd + Copy>(list: &[T]) -> T {
+    let mut largest = list[0];
+    for &item in list {
+        if item > largest {
+            largest = item;
+        }
+    }
+    return largest;
+}
+
+/// Use where to put trait bounds at the end of a method signature.
+fn summary_and_themselves<T, U>(item1: &T, item2: &U) -> String where T:Summary + std::fmt::Debug, U:Summary + std::fmt::Debug{
+    format!("{:?} summary is {}, {:?} summary is {}", item1, item1.summarize(), item2, item2.summarize())
+}
+
+/// A return type with a trait bound. Notice that we can only return one
+/// concrete type. See
+/// https://doc.rust-lang.org/book/ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types
+/// for how to work around that.
+fn new_summary() -> impl Summary {
+    Tweet {
+        username: String::from("new_user"),
+        content: String::from("new_content"),
+    }
+    // Some condition to return NewArticle is not allowed because generics become
+    // concrete types at compile time. A return type with a trait bound does
+    // not let the function to return differen types
+}
+
+trait Summary {
+    fn summarize(&self) -> String;
+
+    fn summarize_with_default(&self) -> String {
+        format!("default, non-default={}", self.summarize())
+    }
+}
+
+#[derive(Debug)]
+struct Tweet {
+    username: String,
+    content: String,
+}
+
+struct NewArticle {
+    content: String,
+}
+
+impl Summary for Tweet {
+    fn summarize(&self) -> String {
+        format!("{}: {}", self.username, self.content)
+    }
+}
+
+impl Summary for NewArticle {
+    fn summarize(&self) -> String {
+        format!("{}", self.content)
+    }
+
+    fn summarize_with_default(&self) -> String {
+        format!("override the default to ignore summarize in summarize_with_default")
     }
 }
 
