@@ -16,6 +16,7 @@ use std::collections::HashMap;
 use std::fs::{self, File};
 use std::env;
 use std::fmt;
+use std::fmt::Display;
 use std::io::{self, ErrorKind, Write, Read};
 use std::process;
 // https://crates.io/crates/unicode-segmentation
@@ -85,6 +86,9 @@ fn main() {
 
     print_header("play_traits");
     play_traits();
+
+    print_header("play_lifetimes");
+    play_lifetimes();
 }
 // end of main
 
@@ -1298,6 +1302,92 @@ impl Summary for NewArticle {
         format!("override the default to ignore summarize in summarize_with_default")
     }
 }
+
+/**
+ * Play lifetimes
+ *
+ * https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html
+ */
+fn play_lifetimes() {
+    let string1 = String::from("abcd");
+    let string2 = "xyz";
+
+    let result = longest(string1.as_str(), string2);
+    println!("among \"{}\" and \"{}\", \"{}\" is longer", string1, string2, result);
+
+    // let result4;
+    {
+        let string3 = String::from("xyz");
+        let result2 = longest(string1.as_str(), string3.as_str());
+        println!("This works because result2 has the same lifetime as string3: {}", result2);
+        // The following does not work because result4 has a longer lifetime
+        // than result2. The longest function requires the return value to
+        // have the shorter lifetime of the parameters.
+        // result4 = longest(string1.as_str(), string3.as_str());
+    }
+
+    longest_with_an_announcement(string1.as_str(), string2, "announcement is here!");
+
+    let novel = String::from("Call me Ishmael. Some years ago...");
+    let first_sentence = novel.split('.').next().expect("Could not find a '.'");
+    let imp = ImportantExcerpt {
+        part: first_sentence,
+    };
+    println!("first sentence: {}", imp.announce_and_return_part("with method announcement"));
+}
+
+// Lifetime annotations do not change the lifetime of the variables. It just
+// helps the compiler to know the relationships of lifetimes between the
+// variables.
+//
+// &i32        // a reference
+// &'a i32     // a reference with an explicit lifetime
+// &'a mut i32 // a mutable reference with an explicit lifetime
+//
+// The use of lifetime annotations co-exist with generic lifetime parameters
+// for functions. Generic lifetime parameters are inside angle brackets between
+// the function name and the parameter list.
+//
+// In the following, the lifetime annotations indicate that the lifetime of
+// the returned value is the same as the function inputs, whichever is shorter (
+// because that's the lowest common denominator).
+fn longest<'a>(s1: &'a str, s2: &'a str) -> &'a str {
+    if s1.len() > s2.len() {
+        s1
+    } else {
+        s2
+    }
+}
+
+// the syntax of specifying generic type parameters, trait bounds, and lifetimes all in one function
+fn longest_with_an_announcement<'a, T>(
+    x: &'a str,
+    y: &'a str,
+    ann: T,
+    ) -> &'a str
+where
+    T: Display,
+{
+    println!("Announcement! {}", ann);
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+
+// If a struct has references, we need to use lifetime annotations.
+struct ImportantExcerpt<'a> {
+    part: &'a str,
+}
+
+impl<'a> ImportantExcerpt<'a> {
+    fn announce_and_return_part(&self, announcement: &str) -> &str {
+        println!("announce within method: {}", announcement);
+        self.part
+    }
+}
+
 
 // end of playing methods
 
