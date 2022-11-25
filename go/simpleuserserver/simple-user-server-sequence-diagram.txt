@@ -1,0 +1,21 @@
+title Simple User Server
+
+participant User
+participant "js in index.html" as index.html
+participant "Web Server" as WebServer
+
+User->index.html:visit
+index.html->WebServer:GET /api/users
+
+note over WebServer:handle with getUsers
+
+WebServer-->index.html: json of\nlist of users
+index.html-->User:Render the page
+
+User->index.html:enter user info\nand click "create"
+index.html->WebServer:POST /api/users\nwith user name,\nemail, etc.
+
+note over WebServer:handle with saveUser
+
+WebServer-->index.html: json of\ncreated user
+index.html-->User:Reload the page

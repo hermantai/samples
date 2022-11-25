@@ -1,5 +1,14 @@
 # Overview
-A sample Go echo server that manages users.
+A sample Go echo server that manages users. The web app locates in
+static/index.html that makes use of the server.
+
+# Architecture
+
+Sequence diagram to illustrate the flow of the web app:
+
+* Diagram: simple-user-server-sequence-diagram.png
+* Source: simple-user-server-sequence-diagram.txt
+* Can be viewed from: https://tinyurl.com/5c53k76z
 
 # Quickstart
 
