@@ -1,6 +1,17 @@
+// A demo of a web server. The server class is `webserver`. The main function
+// at the end of this file simply calls webserver.Start() to start an echo
+// web server. Instead the Start method, there are mappings between
+// different paths to methods of webserver to handle the requests from those
+// paths.
+//
+// Paths do not begin with API_ROOT can simply be accessed from a web browser.
+// Paths begin with API_ROOT can also be accessed from a web browser but they
+// are usually accessed by a web app (e.g. javascript inside an html file) to
+// do backend work.
 package main
 
 import (
+	"flag"
 	"fmt"
 	"html"
 	"net/http"
@@ -9,12 +20,13 @@ import (
 	"github.com/go-playground/validator"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
-	//	"github.com/labstack/echo/v4/middleware"
 )
 
 const (
 	API_ROOT = "/api"
 )
+
+var port = flag.Int("port", 1323, "the port numbe to serve http requests")
 
 // User represents a user.
 // It supports binding to the following requests (through the tags: json, xml, form, query):
@@ -63,6 +75,8 @@ func newOperationResult(msg string) *OperationResult {
 type webserver struct {
 	// Key: id; Value: User
 	users map[string]*User
+	// The port number to serve http requests.
+	port int
 }
 
 func (w *webserver) homePage(c echo.Context) error {
@@ -77,7 +91,7 @@ func (w *webserver) homePage(c echo.Context) error {
 			%s
 		</table>
 
-		<p>Go to javascript page: <a href="static/jstesting.html"">link</a></p>
+		<p>Go to javascript page: <a href="static">link</a></p>
 	</body>
 </html>
 `
@@ -148,7 +162,7 @@ func (w *webserver) saveUser(c echo.Context) error {
 	// return c.XML(http.StatusCreated, u)
 }
 
-func newWebServer() *webserver {
+func newWebServer(port int) *webserver {
 	users := make(map[string]*User)
 	// users["1"] = &User{
 	// 	Name:   "Initial User",
@@ -157,35 +171,37 @@ func newWebServer() *webserver {
 	// }
 	return &webserver{
 		users: users,
+		port:  port,
 	}
 }
 
 func (w *webserver) Start() {
-	server := newWebServer()
 	e := echo.New()
 	e.Validator = newCustomValidator()
 
 	// Paths for used in a browser
-	e.GET("/", server.homePage)
-	e.GET("/show", server.show)
+	e.GET("/", w.homePage)
+	e.GET("/show", w.show)
 
 	//
 	// API methods (usually accessed by a client app or a curl command)
 	//
 
-	e.GET(fmt.Sprintf("%s/users/:id", API_ROOT), server.getUser)
-	e.GET(fmt.Sprintf("%s/users", API_ROOT), server.getUsers)
+	e.GET(fmt.Sprintf("%s/users/:id", API_ROOT), w.getUser)
+	e.GET(fmt.Sprintf("%s/users", API_ROOT), w.getUsers)
 	// e.PUT("/users/:id", updateUser)
-	e.DELETE(fmt.Sprintf("%s/users/:id", API_ROOT), server.deleteUser)
+	e.DELETE(fmt.Sprintf("%s/users/:id", API_ROOT), w.deleteUser)
 
-	e.POST(fmt.Sprintf("%s/users", API_ROOT), server.saveUser)
+	e.POST(fmt.Sprintf("%s/users", API_ROOT), w.saveUser)
 
 	// Serve any file from static directory for path /static/*.
 	e.Static("/static", "static")
 
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", w.port)))
 }
 
 func main() {
-	newWebServer().Start()
+	flag.Parse()
+
+	newWebServer(*port).Start()
 }
