@@ -1,6 +1,5 @@
 # Overview
-A package that play with the echo server framework:
-https://echo.labstack.com/guide/
+A sample Go echo server that manages users.
 
 # Quickstart
 
@@ -11,6 +10,10 @@ Download all packages
 Run the server
 
     $ go run server.go
+
+Or if you don't have go installed, you can simply use the release binaries, e.g.:
+
+    $ ./releases/2022-11-24/simpleuserserver
 
 Try the following pages:
 * http://localhost:1323
@@ -33,8 +36,8 @@ Gets all users:
 
 You can visit from a brower to look at all users: http://localhost:1323
 
-You can either use curl or a browser to look up a user (use the ID returned by
-the command above that gets all users):
+You can either use curl or a browser to look up a single user (use the ID
+returned by the command above that gets all users):
 http://localhost:1323/api/users/8c09061b-e451-4317-828f-614d31ed019e
 
 This is a page that generates the page from a javascript locally instead of
