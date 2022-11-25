@@ -6,8 +6,8 @@ static/index.html that makes use of the server.
 
 Sequence diagram to illustrate the flow of the web app:
 
-* Diagram: simple-user-server-sequence-diagram.png
-* Source: simple-user-server-sequence-diagram.txt
+* Diagram: [simple-user-server-sequence-diagram.png](simple-user-server-sequence-diagram.png)
+* Source: [simple-user-server-sequence-diagram.txt](simple-user-server-sequence-diagram.txt)
 * Can be viewed from: https://tinyurl.com/5c53k76z
 
 # Quickstart
