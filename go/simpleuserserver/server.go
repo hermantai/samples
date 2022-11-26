@@ -16,6 +16,7 @@ import (
 	"html"
 	"net/http"
 	"strings"
+	"sync"
 
 	"github.com/go-playground/validator"
 	"github.com/google/uuid"
@@ -75,6 +76,9 @@ func newOperationResult(msg string) *OperationResult {
 type webserver struct {
 	// Key: id; Value: User
 	users map[string]*User
+	// To protect write access of users
+	usersLock sync.Mutex
+
 	// The port number to serve http requests.
 	port int
 }
@@ -156,6 +160,12 @@ func (w *webserver) saveUser(c echo.Context) error {
 
 	userId := uuid.NewString()
 	u.UserId = userId
+
+	defer func() {
+		w.usersLock.Unlock()
+	}()
+	w.usersLock.Lock()
+
 	w.users[userId] = u
 	return c.JSON(http.StatusCreated, u)
 	// or
