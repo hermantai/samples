@@ -16,7 +16,7 @@
     "express": "~4.13.1",
     "http-status-codes": "~1.0.6",
     "jade": "~1.11.0",
-    "mongoose": "~4.4.12",
+    "mongoose": "~5.9.2",
     "morgan": "~1.9.1",
     "request": "^2.72.0",
     "serve-favicon": "~2.3.0",
