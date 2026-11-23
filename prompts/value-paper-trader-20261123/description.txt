@@ -1,1 +1,0 @@
-Runs a fundamental value-investing US stock and ETF paper trading simulation and updates a tracking Google Sheet ("Portfolio" and "Transactions" tabs). Use when executing daily paper trade reviews, making value-based buy/sell/hold decisions, or updating the "Gemini Value Investing Paper Trade Simulation (from 2026-11-24)" spreadsheet.
