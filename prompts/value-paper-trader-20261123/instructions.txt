@@ -1,0 +1,89 @@
+# value-paper-trader-20261123
+
+Executes a disciplined, fundamental value-investing review for a $1,000,000 US equity and ETF paper trading portfolio and updates the tracking Google Sheet.
+
+## When to Use
+
+- Running a scheduled daily paper trading check (for example, at 7:00 AM PT)
+- Reviewing current paper portfolio holdings and cash to decide whether to buy, sell, or hold US stocks or ETFs
+- Updating the "Gemini Value Investing Paper Trade Simulation (from 2026-11-24)" spreadsheet (or another specified paper trade sheet with `Portfolio` and `Transactions` tabs)
+
+## Steps
+
+1. **Check US Market Status**
+
+   Verify whether NYSE and NASDAQ are open for regular trading today.
+
+   - If today is a weekend or a US market holiday, stop immediately. Do not make trades and do not add any rows to the `Transactions` tab. Return a short confirmation that US markets are closed.
+
+2. **Audit Current Portfolio and Cash**
+
+   Locate and read the target spreadsheet (defaulting to `"Gemini Value Investing Paper Trade Simulation (from 2026-11-24)"` if no sheet is specified).
+
+   - Read the `Portfolio` summary block (`B1:B6`), current holdings (`A9:O100`), and recent rows of `Transactions`.
+   - Treat `Portfolio!B2` as the strict cash limit. Never spend more than available cash.
+   - Enforce portfolio constraints: US-listed stocks and ETFs only, whole shares only, and no margin, short selling, options, or leverage.
+
+3. **Evaluate Fundamental Value Decisions**
+
+   Research current live market prices, recent earnings, filings, and business developments to maximize long-term risk-adjusted return from a value investor's perspective.
+
+   - Base every decision strictly on fundamentals: intrinsic value versus market price, margin of safety, free cash flow yield, ROIC, balance-sheet strength, durable competitive moat, and capital allocation.
+   - Do not use technical analysis, chart patterns, moving averages, or momentum indicators.
+   - Prioritize capital preservation and patience over forced trading activity.
+
+   Apply these daily action limits (any subset is allowed):
+
+   - Buy at most 3 tickers (0 to 3), including adding to existing positions.
+   - Sell at most 3 tickers (0 to 3), including trimming or fully exiting existing positions.
+   - Hold (do nothing) when no compelling margin of safety or thesis break exists.
+
+4. **Update the `Transactions` Tab**
+
+   Append new entries starting at the next empty row (Row 2 onward) using columns `A` through `L`:
+
+   - `A` Date (`YYYY-MM-DD`)
+   - `B` Time (`HH:MM:SS PT`)
+   - `C` Action (`BUY`, `SELL`, or `HOLD`)
+   - `D` Ticker
+   - `E` Company / ETF Name
+   - `F` Shares (whole number; `0` for `HOLD`)
+   - `G` Execution Price ($) (current market quote; `0` for `HOLD`)
+   - `H` Total Trade Value ($) (`=F{r}*G{r}`)
+   - `I` Cash Balance After ($) (running cash balance after this row)
+   - `J` Realized Gain/Loss ($) (`(Execution Price - Avg Cost Basis) * Shares` for `SELL`; `0` for `BUY` or `HOLD`)
+   - `K` Key Fundamental Metrics (such as P/E, P/B, FCF Yield, EV/EBITDA, ROIC)
+   - `L` Value Investing Rationale (concise fundamental thesis)
+
+   If markets are open and you choose to make zero trades, append one `HOLD` row with `Shares = 0`, `Total Trade Value = 0`, current cash balance, and a brief note explaining why no trade met value criteria.
+
+5. **Update the `Portfolio` Tab**
+
+   Update open holdings in rows 9 and below (`A9:O100`) to reflect today's trades without overwriting any summary formulas in `B1:B6`.
+
+   - On a new `BUY`, add a row with the ticker, name, asset type, sector, shares, avg cost basis, and concise core value thesis (`Col O`).
+   - When adding to an existing position, recalculate weighted average cost basis: `((Old Shares * Old Avg Cost) + (New Shares * Execution Price)) / Total Shares`.
+   - On a partial `SELL`, reduce `Shares Held` while keeping the original `Avg Cost Basis ($)`. On a full exit (`0` shares remaining), remove the row so no zero-share positions remain.
+
+   For every active row `{r}` in rows 9+, keep values dynamic using these exact formulas:
+
+   - `G{r}` Total Cost Basis ($): `=E{r}*F{r}`
+   - `H{r}` Live Price ($): `=GOOGLEFINANCE(A{r}, "price")`
+   - `I{r}` Daily Change (%): `=GOOGLEFINANCE(A{r}, "changepct")/100`
+   - `J{r}` 52-Week Range ($): `=TEXT(GOOGLEFINANCE(A{r}, "low52"), "$#,##0.00") & " - " & TEXT(GOOGLEFINANCE(A{r}, "high52"), "$#,##0.00")`
+   - `K{r}` Market Value ($): `=E{r}*H{r}`
+   - `L{r}` Unrealized Gain/Loss ($): `=K{r}-G{r}`
+   - `M{r}` Unrealized Gain/Loss (%): `=IF(G{r}>0, L{r}/G{r}, 0)`
+   - `N{r}` Portfolio Weight (%): `=IF($B$4>0, K{r}/$B$4, 0)`
+
+6. **Deliver the Daily Summary**
+
+   Provide a concise report covering today's actions (or open-market hold), updated cash versus invested balance, total portfolio value, and the fundamental thesis behind each trade.
+
+## Gotchas
+
+- **Do not log market-closed days:** Logging `HOLD` on weekends or holidays pollutes the transaction ledger; exit early whenever NYSE/NASDAQ are closed.
+- **Protect summary formulas:** `Portfolio!B2` derives cash directly from `Transactions` `BUY` and `SELL` rows, and `Portfolio!B3` sums `K9:K100`. Never overwrite `B1:B6` with static numbers.
+- **Keep `Daily Change (%)` conditional formatting intact:** Column `I` (`I9:I100`) has light green (>0%) and light red (<0%) rules; update cell formulas without clearing sheet formatting.
+- **Check exact column letters:** `52-Week Range ($)` occupies Column `J`, so `Market Value ($)` starts at Column `K`. Shifting formulas back to `J` breaks `B3` and unrealized gain calculations.
+- **Verify cash sequencing on multi-trade days:** If selling and buying on the same day, process and log `SELL` rows before `BUY` rows so running `Cash Balance After ($)` stays non-negative and accurate.
