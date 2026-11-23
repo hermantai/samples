@@ -1,3 +1,8 @@
+---
+name: value-paper-trader-20261123
+description: Runs a fundamental value-investing US stock and ETF paper trading simulation and updates a tracking Google Sheet ("Portfolio" and "Transactions" tabs). Use when executing daily paper trade reviews, making value-based buy/sell/hold decisions, or updating the "Gemini Value Investing Paper Trade Simulation (from 2026-11-24)" spreadsheet.
+---
+
 # value-paper-trader-20261123
 
 Executes a disciplined, fundamental value-investing review for a $1,000,000 US equity and ETF paper trading portfolio and updates the tracking Google Sheet.
@@ -29,6 +34,7 @@ Executes a disciplined, fundamental value-investing review for a $1,000,000 US e
    Research current live market prices, recent earnings, filings, and business developments to maximize long-term risk-adjusted return from a value investor's perspective.
 
    - Base every decision strictly on fundamentals: intrinsic value versus market price, margin of safety, free cash flow yield, ROIC, balance-sheet strength, durable competitive moat, and capital allocation.
+   - Check recent company, sector, and macro news (earnings, filings, guidance, M&A, regulatory/legal actions, capital allocation updates) for existing holdings and candidate tickers. Distinguish between temporary market overreactions (which may widen a margin of safety) and permanent thesis impairment (which may justify trimming or selling).
    - Do not use technical analysis, chart patterns, moving averages, or momentum indicators.
    - Prioritize capital preservation and patience over forced trading activity.
 
@@ -53,9 +59,9 @@ Executes a disciplined, fundamental value-investing review for a $1,000,000 US e
    - `I` Cash Balance After ($) (running cash balance after this row)
    - `J` Realized Gain/Loss ($) (`(Execution Price - Avg Cost Basis) * Shares` for `SELL`; `0` for `BUY` or `HOLD`)
    - `K` Key Fundamental Metrics (such as P/E, P/B, FCF Yield, EV/EBITDA, ROIC)
-   - `L` Value Investing Rationale (concise fundamental thesis)
+   - `L` Value Investing Rationale (concise fundamental thesis, ending with `News Impact: None` or `News Impact: <specific event and how it affected valuation/thesis>`)
 
-   If markets are open and you choose to make zero trades, append one `HOLD` row with `Shares = 0`, `Total Trade Value = 0`, current cash balance, and a brief note explaining why no trade met value criteria.
+   If markets are open and you choose to make zero trades, append one `HOLD` row with `Shares = 0`, `Total Trade Value = 0`, current cash balance, and a brief note explaining why no trade met value criteria (including `News Impact: ...`).
 
 5. **Update the `Portfolio` Tab**
 
@@ -78,11 +84,18 @@ Executes a disciplined, fundamental value-investing review for a $1,000,000 US e
 
 6. **Deliver the Daily Summary**
 
-   Provide a concise report covering today's actions (or open-market hold), updated cash versus invested balance, total portfolio value, and the fundamental thesis behind each trade.
+   Provide a concise report covering:
+
+   - **Today's Actions:** Each trade (`BUY`/`SELL`) or open-market `HOLD`, with updated cash versus invested balance and total portfolio value.
+   - **Fundamental Thesis:** Valuation metrics and reasoning behind each action.
+   - **Recent News Impact:** Explicitly state whether any recent news played into today's decision (`Yes` or `No`).
+     - If **Yes**: Name the specific news event(s) and date(s), explain how it affected intrinsic value, moat, or margin of safety, and note whether you acted on a fundamental thesis change or a temporary market mispricing.
+     - If **No**: State that recent news did not drive the decision, and briefly mention any notable headlines affecting current holdings that you reviewed and intentionally ignored as short-term noise.
 
 ## Gotchas
 
 - **Do not log market-closed days:** Logging `HOLD` on weekends or holidays pollutes the transaction ledger; exit early whenever NYSE/NASDAQ are closed.
+- **Avoid headline-chasing:** Checking recent news is meant to test whether intrinsic value or the competitive moat changed—never buy or sell solely because a headline sounds bullish or bearish.
 - **Protect summary formulas:** `Portfolio!B2` derives cash directly from `Transactions` `BUY` and `SELL` rows, and `Portfolio!B3` sums `K9:K100`. Never overwrite `B1:B6` with static numbers.
 - **Keep `Daily Change (%)` conditional formatting intact:** Column `I` (`I9:I100`) has light green (>0%) and light red (<0%) rules; update cell formulas without clearing sheet formatting.
 - **Check exact column letters:** `52-Week Range ($)` occupies Column `J`, so `Market Value ($)` starts at Column `K`. Shifting formulas back to `J` breaks `B3` and unrealized gain calculations.
